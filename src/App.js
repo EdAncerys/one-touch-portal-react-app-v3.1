@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/App.css';
+import React, { useState, useEffect, useMemo } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./css/App.css";
 
-import NavBar from './components/nav-bar/NavBar';
-import AuthIndex from './components/AuthIndex/AuthIndex';
+import NavBar from "./components/nav-bar/NavBar";
+import AuthIndex from "./components/AuthIndex/AuthIndex";
 
 export const AppContext = React.createContext();
 
@@ -12,7 +12,7 @@ export default function App({ props }) {
   const [page, setPage] = useState(false);
   const [pageData, setPageData] = useState(false);
 
-  const SESSION_STORAGE_KEY = 'oneTouchPortal.App';
+  const SESSION_STORAGE_KEY = "oneTouchPortal.App";
 
   const manageAppContext = useMemo(
     () => ({

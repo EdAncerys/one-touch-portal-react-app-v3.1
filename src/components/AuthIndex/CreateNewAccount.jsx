@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import { AppContext } from '../../App';
+import React, { useContext } from "react";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { AppContext } from "../../App";
 
 export default function CreateNewAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -42,7 +42,7 @@ export default function CreateNewAccount({ props }) {
             />
           </Form.Group>
           <Button
-            onClick={() => manageAppContext.setPage('create-new-account')}
+            onClick={() => manageAppContext.setPage("create-new-account")}
             variant="success"
             size="lg"
             className="btn-one-touch shadow-none"
@@ -51,7 +51,7 @@ export default function CreateNewAccount({ props }) {
           </Button>
           <div className="divider"></div>
           <Button
-            onClick={() => manageAppContext.setPage('login')}
+            onClick={() => manageAppContext.setPage("login")}
             variant="primary"
             size="lg"
             className="btn-one-touch shadow-none"

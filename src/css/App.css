@@ -1,7 +1,7 @@
-@import url('./nav-bar.css');
-@import url('./index.css');
-@import url('./login-logout.css');
-@import url('./btn.css');
+@import url("./nav-bar.css");
+@import url("./index.css");
+@import url("./login-logout.css");
+@import url("./btn.css");
 
 body {
   padding: 0;

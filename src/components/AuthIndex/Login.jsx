@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { AppContext } from '../../App';
+import React, { useContext } from "react";
+import { Form, Button } from "react-bootstrap";
+import { AppContext } from "../../App";
 
-import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
+import OneTouchLogo from "../../img/oneTouch/One-Touch-Logo.png";
 
 async function userLogin() {
-  const URL = '/.netlify/functions/dadJokes';
+  const URL = "/.netlify/functions/mongoDB";
 
-  const loginEmail = document.querySelector('#loginEmail').value;
-  const loginPassword = document.querySelector('#loginPassword').value;
+  const loginEmail = document.querySelector("#loginEmail").value;
+  const loginPassword = document.querySelector("#loginPassword").value;
 
   // if (loginEmail === '' || loginPassword === '') {
   //   console.log(`Please fill in all required fields`);
@@ -16,14 +16,14 @@ async function userLogin() {
   // }
 
   const body = {
-    oneTouchPath: 'oneTouchLogin',
+    oneTouchPath: "oneTouchLogin",
     email: loginEmail,
     password: loginPassword,
   };
   console.log(body);
 
   const config = {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(body),
   };
 
@@ -85,7 +85,7 @@ export default function Login({ props }) {
           </Button>
           <div className="divider"></div>
           <Button
-            onClick={() => manageAppContext.setPage('create-new-account')}
+            onClick={() => manageAppContext.setPage("create-new-account")}
             variant="success"
             size="lg"
             className="btn-one-touch shadow-none"
