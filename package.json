@@ -9,6 +9,7 @@
     "bootstrap": "^5.0.1",
     "http-proxy-middleware": "^2.0.0",
     "https-proxy-agent": "^5.0.0",
+    "mongodb": "^3.6.9",
     "netlify-cli": "^3.34.0",
     "netlify-lambda": "^2.0.8",
     "react": "^17.0.2",

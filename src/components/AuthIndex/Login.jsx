@@ -5,7 +5,8 @@ import { AppContext } from '../../App';
 import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
 
 async function userLogin() {
-  const URL = '/.netlify/functions/mongoDB';
+  // const URL = '/.netlify/functions/mongoDB';
+  const URL = '/.netlify/functions/hello';
 
   const loginEmail = document.querySelector('#loginEmail').value;
   const loginPassword = document.querySelector('#loginPassword').value;
