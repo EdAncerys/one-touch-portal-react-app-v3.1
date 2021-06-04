@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 
 import NavBar from './components/nav-bar/NavBar';
-import AuthIndex from './components/login-logout/AuthIndex';
+import AuthIndex from './components/AuthIndex/AuthIndex';
 
 export const AppContext = React.createContext();
 
