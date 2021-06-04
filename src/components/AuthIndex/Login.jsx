@@ -5,8 +5,7 @@ import { AppContext } from '../../App';
 import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
 
 async function userLogin() {
-  // const URL = '/.netlify/functions/mongoDB';
-  const URL = '/.netlify/functions/hello';
+  const URL = '/.netlify/functions/mongoDB';
 
   const loginEmail = document.querySelector('#loginEmail').value;
   const loginPassword = document.querySelector('#loginPassword').value;
@@ -31,6 +30,7 @@ async function userLogin() {
   try {
     const response = await fetch(URL, config);
     console.log(response);
+    console.log(response.url);
     if (!response.ok) throw new Error(response.statusText);
 
     const data = await response.json();

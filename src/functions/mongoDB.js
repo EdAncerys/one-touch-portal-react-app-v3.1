@@ -4,7 +4,7 @@ require('dotenv').config(); // Enabling to load Environment variables from a .en
 
 const nodemailer = require('nodemailer');
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const sha512 = require('js-sha512'); // component to compute the SHA512
