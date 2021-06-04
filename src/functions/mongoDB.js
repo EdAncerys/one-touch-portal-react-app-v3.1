@@ -96,11 +96,21 @@ const oneTouchLogin = async (db, data) => {
       };
     }
 
+    // JWT configuration
+    delete user[0]["password"];
+    const userData = user[0];
+    const expTime = "24h";
+    console.log("User data passed on to JWT: ", userData);
+
+    const access_token = jwt.sign(userData, ACCESS_TOKEN_SECRET, {
+      expiresIn: expTime,
+    });
+
     const msg = `Welcome to One Touch Portal ` + loginUser.email;
     console.log(msg);
     return {
       statusCode: 200,
-      body: JSON.stringify({ msg }),
+      body: JSON.stringify({ access_token, msg }),
     };
   } catch (err) {
     console.log(err);

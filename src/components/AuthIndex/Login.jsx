@@ -4,44 +4,46 @@ import { AppContext } from "../../App";
 
 import OneTouchLogo from "../../img/oneTouch/One-Touch-Logo.png";
 
-async function userLogin() {
-  const URL = "/.netlify/functions/mongoDB";
-
-  const loginEmail = document.querySelector("#loginEmail").value;
-  const loginPassword = document.querySelector("#loginPassword").value;
-
-  // if (loginEmail === '' || loginPassword === '') {
-  //   console.log(`Please fill in all required fields`);
-  //   return;
-  // }
-
-  const body = {
-    oneTouchPath: "oneTouchLogin",
-    email: loginEmail,
-    password: loginPassword,
-  };
-  console.log(body);
-
-  const config = {
-    method: "POST",
-    body: JSON.stringify(body),
-  };
-
-  try {
-    const response = await fetch(URL, config);
-    console.log(response);
-    console.log(response.url);
-    if (!response.ok) throw new Error(response.statusText);
-
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export default function Login({ props }) {
   const { manageAppContext } = useContext(AppContext);
+
+  async function userLogin() {
+    const loginEmail = document.querySelector("#loginEmail").value;
+    const loginPassword = document.querySelector("#loginPassword").value;
+    const URL = "/.netlify/functions/mongoDB";
+
+    if (loginEmail === "" || loginPassword === "") {
+      console.log(`Please fill in all required fields`);
+      return;
+    }
+
+    try {
+      const body = {
+        oneTouchPath: "oneTouchLogin",
+        email: loginEmail,
+        password: loginPassword,
+      };
+      console.log(body);
+
+      const config = {
+        method: "POST",
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Forbidden
+        console.log(data);
+        return;
+      }
+
+      manageAppContext.setAccessToken(data.access_token);
+      console.log(data);
+    } catch (err) {
+      console.log(err); // output to netlify function log
+    }
+  }
 
   return (
     <div className="features">
