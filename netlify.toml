@@ -1,0 +1,9 @@
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # the root website directory
+  publish = "build"
+  # build command
+  command = "npm build"
+  # the build command
+  functions = "build-lambda"

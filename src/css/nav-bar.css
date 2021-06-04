@@ -1,0 +1,10 @@
+.one-touch-logo:hover {
+  cursor: pointer;
+}
+.one-touch-nav {
+  color: #333;
+  box-shadow: 0 4px 12px -4px rgb(0 0 0 / 10%);
+}
+.admin-nav {
+  color: #d9534f;
+}
