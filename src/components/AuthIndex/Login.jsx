@@ -38,7 +38,8 @@ export default function Login({ props }) {
         return;
       }
 
-      manageAppContext.setAccessToken(data.access_token);
+      const access_token = { access_token: data.access_token, admin: true };
+      manageAppContext.setAccessToken(access_token);
       console.log(data);
     } catch (err) {
       console.log(err); // output to netlify function log

@@ -7,10 +7,11 @@ import CreateNewAccount from "./CreateNewAccount";
 export default function AuthIndex({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const page = manageAppContext.page;
+  const accessToken = manageAppContext.accessToken;
 
   return (
     <div style={styles.container}>
-      {(!page || page === "login") && <Login />}
+      {!accessToken && page === "login" && <Login />}
       {page === "create-new-account" && <CreateNewAccount />}
     </div>
   );

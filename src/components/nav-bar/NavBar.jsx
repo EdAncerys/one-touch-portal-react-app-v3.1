@@ -87,7 +87,7 @@ export default function NavBar({ props }) {
               </NavDropdown.Item>
             </NavDropdown>
             <Button
-              onClick={() => manageAppContext.setPage("logout")}
+              onClick={() => manageAppContext.setAccessToken(false)}
               variant="outline-danger"
             >
               Log Out
