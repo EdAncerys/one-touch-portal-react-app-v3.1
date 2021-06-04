@@ -38,7 +38,7 @@ export default function Login({ props }) {
         return;
       }
 
-      const access_token = { access_token: data.access_token, admin: true };
+      const access_token = { access_token: data.access_token, role: data.role };
       manageAppContext.setAccessToken(access_token);
       console.log(data);
     } catch (err) {

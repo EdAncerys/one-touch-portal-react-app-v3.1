@@ -19,6 +19,7 @@ if (MONGO_DB_ENVIRONMENT === "development") MONGODB_URI = MONGODB_URI_DEV;
 console.table(`DB connection URI: ` + MONGODB_URI);
 
 const DB_NAME = "oneTouchDB";
+const ONE_TOUCH_ADMIN = process.env.ONE_TOUCH_ADMIN;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const COLLECTION_ONE_TOUCH_BROADBAND = "oneTouchBroadband";
 const COLLECTION_ONE_TOUCH_SUPER_USER = "oneTouchSuperUser";
@@ -105,12 +106,13 @@ const oneTouchLogin = async (db, data) => {
     const access_token = jwt.sign(userData, ACCESS_TOKEN_SECRET, {
       expiresIn: expTime,
     });
-
+    const role = ONE_TOUCH_ADMIN.includes(loginUser.email) ? "admin" : false;
     const msg = `Welcome to One Touch Portal ` + loginUser.email;
     console.log(msg);
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ access_token, msg }),
+      body: JSON.stringify({ access_token, role, msg }),
     };
   } catch (err) {
     console.log(err);
