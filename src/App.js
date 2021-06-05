@@ -6,7 +6,8 @@ import NavBar from './components/nav-bar/NavBar';
 import ErrorMsg from './components/ErrorMsg';
 import AuthIndex from './components/AuthIndex/AuthIndex';
 import Index from './components/index/Index';
-import BuildInProgress from './components/BuildInProgress';
+import Docs from './components/docs/Docs';
+import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
 
@@ -71,6 +72,7 @@ export default function App({ props }) {
               <NavBar />
               {page === 'index' && <Index />}
               {page === 'build-in-progress' && <BuildInProgress />}
+              {page === 'docs' && <Docs />}
             </div>
           )}
         </div>

@@ -58,6 +58,8 @@ export default function Index({ props }) {
 
 const styles = {
   container: {
+    display: 'flex',
+    justifyContent: 'center',
     marginTop: '50px',
   },
 };

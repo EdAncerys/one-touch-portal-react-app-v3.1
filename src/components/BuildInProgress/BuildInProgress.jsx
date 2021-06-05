@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NDGBanner from './NDGBanner';
+import NDGBanner from '../NDGBanner';
 
 export default function BuildInProgress({ props }) {
   return (
