@@ -16,7 +16,7 @@ export default function Index({ props }) {
   return (
     <div style={styles.container} className="features-flex-wrap">
       <img
-        onClick={() => manageAppContext.setPage('cloud')}
+        onClick={() => manageAppContext.setPage('build-in-progress')}
         src={Cloud}
         width={width}
         className={className}
