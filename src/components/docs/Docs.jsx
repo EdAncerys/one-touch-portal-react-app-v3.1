@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
+import React from 'react';
 
 import Billing from '../../img/support-docs/Billing.png';
 import BillingPDF from '../../docs/Billing.pdf';
@@ -15,8 +14,6 @@ import Management from '../../img/support-docs/Management.png';
 import ManagementPDF from '../../docs/Change-Management-Escalation.pdf';
 
 export default function Index({ props }) {
-  const { manageAppContext } = useContext(AppContext);
-
   const width = '200px';
   const className = 'd-inline-block align-top index-icon';
 

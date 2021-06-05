@@ -54,11 +54,30 @@ export async function handler(event, context, callback) {
       return oneTouchLogin(db, body);
     case 'oneTouchSignUp':
       return oneTouchSignUp(db, body);
+    case 'myAccount':
+      return myAccount(db, body);
 
     default:
       return { statusCode: 400, msg: `Bad Request` };
   }
 }
+
+const authUser = async (access_token) => {
+  const authToken = await jwt.verify(
+    access_token,
+    ACCESS_TOKEN_SECRET,
+    (error, authData) => {
+      if (error) {
+        console.log(error);
+        return false;
+      } else {
+        console.log(authData);
+        return authData;
+      }
+    }
+  );
+  return authToken;
+};
 
 const oneTouchLogin = async (db, data) => {
   const loginUser = {
@@ -122,7 +141,6 @@ const oneTouchLogin = async (db, data) => {
     };
   }
 };
-
 const oneTouchSignUp = async (db, data) => {
   const signUpUser = {
     fName: data.fName,
@@ -162,6 +180,7 @@ const oneTouchSignUp = async (db, data) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(signUpUser.password, saltRounds);
 
+    delete data.oneTouchPath;
     delete data.signUpConfirmPassword;
     data.password = hashedPassword;
     await db.collection(COLLECTION_ONE_TOUCH_SUPER_USER).insertMany([data]);
@@ -173,6 +192,44 @@ const oneTouchSignUp = async (db, data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const myAccount = async (db, data) => {
+  const userAccount = {
+    access_token: data.access_token,
+  };
+
+  try {
+    const oneTouchUser = await authUser(userAccount.access_token);
+    const superUserObjectId = new ObjectId(oneTouchUser._id);
+    const user = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find({ _id: superUserObjectId })
+      .toArray();
+    console.log('DB User:', user);
+
+    if (!user.length) {
+      const msg = `Failed to find user for: ` + oneTouchUser.email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const msg = `User profile successfully loaded for: ` + oneTouchUser.email;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ user, msg }),
     };
   } catch (err) {
     console.log(err);

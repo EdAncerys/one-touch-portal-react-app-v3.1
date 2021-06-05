@@ -86,10 +86,15 @@ export default function NavBar({ props }) {
                 Reseller Customers
               </NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link onClick={() => manageAppContext.setPage('my-account')}>
+              My Account
+            </Nav.Link>
             <Button
               onClick={() => {
                 manageAppContext.setAccessToken(false);
                 manageAppContext.setPage(false);
+                manageAppContext.setPageData(false);
+                sessionStorage.clear();
               }}
               variant="outline-danger"
             >

@@ -2,11 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 
-import NavBar from './components/nav-bar/NavBar';
+import NavBar from './components/NavBar/NavBar';
 import ErrorMsg from './components/ErrorMsg';
 import AuthIndex from './components/AuthIndex/AuthIndex';
-import Index from './components/index/Index';
+import Index from './components/Index/Index';
 import Docs from './components/docs/Docs';
+import MyAccount from './components/MyAccount/MyAccount';
 import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
@@ -73,6 +74,7 @@ export default function App({ props }) {
               {page === 'index' && <Index />}
               {page === 'build-in-progress' && <BuildInProgress />}
               {page === 'docs' && <Docs />}
+              {page === 'my-account' && <MyAccount />}
             </div>
           )}
         </div>
