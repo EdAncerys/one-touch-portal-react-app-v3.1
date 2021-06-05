@@ -6,8 +6,8 @@ export default function ErrorMsg({ color, msg }) {
   const { manageAppContext } = useContext(AppContext);
 
   let variantColor = 'danger';
-  if (color === 'warning') variantColor = 'warning';
-  if (color === 'success') variantColor = 'success';
+  if (variantColor === 'warning') variantColor = 'warning';
+  if (variantColor === 'success') variantColor = 'success';
 
   return (
     <div style={styles.container}>

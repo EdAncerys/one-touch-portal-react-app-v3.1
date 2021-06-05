@@ -1,12 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
-import ErrorMsg from '../ErrorMsg';
 
 export default function Login({ props }) {
   const { manageAppContext } = useContext(AppContext);
+
+  useEffect(() => {
+    const listener = (event) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault();
+        userLogin();
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  });
 
   async function userLogin() {
     const loginEmail = document.querySelector('#loginEmail').value;
@@ -42,6 +54,7 @@ export default function Login({ props }) {
       }
 
       const access_token = { access_token: data.access_token, role: data.role };
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       manageAppContext.setAccessToken(access_token);
       manageAppContext.setPage('index');
       console.log(data);

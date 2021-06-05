@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 import Cloud from '../../img/oneTouch/Cloud.png';
@@ -7,7 +6,6 @@ import ConnectionChecker from '../../img/oneTouch/Connection-Checker.png';
 import LiveConnections from '../../img/oneTouch/Live-Connections.png';
 import RaseTicket from '../../img/oneTouch/Rase-Ticket.png';
 import UserManagement from '../../img/oneTouch/User-Management.png';
-import ErrorMsg from '../ErrorMsg';
 
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
