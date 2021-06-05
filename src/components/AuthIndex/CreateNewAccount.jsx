@@ -1,9 +1,77 @@
-import React, { useContext } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
-import { AppContext } from "../../App";
+import React, { useContext, useEffect } from 'react';
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import { AppContext } from '../../App';
 
 export default function CreateNewAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
+
+  useEffect(() => {
+    const listener = (event) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault();
+        oneTouchSignUp();
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  });
+
+  async function oneTouchSignUp() {
+    const fName = document.querySelector('#fName').value;
+    const lName = document.querySelector('#lName').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+    const signUpConfirmPassword = document.querySelector(
+      '#signUpConfirmPassword'
+    ).value;
+    const URL = '/.netlify/functions/mongoDB';
+
+    if (
+      fName === '' ||
+      lName === '' ||
+      email === '' ||
+      password === '' ||
+      signUpConfirmPassword === ''
+    ) {
+      const msg = `Please fill in all required fields!`;
+      manageAppContext.setAlert({ msg });
+      console.log(msg);
+      return;
+    }
+
+    try {
+      const body = {
+        oneTouchPath: 'oneTouchSignUp',
+        fName,
+        lName,
+        email,
+        password,
+        signUpConfirmPassword,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        manageAppContext.setAlert({ msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setPage('login');
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div className="features">
@@ -36,13 +104,13 @@ export default function CreateNewAccount({ props }) {
           <Form.Group className="mb-3">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              id="confirmPassword"
+              id="signUpConfirmPassword"
               type="password"
               placeholder="Password"
             />
           </Form.Group>
           <Button
-            onClick={() => manageAppContext.setPage("create-new-account")}
+            onClick={() => oneTouchSignUp()}
             variant="success"
             size="lg"
             className="btn-one-touch shadow-none"
@@ -51,7 +119,7 @@ export default function CreateNewAccount({ props }) {
           </Button>
           <div className="divider"></div>
           <Button
-            onClick={() => manageAppContext.setPage("login")}
+            onClick={() => manageAppContext.setPage('login')}
             variant="primary"
             size="lg"
             className="btn-one-touch shadow-none"

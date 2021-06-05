@@ -123,24 +123,62 @@ const oneTouchLogin = async (db, data) => {
   }
 };
 
-const oneTouchSignUp = async (data) => {
+const oneTouchSignUp = async (db, data) => {
+  const signUpUser = {
+    fName: data.fName,
+    lName: data.lName,
+    email: data.email,
+    password: data.password,
+    signUpConfirmPassword: data.signUpConfirmPassword,
+  };
+
   try {
-    const response = await fetch('https://api.chucknorris.io/jokes/random');
-    if (!response.ok) {
-      // NOT res.status >= 200 && res.status < 300
-      return { statusCode: response.status, body: response.statusText };
+    let userValid = false;
+    let passwordValid =
+      signUpUser.password === signUpUser.signUpConfirmPassword;
+    const user = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find({ email: signUpUser.email })
+      .toArray();
+
+    if (!passwordValid) {
+      const msg =
+        `Password do not match or not valid for email: ` + signUpUser.email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
     }
-    const data = await response.json();
+    if (!!user.length) {
+      const msg = `User already exist with email : ` + signUpUser.email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(signUpUser.password, saltRounds);
+
+    delete data.signUpConfirmPassword;
+    data.password = hashedPassword;
+    await db.collection(COLLECTION_ONE_TOUCH_SUPER_USER).insertMany([data]);
+    const msg =
+      `Account created successfully! Welcome to One Touch Portal ` +
+      signUpUser.fName;
+    console.log(msg);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ msg: data.value }),
+      body: JSON.stringify({ msg }),
     };
   } catch (err) {
-    console.log(err); // output to netlify function log
+    console.log(err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ msg: err.message }), // Could be a custom message or object i.e. JSON.stringify(err)
+      body: JSON.stringify({ msg: err.message }),
     };
   }
 };

@@ -22,10 +22,20 @@ export default function Index({ props }) {
 
   return (
     <div style={styles.container} className="features-flex-wrap">
-      <a href={BillingPDF} data-text="download" target="_blank">
+      <a
+        href={BillingPDF}
+        data-text="download"
+        target="_blank"
+        rel="noreferrer"
+      >
         <img src={Billing} width={width} className={className} alt={Billing} />
       </a>
-      <a href={CapabilitiesPDF} data-text="download" target="_blank">
+      <a
+        href={CapabilitiesPDF}
+        data-text="download"
+        target="_blank"
+        rel="noreferrer"
+      >
         <img
           src={Capabilities}
           width={width}
@@ -33,7 +43,12 @@ export default function Index({ props }) {
           alt={Capabilities}
         />
       </a>
-      <a href={FaultLoggingPDF} data-text="download" target="_blank">
+      <a
+        href={FaultLoggingPDF}
+        data-text="download"
+        target="_blank"
+        rel="noreferrer"
+      >
         <img
           src={FaultLogging}
           width={width}
@@ -41,7 +56,12 @@ export default function Index({ props }) {
           alt={FaultLogging}
         />
       </a>
-      <a href={FaultManagementPDF} data-text="download" target="_blank">
+      <a
+        href={FaultManagementPDF}
+        data-text="download"
+        target="_blank"
+        rel="noreferrer"
+      >
         <img
           src={FaultManagement}
           width={width}
@@ -49,10 +69,15 @@ export default function Index({ props }) {
           alt={FaultManagement}
         />
       </a>
-      <a href={IPPDF} data-text="download" target="_blank">
+      <a href={IPPDF} data-text="download" target="_blank" rel="noreferrer">
         <img src={IP} width={width} className={className} alt={IP} />
       </a>
-      <a href={ManagementPDF} data-text="download" target="_blank">
+      <a
+        href={ManagementPDF}
+        data-text="download"
+        target="_blank"
+        rel="noreferrer"
+      >
         <img
           src={Management}
           width={width}
