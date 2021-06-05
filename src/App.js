@@ -11,7 +11,6 @@ export const AppContext = React.createContext();
 export default function App({ props }) {
   const [accessToken, setAccessToken] = useState(false);
   const [page, setPage] = useState(false);
-  // eslint-disable-next-line
   const [alert, setAlert] = useState(false);
   const [pageData, setPageData] = useState(false);
 
@@ -44,6 +43,15 @@ export default function App({ props }) {
       JSON.stringify(manageAppContext)
     );
   }, [manageAppContext]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setAlert(false);
+    }, 3000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [alert]);
 
   return (
     <AppContext.Provider
