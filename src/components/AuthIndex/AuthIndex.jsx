@@ -11,7 +11,7 @@ export default function AuthIndex({ props }) {
 
   return (
     <div style={styles.container}>
-      {!accessToken && page === "login" && <Login />}
+      {((!accessToken && !page) || page === "login") && <Login />}
       {page === "create-new-account" && <CreateNewAccount />}
     </div>
   );

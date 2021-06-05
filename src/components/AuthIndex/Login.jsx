@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { AppContext } from "../../App";
 
 import OneTouchLogo from "../../img/oneTouch/One-Touch-Logo.png";
+import ErrorMsg from "../ErrorMsg";
 
 export default function Login({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -13,7 +14,9 @@ export default function Login({ props }) {
     const URL = "/.netlify/functions/mongoDB";
 
     if (loginEmail === "" || loginPassword === "") {
-      console.log(`Please fill in all required fields`);
+      const msg = `Please fill in all required fields`;
+      manageAppContext.setAlert({ msg });
+      console.log(msg);
       return;
     }
 
@@ -33,7 +36,7 @@ export default function Login({ props }) {
       const data = await response.json();
 
       if (!response.ok) {
-        // Forbidden
+        manageAppContext.setAlert(<ErrorMsg msg={data.msg} />);
         console.log(data);
         return;
       }

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/App.css";
 
 import NavBar from "./components/nav-bar/NavBar";
+import ErrorMsg from "./components/ErrorMsg";
 import AuthIndex from "./components/AuthIndex/AuthIndex";
 
 export const AppContext = React.createContext();
@@ -10,6 +11,8 @@ export const AppContext = React.createContext();
 export default function App({ props }) {
   const [accessToken, setAccessToken] = useState(false);
   const [page, setPage] = useState(false);
+  // eslint-disable-next-line
+  const [alert, setAlert] = useState(false);
   const [pageData, setPageData] = useState(false);
 
   const SESSION_STORAGE_KEY = "oneTouchPortal.App";
@@ -20,10 +23,12 @@ export default function App({ props }) {
       setAccessToken,
       page,
       setPage,
+      alert,
+      setAlert,
       pageData,
       setPageData,
     }),
-    [accessToken, page, pageData]
+    [accessToken, page, alert, pageData]
   );
 
   useEffect(() => {
@@ -48,6 +53,7 @@ export default function App({ props }) {
     >
       <div className="oneTouchBodyContainer">
         <div className="oneTouchBodyWrapper">
+          {alert && <ErrorMsg color={alert.color} msg={alert.msg} />}
           {!accessToken && <AuthIndex />}
 
           {accessToken && (
