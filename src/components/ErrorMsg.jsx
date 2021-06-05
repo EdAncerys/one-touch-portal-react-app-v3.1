@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { Alert, Button } from "react-bootstrap";
-import { AppContext } from "../App";
+import React, { useContext } from 'react';
+import { Alert, Button } from 'react-bootstrap';
+import { AppContext } from '../App';
 
 export default function ErrorMsg({ color, msg }) {
   const { manageAppContext } = useContext(AppContext);
 
-  let variantColor = "danger";
-  if (variantColor === "warning") variantColor = "warning";
-  if (variantColor === "success") variantColor = "success";
+  let variantColor = 'danger';
+  if (variantColor === 'warning') variantColor = 'warning';
+  if (variantColor === 'success') variantColor = 'success';
 
   return (
     <div style={styles.container}>
@@ -31,15 +31,15 @@ export default function ErrorMsg({ color, msg }) {
 
 const styles = {
   container: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
-    marginLeft: "auto",
-    marginRight: "auto",
-    maxWidth: "1000px",
-    padding: "0 3%",
-    opacity: "0.8",
-    top: "100px",
-    zIndex: "99",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: '1000px',
+    padding: '0 3%',
+    opacity: '0.9',
+    top: '100px',
+    zIndex: '99',
   },
 };

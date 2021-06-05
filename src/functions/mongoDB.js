@@ -1,29 +1,29 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
-const MongoClient = require("mongodb").MongoClient;
-let ObjectId = require("mongodb").ObjectID;
-require("dotenv").config(); // Enabling to load Environment variables from a .env File
+const MongoClient = require('mongodb').MongoClient;
+let ObjectId = require('mongodb').ObjectID;
+require('dotenv').config(); // Enabling to load Environment variables from a .env File
 
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const sha512 = require("js-sha512"); // component to compute the SHA512
-const HttpsProxyAgent = require("https-proxy-agent"); // Proxy server
+const sha512 = require('js-sha512'); // component to compute the SHA512
+const HttpsProxyAgent = require('https-proxy-agent'); // Proxy server
 
 const MONGO_DB_ENVIRONMENT = process.env.MONGO_DB_ENVIRONMENT;
 const MONGODB_URI_DEV = process.env.MONGODB_URI_DEV;
 let MONGODB_URI = process.env.MONGODB_URI;
-if (MONGO_DB_ENVIRONMENT === "development") MONGODB_URI = MONGODB_URI_DEV;
+if (MONGO_DB_ENVIRONMENT === 'development') MONGODB_URI = MONGODB_URI_DEV;
 console.table(`DB connection URI: ` + MONGODB_URI);
 
-const DB_NAME = "oneTouchDB";
+const DB_NAME = 'oneTouchDB';
 const ONE_TOUCH_ADMIN = process.env.ONE_TOUCH_ADMIN;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-const COLLECTION_ONE_TOUCH_BROADBAND = "oneTouchBroadband";
-const COLLECTION_ONE_TOUCH_SUPER_USER = "oneTouchSuperUser";
-const COLLECTION_ONE_TOUCH_CUSTOMER = "oneTouchCustomer";
+const COLLECTION_ONE_TOUCH_BROADBAND = 'oneTouchBroadband';
+const COLLECTION_ONE_TOUCH_SUPER_USER = 'oneTouchSuperUser';
+const COLLECTION_ONE_TOUCH_CUSTOMER = 'oneTouchCustomer';
 
 let cachedDb = null;
 const connectToDatabase = async (uri) => {
@@ -50,9 +50,9 @@ export async function handler(event, context, callback) {
   console.log(`Function Path: ` + path);
 
   switch (path) {
-    case "oneTouchLogin":
+    case 'oneTouchLogin':
       return oneTouchLogin(db, body);
-    case "oneTouchSignUp":
+    case 'oneTouchSignUp':
       return oneTouchSignUp(db, body);
 
     default:
@@ -72,7 +72,7 @@ const oneTouchLogin = async (db, data) => {
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
       .find({ email: loginUser.email })
       .toArray();
-    console.log("DB User:", user);
+    console.log('DB User:', user);
 
     if (user.length)
       passwordValid = await bcrypt.compare(
@@ -81,7 +81,7 @@ const oneTouchLogin = async (db, data) => {
       );
 
     if (!user.length) {
-      const msg = `User Do Not Exist With Email: ` + loginUser.email;
+      const msg = `User do not exist with email: ` + loginUser.email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -89,7 +89,7 @@ const oneTouchLogin = async (db, data) => {
       };
     }
     if (user.length && !passwordValid) {
-      const msg = `Email Or Password Do Not Match for : ` + loginUser.email;
+      const msg = `Email or password do not match for : ` + loginUser.email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -98,15 +98,15 @@ const oneTouchLogin = async (db, data) => {
     }
 
     // JWT configuration
-    delete user[0]["password"];
+    delete user[0]['password'];
     const userData = user[0];
-    const expTime = "24h";
-    console.log("User data passed on to JWT: ", userData);
+    const expTime = '24h';
+    console.log('User data passed on to JWT: ', userData);
 
     const access_token = jwt.sign(userData, ACCESS_TOKEN_SECRET, {
       expiresIn: expTime,
     });
-    const role = ONE_TOUCH_ADMIN.includes(loginUser.email) ? "admin" : false;
+    const role = ONE_TOUCH_ADMIN.includes(loginUser.email) ? 'admin' : false;
     const msg = `Welcome to One Touch Portal ` + loginUser.email;
     console.log(msg);
 
@@ -125,7 +125,7 @@ const oneTouchLogin = async (db, data) => {
 
 const oneTouchSignUp = async (data) => {
   try {
-    const response = await fetch("https://api.chucknorris.io/jokes/random");
+    const response = await fetch('https://api.chucknorris.io/jokes/random');
     if (!response.ok) {
       // NOT res.status >= 200 && res.status < 300
       return { statusCode: response.status, body: response.statusText };
