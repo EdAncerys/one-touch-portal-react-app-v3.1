@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { AppContext } from "../App";
 
 export default function ErrorMsg({ color, msg }) {
@@ -10,16 +10,36 @@ export default function ErrorMsg({ color, msg }) {
   if (variantColor === "success") variantColor = "success";
 
   return (
-    <div className="features">
-      <div className="flex-container-100">
-        <Alert
-          variant={variantColor}
-          onClose={() => manageAppContext.setAlert(false)}
-          dismissible
-        >
+    <div style={styles.container}>
+      <div>
+        <Alert variant={variantColor}>
           <Alert.Heading>{msg}</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button
+              onClick={() => manageAppContext.setAlert(false)}
+              variant={variantColor}
+            >
+              Close
+            </Button>
+          </div>
         </Alert>
       </div>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: "1000px",
+    padding: "0 3%",
+    opacity: "0.8",
+    top: "100px",
+    zIndex: "99",
+  },
+};

@@ -14,7 +14,7 @@ export default function Login({ props }) {
     const URL = "/.netlify/functions/mongoDB";
 
     if (loginEmail === "" || loginPassword === "") {
-      const msg = `Please fill in all required fields`;
+      const msg = `Please fill in all required fields!`;
       manageAppContext.setAlert({ msg });
       console.log(msg);
       return;
