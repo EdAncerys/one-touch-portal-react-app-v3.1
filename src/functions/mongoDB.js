@@ -58,6 +58,8 @@ export async function handler(event, context, callback) {
       return myAccount(db, body);
     case 'userManagement':
       return userManagement(db, body);
+    case 'liveConnections':
+      return liveConnections(db, body);
 
     default:
       return {
@@ -66,6 +68,8 @@ export async function handler(event, context, callback) {
       };
   }
 }
+
+// const superUserObjectId = new ObjectId(oneTouchUser._id);
 
 const authUser = async (access_token) => {
   const authToken = await jwt.verify(
@@ -83,7 +87,6 @@ const authUser = async (access_token) => {
   );
   return authToken;
 };
-
 const oneTouchLogin = async (db, data) => {
   const loginUser = {
     email: data.email,
@@ -251,7 +254,6 @@ const userManagement = async (db, data) => {
 
   try {
     const oneTouchUser = await authUser(userAccount.access_token);
-    const superUserObjectId = new ObjectId(oneTouchUser._id);
     const customerList = await db
       .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
       .find({ 'oneTouchSuperUser.id': oneTouchUser._id })
@@ -267,12 +269,49 @@ const userManagement = async (db, data) => {
       };
     }
 
-    const msg = `User profile successfully loaded for: ` + oneTouchUser.email;
+    const msg = `User profiles successfully loaded for: ` + oneTouchUser.email;
     console.log(msg);
 
     return {
       statusCode: 200,
       body: JSON.stringify({ customerList, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const liveConnections = async (db, data) => {
+  const userAccount = {
+    access_token: data.access_token,
+  };
+
+  try {
+    const oneTouchUser = await authUser(userAccount.access_token);
+    const liveConnections = await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .find({ 'oneTouchSuperUser.id': oneTouchUser._id })
+      .toArray();
+    console.log('DB liveConnections:', liveConnections);
+
+    if (!liveConnections.length) {
+      const msg = `Failed to find contracts for: ` + oneTouchUser.email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const msg = `Contracts successfully loaded for: ` + oneTouchUser.email;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ liveConnections, msg }),
     };
   } catch (err) {
     console.log(err);

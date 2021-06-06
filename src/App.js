@@ -10,6 +10,7 @@ import Docs from './components/docs/Docs';
 import MyAccount from './components/MyAccount/MyAccount';
 import RaiseTicket from './components/RaiseTicket/RaiseTicket';
 import UserManagement from './components/UserManagement/UserManagement';
+import LiveConnections from './components/LiveConnections/LiveConnections';
 import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
@@ -80,6 +81,7 @@ export default function App({ props }) {
               {page === 'my-account' && <MyAccount />}
               {page === 'rase-ticket' && <RaiseTicket />}
               {page === 'user-management' && <UserManagement />}
+              {page === 'live-connections' && <LiveConnections />}
             </div>
           )}
         </div>

@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
-import CustomerListComponent from './CustomerListComponent';
-import CustomerInfoCard from './CustomerInfoCard';
+import LiveContractComponent from './LiveContractComponent';
+import ContractInfoCard from './ContractInfoCard';
 
-export default function UserManagement({ props }) {
+export default function LiveConnections({ props }) {
   const { manageAppContext } = useContext(AppContext);
-  const [findCustomer, setFindCustomer] = useState(false);
+  const [findContract, setFindContract] = useState(false);
 
   const pageData = manageAppContext.pageData;
 
   useEffect(() => {
-    if (!pageData) userManagement();
+    if (!pageData) liveConnections();
   }, []);
 
-  async function userManagement() {
+  async function liveConnections() {
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/mongoDB';
 
     try {
       const body = {
-        oneTouchPath: 'userManagement',
+        oneTouchPath: 'liveConnections',
         access_token,
       };
       console.log(body);
@@ -39,7 +39,7 @@ export default function UserManagement({ props }) {
         return;
       }
 
-      manageAppContext.setPageData(data.customerList);
+      manageAppContext.setPageData(data.liveConnections);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -48,17 +48,17 @@ export default function UserManagement({ props }) {
 
   return (
     <>
-      {pageData && !findCustomer && (
-        <CustomerListComponent
+      {pageData && !findContract && (
+        <LiveContractComponent
           pageData={pageData}
-          setFindCustomer={setFindCustomer}
+          setFindContract={setFindContract}
         />
       )}
-      {findCustomer && (
-        <CustomerInfoCard
+      {findContract && (
+        <ContractInfoCard
           pageData={pageData}
-          findCustomer={findCustomer}
-          setFindCustomer={setFindCustomer}
+          findContract={findContract}
+          setFindContract={setFindContract}
         />
       )}
     </>

@@ -38,7 +38,7 @@ export default function Index({ props }) {
       />
 
       <img
-        onClick={() => manageAppContext.setPage('live-connection')}
+        onClick={() => manageAppContext.setPage('live-connections')}
         src={LiveConnections}
         width={width}
         className={className}
