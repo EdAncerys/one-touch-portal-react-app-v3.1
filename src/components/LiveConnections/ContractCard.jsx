@@ -6,15 +6,16 @@ export default function CustomerCard({ pageData, setFindContract }) {
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
         <Card.Header>
-          <div>{pageData.email} Customer List</div>
+          <div>Contact List</div>
         </Card.Header>
         <Card.Body>
           <Table responsive bordered hover size="sm">
             <thead>
               <tr>
                 <th>#</th>
-                <th>Business Contact</th>
+                <th>Company Name</th>
                 <th>Address</th>
+                <th>Provider</th>
                 <th>More</th>
               </tr>
             </thead>
@@ -32,17 +33,41 @@ export default function CustomerCard({ pageData, setFindContract }) {
                   </td>
                   <td key={customer._id.toString() + 'c'}>
                     <div key={index + 1}>
-                      {customer.oneTouchCustomer.thoroughfare_number}{' '}
-                      {customer.oneTouchCustomer.premises_name}{' '}
-                      {customer.oneTouchCustomer.sub_premises}{' '}
-                      {customer.oneTouchCustomer.thoroughfare_name}{' '}
-                      {customer.oneTouchCustomer.county}
+                      {customer.oneTouchCustomer[0] && (
+                        <div>
+                          {
+                            customer.oneTouchCustomer[0].oneTouchCustomer
+                              .thoroughfare_number
+                          }{' '}
+                          {
+                            customer.oneTouchCustomer[0].oneTouchCustomer
+                              .premises_name
+                          }{' '}
+                          {
+                            customer.oneTouchCustomer[0].oneTouchCustomer
+                              .sub_premises
+                          }{' '}
+                          {
+                            customer.oneTouchCustomer[0].oneTouchCustomer
+                              .thoroughfare_name
+                          }{' '}
+                          {customer.oneTouchCustomer[0].oneTouchCustomer.county}
+                        </div>
+                      )}
                     </div>
                     <div key={index + 2} style={styles.bottomRow}>
                       {customer.oneTouchCustomer.postcode}
                     </div>
                   </td>
-                  <td key={customer._id.toString() + 'd'} style={styles.btn}>
+                  <td key={customer._id.toString() + 'd'}>
+                    <div key={index + 1}>
+                      {customer.oneTouchCustomer.companyName}
+                    </div>
+                    <div key={index + 2} style={styles.bottomRow}>
+                      {customer.oneTouchCustomer.contactName}
+                    </div>
+                  </td>
+                  <td key={customer._id.toString() + 'e'} style={styles.btn}>
                     <Button
                       onClick={() => setFindContract(customer._id)}
                       id={customer._id}

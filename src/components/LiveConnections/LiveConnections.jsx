@@ -39,7 +39,7 @@ export default function LiveConnections({ props }) {
         return;
       }
 
-      manageAppContext.setPageData(data.liveConnections);
+      manageAppContext.setPageData(data.contracts);
       console.log(data);
     } catch (err) {
       console.log(err);

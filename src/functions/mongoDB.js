@@ -306,12 +306,29 @@ const liveConnections = async (db, data) => {
       };
     }
 
+    const liveConnectionsPromises = liveConnections.map(async (customer) => {
+      console.log(customer);
+      const customerId = customer.oneTouchCustomer.id;
+      const customerObjectId = new ObjectId(customerId);
+
+      // fetching customer object from db
+      const customerPromise = await db
+        .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
+        .find({ _id: customerObjectId })
+        .toArray();
+      customer['oneTouchCustomer'] = customerPromise;
+
+      return customer;
+    });
+    const contracts = await Promise.all(liveConnectionsPromises);
+    console.log('eddited contract data');
+    console.log(contracts);
     const msg = `Contracts successfully loaded for: ` + oneTouchUser.email;
     console.log(msg);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ liveConnections, msg }),
+      body: JSON.stringify({ contracts, msg }),
     };
   } catch (err) {
     console.log(err);
