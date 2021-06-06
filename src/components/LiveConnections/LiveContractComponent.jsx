@@ -5,21 +5,40 @@ import NDGBanner from '../NDGBanner';
 import ContractCard from './ContractCard';
 
 export default function LiveContractComponent({ pageData, setFindCustomer }) {
-  let totalCustomers = pageData.length;
+  let totalContracts = pageData.length;
 
   return (
     <div className="features">
       <div className="flex-container-30">
         <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
           <Card.Header>
-            <div>{pageData.fName} Customer Information</div>
+            <div>Contract Overview Information</div>
+            <div style={styles.bottomRow}>
+              Manage & overview contracts - anytime, anywhere
+            </div>
           </Card.Header>
           <Card.Body>
             <Table bordered hover size="sm">
               <tbody>
                 <tr>
-                  <td>Total Customers</td>
-                  <td>{totalCustomers}</td>
+                  <td>Total Contracts</td>
+                  <td>{totalContracts}</td>
+                </tr>
+                <tr>
+                  <td>Pending Contracts</td>
+                  <td>{totalContracts}</td>
+                </tr>
+                <tr style={{ background: 'green' }}>
+                  <td>Contracts EXD {'>'} 6 month</td>
+                  <td>{totalContracts}</td>
+                </tr>
+                <tr>
+                  <td>Contracts EXD {'<'} 6 month</td>
+                  <td>{totalContracts}</td>
+                </tr>
+                <tr>
+                  <td>Expired Contracts</td>
+                  <td>{totalContracts}</td>
                 </tr>
               </tbody>
             </Table>
@@ -37,5 +56,7 @@ export default function LiveContractComponent({ pageData, setFindCustomer }) {
 }
 
 const styles = {
-  container: {},
+  bottomRow: {
+    fontSize: '12px',
+  },
 };
