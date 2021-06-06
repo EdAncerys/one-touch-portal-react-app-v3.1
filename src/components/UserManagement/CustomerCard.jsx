@@ -33,6 +33,8 @@ export default function CustomerCard({ pageData, setFindCustomer }) {
                   <td key={customer._id.toString() + 'c'}>
                     <div key={index + 1}>
                       {customer.oneTouchCustomer.thoroughfare_number}{' '}
+                      {customer.oneTouchCustomer.premises_name}{' '}
+                      {customer.oneTouchCustomer.sub_premises}{' '}
                       {customer.oneTouchCustomer.thoroughfare_name}{' '}
                       {customer.oneTouchCustomer.county}
                     </div>
@@ -40,10 +42,7 @@ export default function CustomerCard({ pageData, setFindCustomer }) {
                       {customer.oneTouchCustomer.postcode}
                     </div>
                   </td>
-                  <td
-                    key={customer._id.toString() + 'd'}
-                    style={styles.btn}
-                  >
+                  <td key={customer._id.toString() + 'd'} style={styles.btn}>
                     <Button
                       onClick={() => setFindCustomer(customer._id)}
                       id={customer._id}
