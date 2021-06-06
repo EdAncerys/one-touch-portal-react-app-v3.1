@@ -8,7 +8,7 @@ export default function CustomerListComponent({ pageData, setFindCustomer }) {
   let totalCustomers = pageData.length;
 
   return (
-    <>
+    <div className="features">
       <div className="flex-container-30">
         <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
           <Card.Header>
@@ -32,7 +32,7 @@ export default function CustomerListComponent({ pageData, setFindCustomer }) {
       <div className="flex-container-70">
         <CustomerCard pageData={pageData} setFindCustomer={setFindCustomer} />
       </div>
-    </>
+    </div>
   );
 }
 

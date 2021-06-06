@@ -6,7 +6,7 @@ export default function Index({ css }) {
   const height = '100px';
   const className = 'd-inline-block align-top index-icon';
 
-  let defClass = 'flex-container-30';
+  let defClass = 'flex-container-30 NDG-banner';
   if (css) defClass = css;
 
   return (

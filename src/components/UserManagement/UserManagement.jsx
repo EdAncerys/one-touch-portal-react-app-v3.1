@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
 import CustomerListComponent from './CustomerListComponent';
+import CustomerInfoCard from './CustomerInfoCard';
 
 export default function UserManagement({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -46,13 +47,20 @@ export default function UserManagement({ props }) {
   }
 
   return (
-    <div className="features">
+    <>
       {pageData && !findCustomer && (
         <CustomerListComponent
           pageData={pageData}
           setFindCustomer={setFindCustomer}
         />
       )}
-    </div>
+      {findCustomer && (
+        <CustomerInfoCard
+          pageData={pageData}
+          findCustomer={findCustomer}
+          setFindCustomer={setFindCustomer}
+        />
+      )}
+    </>
   );
 }

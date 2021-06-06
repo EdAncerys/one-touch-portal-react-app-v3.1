@@ -22,7 +22,8 @@ body {
   padding: 5px;
 }
 .features,
-.features-flex-wrap {
+.features-flex-wrap,
+.features-align-left {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -33,6 +34,9 @@ body {
 .features-flex-wrap {
   flex-wrap: wrap;
   gap: 10px;
+}
+.features-align-left {
+  justify-content: flex-start;
 }
 .flex-container-20,
 .flex-container-30,
@@ -81,5 +85,8 @@ body {
   }
   .features-flex-wrap {
     width: auto;
+  }
+  .NDG-banner {
+    display: none;
   }
 }

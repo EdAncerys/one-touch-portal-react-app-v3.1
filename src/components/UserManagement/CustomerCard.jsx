@@ -42,7 +42,7 @@ export default function CustomerCard({ pageData, setFindCustomer }) {
                   </td>
                   <td
                     key={customer._id.toString() + 'd'}
-                    style={styles.btnComponent}
+                    style={styles.btn}
                   >
                     <Button
                       onClick={() => setFindCustomer(customer._id)}
@@ -67,7 +67,7 @@ const styles = {
   bottomRow: {
     fontSize: '12px',
   },
-  btnComponent: {
+  btn: {
     textAlign: 'center',
     margin: 'auto',
     padding: '10px',
