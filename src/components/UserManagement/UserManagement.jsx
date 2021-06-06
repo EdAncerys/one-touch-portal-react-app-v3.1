@@ -1,12 +1,11 @@
-import React, { useEffect, useContext } from 'react';
-import { Card, Table } from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
-import NDGBanner from '../NDGBanner';
-import CustomerCard from './CustomerCard';
+import CustomerListComponent from './CustomerListComponent';
 
 export default function UserManagement({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  const [findCustomer, setFindCustomer] = useState(false);
 
   const pageData = manageAppContext.pageData;
 
@@ -46,41 +45,13 @@ export default function UserManagement({ props }) {
     }
   }
 
-  let totalCustomers = pageData.length;
-
   return (
     <div className="features">
-      {pageData && (
-        <>
-          <div className="flex-container-30">
-            <Card
-              bg="Light"
-              text="dark"
-              style={{ width: '100%' }}
-              className="mb-2"
-            >
-              <Card.Header>
-                <div>{pageData.fName} Customer Information</div>
-              </Card.Header>
-              <Card.Body>
-                <Table bordered hover size="sm">
-                  <tbody>
-                    <tr>
-                      <td>Total Customers</td>
-                      <td>{totalCustomers}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-
-            <NDGBanner width="flex-container-40" />
-          </div>
-
-          <div className="flex-container-70">
-            <CustomerCard pageData={pageData} />
-          </div>
-        </>
+      {pageData && !findCustomer && (
+        <CustomerListComponent
+          pageData={pageData}
+          setFindCustomer={setFindCustomer}
+        />
       )}
     </div>
   );
