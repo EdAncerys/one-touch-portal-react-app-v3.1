@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Table, Button } from 'react-bootstrap';
 
-export default function CustomerCard({ pageData, setFindCustomer }) {
+export default function CustomerCard({ pageData, setFindContract }) {
   return (
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
@@ -44,12 +44,12 @@ export default function CustomerCard({ pageData, setFindCustomer }) {
                   </td>
                   <td key={customer._id.toString() + 'd'} style={styles.btn}>
                     <Button
-                      onClick={() => setFindCustomer(customer._id)}
+                      onClick={() => setFindContract(customer._id)}
                       id={customer._id}
                       size="sm"
                       className="shadow-none"
                     >
-                      Customer Info
+                      Contract Info
                     </Button>
                   </td>
                 </tr>

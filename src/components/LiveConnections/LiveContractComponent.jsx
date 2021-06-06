@@ -5,7 +5,7 @@ import colors from '../../config/colors';
 import NDGBanner from '../NDGBanner';
 import ContractCard from './ContractCard';
 
-export default function LiveContractComponent({ pageData, setFindCustomer }) {
+export default function LiveContractComponent({ pageData, setFindContract }) {
   let totalContracts = pageData.length;
   let totalPendingContracts = 0;
   let sixMonthPlusContracts = 0;
@@ -87,7 +87,7 @@ export default function LiveContractComponent({ pageData, setFindCustomer }) {
       </div>
 
       <div className="flex-container-70">
-        <ContractCard pageData={pageData} setFindCustomer={setFindCustomer} />
+        <ContractCard pageData={pageData} setFindContract={setFindContract} />
       </div>
     </div>
   );

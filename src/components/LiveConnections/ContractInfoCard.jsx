@@ -5,11 +5,11 @@ import NDGBanner from '../NDGBanner';
 
 export default function CustomerInfoCard({
   pageData,
-  findCustomer,
-  setFindCustomer,
+  findContract,
+  setFindContract,
 }) {
   let customerData = pageData.filter(
-    (customer) => customer._id === findCustomer
+    (customer) => customer._id === findContract
   )[0].oneTouchCustomer;
   console.log(customerData);
 
@@ -18,7 +18,7 @@ export default function CustomerInfoCard({
       <div className="features">
         <div style={styles.btn}>
           <Button
-            onClick={() => setFindCustomer(false)}
+            onClick={() => setFindContract(false)}
             variant="outline-dark"
             size="sm"
           >

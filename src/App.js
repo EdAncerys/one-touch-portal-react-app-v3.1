@@ -45,6 +45,10 @@ export default function App({ props }) {
   }, []);
 
   useEffect(() => {
+    setPageData(false);
+  }, [page]);
+
+  useEffect(() => {
     sessionStorage.setItem(
       SESSION_STORAGE_KEY,
       JSON.stringify(manageAppContext)
