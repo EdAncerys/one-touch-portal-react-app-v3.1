@@ -8,6 +8,8 @@ import AuthIndex from './components/AuthIndex/AuthIndex';
 import Index from './components/Index/Index';
 import Docs from './components/docs/Docs';
 import MyAccount from './components/MyAccount/MyAccount';
+import RaiseTicket from './components/RaiseTicket/RaiseTicket';
+import UserManagement from './components/UserManagement/UserManagement';
 import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
@@ -71,10 +73,13 @@ export default function App({ props }) {
           {accessToken && (
             <div>
               <NavBar />
+
               {page === 'index' && <Index />}
               {page === 'build-in-progress' && <BuildInProgress />}
               {page === 'docs' && <Docs />}
               {page === 'my-account' && <MyAccount />}
+              {page === 'rase-ticket' && <RaiseTicket />}
+              {page === 'user-management' && <UserManagement />}
             </div>
           )}
         </div>

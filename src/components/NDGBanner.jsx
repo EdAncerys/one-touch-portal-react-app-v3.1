@@ -42,6 +42,6 @@ const styles = {
     justifyContent: 'center',
   },
   text: {
-    fontSize: '16px',
+    fontSize: '12px',
   },
 };

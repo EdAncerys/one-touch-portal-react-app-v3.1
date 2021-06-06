@@ -56,9 +56,14 @@ export async function handler(event, context, callback) {
       return oneTouchSignUp(db, body);
     case 'myAccount':
       return myAccount(db, body);
+    case 'userManagement':
+      return userManagement(db, body);
 
     default:
-      return { statusCode: 400, msg: `Bad Request` };
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ msg: `Lambda not found. Bad Request` }),
+      };
   }
 }
 
@@ -230,6 +235,44 @@ const myAccount = async (db, data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ user, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const userManagement = async (db, data) => {
+  const userAccount = {
+    access_token: data.access_token,
+  };
+
+  try {
+    const oneTouchUser = await authUser(userAccount.access_token);
+    const superUserObjectId = new ObjectId(oneTouchUser._id);
+    const customerList = await db
+      .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
+      .find({ 'oneTouchSuperUser.id': oneTouchUser._id })
+      .toArray();
+    console.log('DB customerList:', customerList);
+
+    if (!customerList.length) {
+      const msg = `Failed to find customers for: ` + oneTouchUser.email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const msg = `User profile successfully loaded for: ` + oneTouchUser.email;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ customerList, msg }),
     };
   } catch (err) {
     console.log(err);

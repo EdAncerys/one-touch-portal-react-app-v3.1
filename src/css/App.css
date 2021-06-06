@@ -2,6 +2,7 @@
 @import url('./index.css');
 @import url('./login-logout.css');
 @import url('./btn.css');
+@import url('./manage-customer.css');
 
 body {
   padding: 0;

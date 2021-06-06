@@ -30,6 +30,7 @@ export default function MyAccount({ props }) {
 
       if (!response.ok) {
         manageAppContext.setAlert({ msg: data.msg });
+        manageAppContext.setPageData(data.msg);
         console.log(data);
         return;
       }
@@ -41,13 +42,10 @@ export default function MyAccount({ props }) {
     }
   }
 
-  let userName;
-  if (pageData.fName) userName = pageData.fName + '`s';
-
   return (
     <div className="features">
-      <div className="flex-container-100">
-        {pageData && (
+      {pageData && (
+        <div className="flex-container-100">
           <Card
             bg="Light"
             text="dark"
@@ -55,7 +53,7 @@ export default function MyAccount({ props }) {
             className="mb-2"
           >
             <Card.Header>
-              <div>{userName} Account Information</div>
+              <div>{pageData.fName} Account Information</div>
             </Card.Header>
             <Card.Body>
               <Card.Text>
@@ -88,8 +86,8 @@ export default function MyAccount({ props }) {
               </Button>
             </Card.Body>
           </Card>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
