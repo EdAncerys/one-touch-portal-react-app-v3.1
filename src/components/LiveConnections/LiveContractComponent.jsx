@@ -13,15 +13,8 @@ export default function LiveContractComponent({ pageData, setFindContract }) {
   let expiredContracts = 0;
 
   pageData.map((contract) => {
-    console.log(contract);
     const contractStartDay = contract.oneTouchBroadband.contractStartDay;
     let contractEndDay;
-    let oneTouchCustomer;
-
-    const oneTouchCustomerData = contract.oneTouchCustomer;
-    if (oneTouchCustomerData)
-      oneTouchCustomer = contract.oneTouchCustomer.oneTouchCustomer;
-    const id = contract._id;
 
     // contract expiration day
     const today = new Date();
@@ -62,7 +55,7 @@ export default function LiveContractComponent({ pageData, setFindContract }) {
                   <td>Total Contracts</td>
                   <td>{totalContracts}</td>
                 </tr>
-                <tr>
+                <tr style={{ background: colors.bgPENDING }}>
                   <td>Pending Contracts</td>
                   <td>{totalPendingContracts}</td>
                 </tr>
@@ -96,5 +89,6 @@ export default function LiveContractComponent({ pageData, setFindContract }) {
 const styles = {
   bottomRow: {
     fontSize: '12px',
+    color: colors.darkGrey,
   },
 };

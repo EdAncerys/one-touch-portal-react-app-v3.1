@@ -261,7 +261,7 @@ const userManagement = async (db, data) => {
     console.log('DB customerList:', customerList);
 
     if (!customerList.length) {
-      const msg = `Failed to find customers for: ` + oneTouchUser.email;
+      const msg = `No customers found for: ` + oneTouchUser.email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -298,7 +298,7 @@ const liveConnections = async (db, data) => {
     console.log('DB liveConnections:', liveConnections);
 
     if (!liveConnections.length) {
-      const msg = `Failed to find contracts for: ` + oneTouchUser.email;
+      const msg = `No contracts found for: ` + oneTouchUser.email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -316,7 +316,10 @@ const liveConnections = async (db, data) => {
         .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
         .find({ _id: customerObjectId })
         .toArray();
-      customer['oneTouchCustomer'] = customerPromise;
+      let oneTouchCustomerData = customerPromise;
+      if (!!oneTouchCustomerData.length)
+        oneTouchCustomerData = customerPromise[0].oneTouchCustomer;
+      customer['oneTouchCustomer'] = oneTouchCustomerData;
 
       return customer;
     });

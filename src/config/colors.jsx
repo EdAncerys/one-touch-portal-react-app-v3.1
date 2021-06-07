@@ -20,4 +20,5 @@ export default {
   bgSTOP: 'rgb(217, 83, 79, 0.4)',
   bgSET: 'rgb(235, 173, 78, 0.4)',
   bgGO: 'rgb(103, 144, 88, 0.4)',
+  bgPENDING: 'rgb(38, 94, 145, 0.4)',
 };

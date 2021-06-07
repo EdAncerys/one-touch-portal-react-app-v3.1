@@ -1,12 +1,14 @@
 import React from 'react';
 import { Card, Table, Button } from 'react-bootstrap';
 
+import colors from '../../config/colors';
+
 export default function CustomerCard({ pageData, setFindContract }) {
   return (
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
         <Card.Header>
-          <div>Contact List</div>
+          <div>Contract List</div>
         </Card.Header>
         <Card.Body>
           <Table responsive bordered hover size="sm">
@@ -21,52 +23,79 @@ export default function CustomerCard({ pageData, setFindContract }) {
             </thead>
             <tbody>
               {pageData.map((customer, index) => {
-                let customerData = customer.oneTouchCustomer[0];
-                if (customerData)
-                  customerData = customer.oneTouchCustomer[0].oneTouchCustomer;
-                console.log(customerData);
+                const broadbandData = customer.oneTouchBroadband;
+                let customerData = customer.oneTouchCustomer;
+                let notFound = customerData.length === 0;
+
+                let bgColor = '';
+                const contractStartDay = broadbandData.contractStartDay;
+                let contractEndDay;
+
+                // contract expiration day
+                const today = new Date();
+                if (contractStartDay)
+                  contractEndDay = new Date(broadbandData.contractEndDay);
+                const sixMonthsFromNow = new Date();
+                sixMonthsFromNow.setMonth(today.getMonth() + 7);
+
+                if (contractEndDay < today && contractStartDay) {
+                  bgColor = colors.bgSTOP;
+                }
+                if (
+                  contractEndDay < sixMonthsFromNow &&
+                  contractEndDay > today
+                ) {
+                  bgColor = colors.bgSET;
+                }
+                if (contractEndDay > sixMonthsFromNow) {
+                  bgColor = colors.bgGO;
+                }
+                if (!contractStartDay) {
+                  bgColor = colors.bgPENDING;
+                }
 
                 return (
-                  // {findContract && (
-                  //   <ContractInfoCard
-                  //     pageData={pageData}
-                  //     findContract={findContract}
-                  //     setFindContract={setFindContract}
-                  //   />
-                  // )}
-
-                  <tr key={customer._id.toString()}>
+                  <tr
+                    style={{ background: bgColor }}
+                    key={customer._id.toString()}
+                  >
                     <td key={customer._id.toString() + 'a'}>{index + 1}</td>
                     <td key={customer._id.toString() + 'b'}>
                       <div key={index + 1}>
-                        {customer.oneTouchCustomer.companyName}
+                        {customerData.companyName}
+                        {notFound && `Customer not found!`}
                       </div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customer.oneTouchCustomer.contactName}
+                        {customerData.companyName}
                       </div>
                     </td>
                     <td key={customer._id.toString() + 'c'}>
                       <div key={index + 1}>
-                        {customerData && (
-                          <div>
-                            {customerData.thoroughfare_number}{' '}
-                            {customerData.premises_name}{' '}
-                            {customerData.sub_premises}{' '}
-                            {customerData.thoroughfare_name}{' '}
-                            {customerData.county}
-                          </div>
-                        )}
+                        <div>
+                          {customerData.thoroughfare_number === 'null'
+                            ? ''
+                            : customerData.thoroughfare_number}{' '}
+                          {customerData.premises_name === 'null'
+                            ? ''
+                            : customerData.premises_name}{' '}
+                          {customerData.sub_premises === 'null'
+                            ? ''
+                            : customerData.sub_premises}{' '}
+                          {customerData.thoroughfare_name === 'null'
+                            ? ''
+                            : customerData.thoroughfare_name}{' '}
+                          {customerData.county}
+                        </div>
+                        {notFound && `Customer not found!`}
                       </div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customerData && customerData.postcode}
+                        {customerData.postcode}
                       </div>
                     </td>
                     <td key={customer._id.toString() + 'd'}>
-                      <div key={index + 1}>
-                        {customer.oneTouchCustomer.companyName}
-                      </div>
+                      <div key={index + 1}>{broadbandData.provider}</div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customerData && customerData.contactName}
+                        {broadbandData.technology}
                       </div>
                     </td>
                     <td key={customer._id.toString() + 'e'} style={styles.btn}>
@@ -93,6 +122,7 @@ export default function CustomerCard({ pageData, setFindContract }) {
 const styles = {
   bottomRow: {
     fontSize: '12px',
+    color: colors.darkGrey,
   },
   btn: {
     textAlign: 'center',

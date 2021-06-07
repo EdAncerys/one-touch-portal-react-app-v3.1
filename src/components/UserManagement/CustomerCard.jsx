@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, Table, Button } from 'react-bootstrap';
 
+import colors from '../../config/colors';
+
 export default function CustomerCard({ pageData, setFindCustomer }) {
   return (
     <div style={styles.container}>
@@ -65,6 +67,7 @@ export default function CustomerCard({ pageData, setFindCustomer }) {
 const styles = {
   bottomRow: {
     fontSize: '12px',
+    color: colors.darkGrey,
   },
   btn: {
     textAlign: 'center',

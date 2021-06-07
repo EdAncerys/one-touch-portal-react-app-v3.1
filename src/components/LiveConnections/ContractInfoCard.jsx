@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Table, Button } from 'react-bootstrap';
 
 import NDGBanner from '../NDGBanner';
+import colors from '../../config/colors';
 
 export default function CustomerInfoCard({
   pageData,
@@ -169,6 +170,7 @@ export default function CustomerInfoCard({
 const styles = {
   bottomRow: {
     fontSize: '12px',
+    color: colors.darkGrey,
   },
   btn: {
     marginLeft: 'auto',
