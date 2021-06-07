@@ -58,7 +58,7 @@ export default function CustomerCard({ pageData, setFindContract }) {
                         )}
                       </div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customerData.postcode}
+                        {customerData && customerData.postcode}
                       </div>
                     </td>
                     <td key={customer._id.toString() + 'd'}>
@@ -66,7 +66,7 @@ export default function CustomerCard({ pageData, setFindContract }) {
                         {customer.oneTouchCustomer.companyName}
                       </div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customer.oneTouchCustomer.contactName}
+                        {customerData && customerData.contactName}
                       </div>
                     </td>
                     <td key={customer._id.toString() + 'e'} style={styles.btn}>
