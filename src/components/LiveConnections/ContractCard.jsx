@@ -3,7 +3,11 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import colors from '../../config/colors';
 
-export default function CustomerCard({ pageData, setFindContract }) {
+export default function CustomerCard({
+  pageData,
+  setFindContract,
+  filterContract,
+}) {
   return (
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
@@ -30,6 +34,8 @@ export default function CustomerCard({ pageData, setFindContract }) {
                 let bgColor = '';
                 const contractStartDay = broadbandData.contractStartDay;
                 let contractEndDay;
+                let contractVisibility = '';
+                let contractStatus = '';
 
                 // contract expiration day
                 const today = new Date();
@@ -40,23 +46,31 @@ export default function CustomerCard({ pageData, setFindContract }) {
 
                 if (contractEndDay < today && contractStartDay) {
                   bgColor = colors.bgSTOP;
+                  contractStatus = 'expired';
                 }
                 if (
                   contractEndDay < sixMonthsFromNow &&
                   contractEndDay > today
                 ) {
                   bgColor = colors.bgSET;
+                  contractStatus = 'lessThenSixMonth';
                 }
                 if (contractEndDay > sixMonthsFromNow) {
                   bgColor = colors.bgGO;
+                  contractStatus = 'moreThenSixMonth';
                 }
                 if (!contractStartDay) {
                   bgColor = colors.bgPENDING;
+                  contractStatus = 'pending';
                 }
+
+                if (filterContract !== contractStatus && filterContract)
+                  contractVisibility = 'hidden';
 
                 return (
                   <tr
                     style={{ background: bgColor }}
+                    className={contractVisibility}
                     key={customer._id.toString()}
                   >
                     <td key={customer._id.toString() + 'a'}>{index + 1}</td>

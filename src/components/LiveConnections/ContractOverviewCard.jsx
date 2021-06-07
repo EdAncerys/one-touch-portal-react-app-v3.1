@@ -3,7 +3,11 @@ import { Card, Table } from 'react-bootstrap';
 
 import colors from '../../config/colors';
 
-export default function ContractOverviewCard({ pageData, width }) {
+export default function ContractOverviewCard({
+  pageData,
+  width,
+  setFilterContract,
+}) {
   let totalContracts = pageData.length;
   let totalPendingContracts = 0;
   let sixMonthPlusContracts = 0;
@@ -48,23 +52,42 @@ export default function ContractOverviewCard({ pageData, width }) {
         <Card.Body>
           <Table bordered hover size="sm">
             <tbody>
-              <tr>
+              <tr
+                onClick={() => setFilterContract(false)}
+                className="cursor-on"
+              >
                 <td>Total Contracts</td>
                 <td>{totalContracts}</td>
               </tr>
-              <tr style={{ background: colors.bgPENDING }}>
+              <tr
+                onClick={() => setFilterContract('pending')}
+                className="cursor-on"
+                style={{ background: colors.bgPENDING }}
+              >
                 <td>Pending Contracts</td>
                 <td>{totalPendingContracts}</td>
               </tr>
-              <tr style={{ background: colors.bgGO }}>
+              <tr
+                onClick={() => setFilterContract('moreThenSixMonth')}
+                className="cursor-on"
+                style={{ background: colors.bgGO }}
+              >
                 <td>Contracts EXD {'>'} 6 month</td>
                 <td>{sixMonthPlusContracts}</td>
               </tr>
-              <tr style={{ background: colors.bgSET }}>
+              <tr
+                onClick={() => setFilterContract('lessThenSixMonth')}
+                className="cursor-on"
+                style={{ background: colors.bgSET }}
+              >
                 <td>Contracts EXD {'<'} 6 month</td>
                 <td>{sixMonthLessContracts}</td>
               </tr>
-              <tr style={{ background: colors.bgSTOP }}>
+              <tr
+                onClick={() => setFilterContract('expired')}
+                className="cursor-on"
+                style={{ background: colors.bgSTOP }}
+              >
                 <td>Expired Contracts</td>
                 <td>{expiredContracts}</td>
               </tr>

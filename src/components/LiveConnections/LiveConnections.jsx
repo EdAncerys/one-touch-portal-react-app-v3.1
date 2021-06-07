@@ -7,7 +7,7 @@ import ContractInfoCard from './ContractInfoCard';
 export default function LiveConnections({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [findContract, setFindContract] = useState(false);
-
+  const [filterContract, setFilterContract] = useState(false);
   const pageData = manageAppContext.pageData;
 
   useEffect(() => {
@@ -52,6 +52,8 @@ export default function LiveConnections({ props }) {
         <LiveContractComponent
           pageData={pageData}
           setFindContract={setFindContract}
+          filterContract={filterContract}
+          setFilterContract={setFilterContract}
         />
       )}
       {findContract && (

@@ -21,6 +21,12 @@ body {
   min-height: 100vh;
   padding: 5px;
 }
+.cursor-on {
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
 .features,
 .features-flex-wrap,
 .features-align-left {
