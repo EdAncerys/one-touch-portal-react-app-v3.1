@@ -71,7 +71,7 @@ export default function App({ props }) {
       }}
     >
       <div className="oneTouchBodyContainer">
-        <div className="oneTouchBodyWrapper">
+        <div className="oneTouchBodyWrapper Oswald">
           {alert && <ErrorMsg color={alert.color} msg={alert.msg} />}
           {!accessToken && <AuthIndex />}
 
