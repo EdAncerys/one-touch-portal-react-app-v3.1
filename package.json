@@ -31,7 +31,9 @@
     "start": "npm-run-all --parallel start:**",
     "start:app": "react-scripts start",
     "start:lambda": "netlify-lambda serve src/functions",
-    "build": "react-scripts build",
+    "build": "run-p build:**",
+    "build:app": "react-scripts build",
+    "build:lambda": "netlify-lambda build src/functions",
     "test": "react-scripts test",
     "postinstall": "netlify-lambda install",
     "eject": "react-scripts eject"
