@@ -1,6 +1,6 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  command = "npm run build"
+  command = "yarn run build"
   functions = "build-lambda" #  netlify-lambda reads this
   publish = "build-lambda"
