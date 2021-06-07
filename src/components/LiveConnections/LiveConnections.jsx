@@ -10,6 +10,8 @@ export default function LiveConnections({ props }) {
   const [filterContract, setFilterContract] = useState(false);
   const pageData = manageAppContext.pageData;
 
+  console.log(findContract);
+
   useEffect(() => {
     if (!pageData) liveConnections();
   }, []);

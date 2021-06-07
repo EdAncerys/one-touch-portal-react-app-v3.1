@@ -30,11 +30,12 @@ body {
 }
 .features,
 .features-flex-wrap,
-.features-align-left {
+.features-align-left,
+.features-align-right {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: 1000px;
+  max-width: 1000px;
   height: auto;
   padding: 10px 0;
 }
@@ -44,6 +45,9 @@ body {
 }
 .features-align-left {
   justify-content: flex-start;
+}
+.features-align-right {
+  justify-content: flex-end;
 }
 .flex-container-20,
 .flex-container-30,
@@ -88,10 +92,6 @@ body {
 @media only screen and (max-width: 1000px) {
   .features {
     flex-direction: column;
-    width: auto;
-  }
-  .features-flex-wrap {
-    width: auto;
   }
   .NDG-banner {
     display: none;

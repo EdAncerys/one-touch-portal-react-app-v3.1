@@ -16,7 +16,6 @@ export default function LiveContractComponent({
         <ContractOverviewCard
           pageData={pageData}
           setFilterContract={setFilterContract}
-          width="flex-container-30"
         />
         <NDGBanner width="flex-container-30" />
       </div>

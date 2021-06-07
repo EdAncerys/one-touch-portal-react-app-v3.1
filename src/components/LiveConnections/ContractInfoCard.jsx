@@ -9,14 +9,15 @@ export default function CustomerInfoCard({
   findContract,
   setFindContract,
 }) {
-  let customerData = pageData.filter(
-    (customer) => customer._id === findContract
-  )[0].oneTouchCustomer;
-  console.log(customerData);
+  let data = pageData.filter((customer) => customer._id === findContract)[0];
+  console.log(data);
+
+  const broadbandData = data.oneTouchBroadband;
+  const customerData = data.oneTouchCustomer;
 
   return (
     <>
-      <div className="features">
+      <div className="features-align-right">
         <div style={styles.btn}>
           <Button
             onClick={() => setFindContract(false)}
@@ -111,6 +112,86 @@ export default function CustomerInfoCard({
         </div>
       </div>
 
+      <div className="features">
+        <div className="flex-container-50">
+          <Card
+            bg="Light"
+            text="dark"
+            style={{ width: '100%' }}
+            className="mb-2"
+          >
+            <Card.Header>
+              <div>Broadband Information</div>
+            </Card.Header>
+            <Card.Body>
+              <Table bordered hover size="sm">
+                <tbody>
+                  <tr>
+                    <td>Broadband Name</td>
+                    <td>{broadbandData.name}</td>
+                  </tr>
+                  <tr>
+                    <td>Broadband Provider</td>
+                    <td>{broadbandData.provider}</td>
+                  </tr>
+                  <tr>
+                    <td>Broadband Technology</td>
+                    <td>{broadbandData.technology}</td>
+                  </tr>
+                  <tr>
+                    <td>Up Speed</td>
+                    <td>{broadbandData.likely_up_speed}</td>
+                  </tr>
+                  <tr>
+                    <td>Down Speed</td>
+                    <td>{broadbandData.likely_down_speed}</td>
+                  </tr>
+                  <tr>
+                    <td>Broadband Price</td>
+                    <td>{broadbandData.price}</td>
+                  </tr>
+                  <tr>
+                    <td>Broadband Installation Price</td>
+                    <td>{broadbandData.installation}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </div>
+
+        <div className="flex-container-50">
+          <Card
+            bg="Light"
+            text="dark"
+            style={{ width: '100%' }}
+            className="mb-2"
+          >
+            <Card.Header>
+              <div>Contract Information</div>
+            </Card.Header>
+            <Card.Body>
+              <Table bordered hover size="sm">
+                <tbody>
+                  <tr>
+                    <td>Contract Start Day</td>
+                    <td>{broadbandData.contractStartDay}</td>
+                  </tr>
+                  <tr>
+                    <td>Contract End Day</td>
+                    <td>{broadbandData.contractEndDay}</td>
+                  </tr>
+                  <tr>
+                    <td>Contract Price</td>
+                    <td>{broadbandData.price}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </div>
+      </div>
+
       <div className="features-align-left ">
         <div className="flex-container-50">
           <Card
@@ -145,9 +226,19 @@ export default function CustomerInfoCard({
                     <td>Installation Address</td>
                     <td>
                       <div>
-                        {customerData.thoroughfare_number}{' '}
-                        {customerData.thoroughfare_name}{' '}
-                        {customerData.post_town}
+                        {customerData.thoroughfare_number === 'null'
+                          ? ''
+                          : customerData.thoroughfare_number}{' '}
+                        {customerData.premises_name === 'null'
+                          ? ''
+                          : customerData.premises_name}{' '}
+                        {customerData.sub_premises === 'null'
+                          ? ''
+                          : customerData.sub_premises}{' '}
+                        {customerData.thoroughfare_name === 'null'
+                          ? ''
+                          : customerData.thoroughfare_name}{' '}
+                        {customerData.county}
                       </div>
                       <div style={styles.bottomRow}>
                         {customerData.postcode}
@@ -173,7 +264,6 @@ const styles = {
     color: colors.darkGrey,
   },
   btn: {
-    marginLeft: 'auto',
     padding: '5px',
   },
 };

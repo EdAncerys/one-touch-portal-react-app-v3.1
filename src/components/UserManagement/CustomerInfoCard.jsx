@@ -9,14 +9,13 @@ export default function CustomerInfoCard({
   findCustomer,
   setFindCustomer,
 }) {
-  let customerData = pageData.filter(
-    (customer) => customer._id === findCustomer
-  )[0].oneTouchCustomer;
-  console.log(customerData);
+  let data = pageData.filter((customer) => customer._id === findCustomer)[0]
+    .oneTouchCustomer;
+  console.log(data);
 
   return (
     <>
-      <div className="features">
+      <div className="features-align-right">
         <div style={styles.btn}>
           <Button
             onClick={() => setFindCustomer(false)}
@@ -43,27 +42,27 @@ export default function CustomerInfoCard({
                 <tbody>
                   <tr>
                     <td>Company Name</td>
-                    <td>{customerData.companyName}</td>
+                    <td>{data.companyName}</td>
                   </tr>
                   <tr>
                     <td>Product Type</td>
-                    <td>{customerData.productType}</td>
+                    <td>{data.productType}</td>
                   </tr>
                   <tr>
                     <td>Company Email</td>
-                    <td>{customerData.companyEmail}</td>
+                    <td>{data.companyEmail}</td>
                   </tr>
                   <tr>
                     <td>Company Phone Number</td>
-                    <td>{customerData.companyPhoneNumber}</td>
+                    <td>{data.companyPhoneNumber}</td>
                   </tr>
                   <tr>
                     <td>Account Manager</td>
-                    <td>{customerData.accountManager}</td>
+                    <td>{data.accountManager}</td>
                   </tr>
                   <tr>
                     <td>Company Registration</td>
-                    <td>{customerData.companyRegistration}</td>
+                    <td>{data.companyRegistration}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -86,23 +85,23 @@ export default function CustomerInfoCard({
                 <tbody>
                   <tr>
                     <td>First Name</td>
-                    <td>{customerData.customerFName}</td>
+                    <td>{data.customerFName}</td>
                   </tr>
                   <tr>
                     <td>Last Name</td>
-                    <td>{customerData.customerLName}</td>
+                    <td>{data.customerLName}</td>
                   </tr>
                   <tr>
                     <td>Customer Email</td>
-                    <td>{customerData.customerEmail}</td>
+                    <td>{data.customerEmail}</td>
                   </tr>
                   <tr>
                     <td>Customer Phone Number</td>
-                    <td>{customerData.customerPhoneNumber}</td>
+                    <td>{data.customerPhoneNumber}</td>
                   </tr>
                   <tr>
                     <td>Notes</td>
-                    <td>{customerData.customerNotes}</td>
+                    <td>{data.customerNotes}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -127,31 +126,37 @@ export default function CustomerInfoCard({
                 <tbody>
                   <tr>
                     <td>Contact Name</td>
-                    <td>{customerData.contactFName}</td>
+                    <td>{data.contactFName}</td>
                   </tr>
                   <tr>
                     <td>Contact Last Name</td>
-                    <td>{customerData.contactLName}</td>
+                    <td>{data.contactLName}</td>
                   </tr>
                   <tr>
                     <td>Contact Email</td>
-                    <td>{customerData.customerEmail}</td>
+                    <td>{data.customerEmail}</td>
                   </tr>
                   <tr>
                     <td>Contact Phone Number</td>
-                    <td>{customerData.customerPhoneNumber}</td>
+                    <td>{data.customerPhoneNumber}</td>
                   </tr>
                   <tr>
                     <td>Installation Address</td>
                     <td>
                       <div>
-                        {customerData.thoroughfare_number}{' '}
-                        {customerData.thoroughfare_name}{' '}
-                        {customerData.post_town}
+                        {data.thoroughfare_number === 'null'
+                          ? ''
+                          : data.thoroughfare_number}{' '}
+                        {data.premises_name === 'null'
+                          ? ''
+                          : data.premises_name}{' '}
+                        {data.sub_premises === 'null' ? '' : data.sub_premises}{' '}
+                        {data.thoroughfare_name === 'null'
+                          ? ''
+                          : data.thoroughfare_name}{' '}
+                        {data.county}
                       </div>
-                      <div style={styles.bottomRow}>
-                        {customerData.postcode}
-                      </div>
+                      <div style={styles.bottomRow}>{data.postcode}</div>
                     </td>
                   </tr>
                 </tbody>
@@ -173,7 +178,6 @@ const styles = {
     color: colors.darkGrey,
   },
   btn: {
-    marginLeft: 'auto',
     padding: '5px',
   },
 };

@@ -3,11 +3,7 @@ import { Card, Table } from 'react-bootstrap';
 
 import colors from '../../config/colors';
 
-export default function ContractOverviewCard({
-  pageData,
-  width,
-  setFilterContract,
-}) {
+export default function ContractOverviewCard({ pageData, setFilterContract }) {
   let totalContracts = pageData.length;
   let totalPendingContracts = 0;
   let sixMonthPlusContracts = 0;
@@ -41,7 +37,7 @@ export default function ContractOverviewCard({
   });
 
   return (
-    <div className={width}>
+    <div>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
         <Card.Header>
           <div>Contract Overview Information</div>
