@@ -27,7 +27,7 @@ export default function Login({ props }) {
 
     if (loginEmail === '' || loginPassword === '') {
       const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }

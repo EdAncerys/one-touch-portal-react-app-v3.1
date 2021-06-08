@@ -73,9 +73,10 @@ export default function App({ props }) {
         manageAppContext,
       }}
     >
+      {alert && <ErrorMsg color={alert.color} msg={alert.msg} />}
+
       <div className="oneTouchBodyContainer">
         <div className="oneTouchBodyWrapper Oswald">
-          {alert && <ErrorMsg color={alert.color} msg={alert.msg} />}
           {!accessToken && <AuthIndex />}
 
           {accessToken && (

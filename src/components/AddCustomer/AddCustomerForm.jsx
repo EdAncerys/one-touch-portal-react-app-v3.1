@@ -1,9 +1,48 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 export default function AddCustomerForm({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  const [formCompleted, setFormCompleted] = useState(false);
+
+  async function addCustomer() {
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/mongoDB';
+
+    if (!formCompleted) {
+      const msg = `Please fill in all required fields`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+
+    try {
+      const body = {
+        oneTouchPath: 'addCustomerToDB',
+        access_token,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        manageAppContext.setPageData(false);
+        console.log(data);
+        return;
+      }
+
+      manageAppContext.setPageData(data.contracts);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <Form className="form-container">
@@ -137,7 +176,7 @@ export default function AddCustomerForm({ props }) {
 
       <div className="divider"></div>
       <Button
-        onClick={() => manageAppContext.setPage('login')}
+        onClick={() => addCustomer()}
         variant="primary"
         size="lg"
         className="btn-one-touch shadow-none"
