@@ -27,12 +27,12 @@ export default function NavBar({ props }) {
             </Nav.Link>
             <NavDropdown title="Customers">
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('address-book')}
+                onClick={() => manageAppContext.setPage('user-management')}
               >
                 Address Book
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('manage-contracts')}
+                onClick={() => manageAppContext.setPage('live-connections')}
               >
                 Manage Contracts
               </NavDropdown.Item>

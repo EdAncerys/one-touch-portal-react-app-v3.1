@@ -9,7 +9,6 @@ body {
   padding: 0;
   margin: 0;
   user-select: none;
-  color: #393b3c; /* Body Main Text Color */
 }
 .oneTouchBodyContainer {
   display: flex;
