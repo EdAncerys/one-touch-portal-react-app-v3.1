@@ -1,13 +1,9 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
+import React from 'react';
 import { Card, Table } from 'react-bootstrap';
 
 import colors from '../../config/colors';
 
-export default function ContractOverviewCard({ setFilterContract }) {
-  const { manageAppContext } = useContext(AppContext);
-
-  const pageData = manageAppContext.pageData;
+export default function OrderOverviewCard({ pageData, setFilterContract }) {
   let totalContracts = pageData.length;
   let totalPendingContracts = 0;
   let sixMonthPlusContracts = 0;
@@ -68,28 +64,12 @@ export default function ContractOverviewCard({ setFilterContract }) {
                 <td>{totalPendingContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('moreThenSixMonth')}
+                onClick={() => setFilterContract('live')}
                 className="cursor-on"
                 style={{ background: colors.bgGO }}
               >
-                <td>Contracts EXD {'>'} 6 month</td>
+                <td>Live Contracts</td>
                 <td>{sixMonthPlusContracts}</td>
-              </tr>
-              <tr
-                onClick={() => setFilterContract('lessThenSixMonth')}
-                className="cursor-on"
-                style={{ background: colors.bgSET }}
-              >
-                <td>Contracts EXD {'<'} 6 month</td>
-                <td>{sixMonthLessContracts}</td>
-              </tr>
-              <tr
-                onClick={() => setFilterContract('expired')}
-                className="cursor-on"
-                style={{ background: colors.bgSTOP }}
-              >
-                <td>Expired Contracts</td>
-                <td>{expiredContracts}</td>
               </tr>
             </tbody>
           </Table>

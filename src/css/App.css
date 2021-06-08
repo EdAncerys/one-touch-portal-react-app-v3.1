@@ -28,6 +28,9 @@ body {
 .hidden {
   display: none;
 }
+.content-container {
+  width: 1000px;
+}
 .features,
 .features-flex-wrap,
 .features-align-left,
@@ -92,6 +95,9 @@ body {
 @media only screen and (max-width: 1000px) {
   .features {
     flex-direction: column;
+  }
+  .content-container {
+    width: 100vw;
   }
   .NDG-banner {
     display: none;

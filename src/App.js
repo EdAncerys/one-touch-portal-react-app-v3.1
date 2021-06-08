@@ -11,6 +11,7 @@ import MyAccount from './components/MyAccount/MyAccount';
 import RaiseTicket from './components/RaiseTicket/RaiseTicket';
 import UserManagement from './components/UserManagement/UserManagement';
 import LiveConnections from './components/LiveConnections/LiveConnections';
+import BroadbandOrders from './components/BroadbandOrders/BroadbandOrders';
 import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
@@ -86,6 +87,7 @@ export default function App({ props }) {
               {page === 'rase-ticket' && <RaiseTicket />}
               {page === 'user-management' && <UserManagement />}
               {page === 'live-connections' && <LiveConnections />}
+              {page === 'broadband-orders' && <BroadbandOrders />}
             </div>
           )}
         </div>

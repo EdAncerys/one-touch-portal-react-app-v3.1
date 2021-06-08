@@ -3,6 +3,7 @@ import React from 'react';
 import NDGBanner from '../NDGBanner';
 import ContractCard from './ContractCard';
 import ContractOverviewCard from './ContractOverviewCard';
+import OrderOverviewCard from '../BroadbandOrders/OrderOverviewCard';
 
 export default function LiveContractComponent({
   pageData,
@@ -17,6 +18,7 @@ export default function LiveContractComponent({
           pageData={pageData}
           setFilterContract={setFilterContract}
         />
+
         <NDGBanner width="flex-container-30" />
       </div>
 

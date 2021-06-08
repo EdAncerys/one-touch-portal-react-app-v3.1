@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
-import LiveContractComponent from './LiveContractComponent';
-import ContractInfoCard from './ContractInfoCard';
+import LiveContractComponent from '../LiveConnections/LiveContractComponent';
+import ContractInfoCard from '../LiveConnections/ContractInfoCard';
 
-export default function LiveConnections({ props }) {
+export default function BroadbandOrders({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [findContract, setFindContract] = useState(false);
   const [filterContract, setFilterContract] = useState(false);
 
   const pageData = manageAppContext.pageData;
+  const page = manageAppContext.page;
 
   console.log(findContract);
 
@@ -53,13 +54,16 @@ export default function LiveConnections({ props }) {
     <>
       {pageData && !findContract && (
         <LiveContractComponent
+          pageData={pageData}
           setFindContract={setFindContract}
           filterContract={filterContract}
           setFilterContract={setFilterContract}
+          page={page}
         />
       )}
       {findContract && (
         <ContractInfoCard
+          pageData={pageData}
           findContract={findContract}
           setFindContract={setFindContract}
         />

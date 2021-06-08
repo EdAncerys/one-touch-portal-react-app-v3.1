@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
 import { Card, Table, Button } from 'react-bootstrap';
 
 import NDGBanner from '../NDGBanner';
 import colors from '../../config/colors';
 
-export default function CustomerInfoCard({
-  pageData,
-  findContract,
-  setFindContract,
-}) {
+export default function CustomerInfoCard({ findContract, setFindContract }) {
+  const { manageAppContext } = useContext(AppContext);
+  const pageData = manageAppContext.pageData;
+
   let data = pageData.filter((customer) => customer._id === findContract)[0];
   console.log(data);
 
