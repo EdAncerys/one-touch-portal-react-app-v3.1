@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
+import { validateEmail } from './validateEmail';
+
 export default function CreateNewAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
 
@@ -27,23 +29,32 @@ export default function CreateNewAccount({ props }) {
       '#signUpConfirmPassword'
     ).value;
     const URL = '/.netlify/functions/mongoDB';
-
-    if (
-      fName === '' ||
-      lName === '' ||
-      email === '' ||
-      password === '' ||
-      signUpConfirmPassword === ''
-    ) {
+    if (!fName || !lName || !email || !password || !signUpConfirmPassword) {
       const msg = `Please fill in all required fields!`;
       manageAppContext.setAlert({ msg });
       console.log(msg);
       return;
     }
+    console.log(password.length);
+    if (password.length < 6) {
+      const msg = `Passwords must be at least 6 characters long`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+    if (password !== signUpConfirmPassword) {
+      const msg = `Provided passwords do not match`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+    if (!validateEmail(email)) {
+      const msg = `Provided email not valid`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
 
     try {
       const body = {
-        oneTouchPath: 'oneTouchSignUp',
+        // oneTouchPath: 'oneTouchSignUp',
         fName,
         lName,
         email,

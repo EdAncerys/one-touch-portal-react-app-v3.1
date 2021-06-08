@@ -25,7 +25,7 @@ export default function Login({ props }) {
     const loginPassword = document.querySelector('#loginPassword').value;
     const URL = '/.netlify/functions/mongoDB';
 
-    if (loginEmail === '' || loginPassword === '') {
+    if (!loginEmail || !loginPassword) {
       const msg = `Please fill in all required fields!`;
       manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);

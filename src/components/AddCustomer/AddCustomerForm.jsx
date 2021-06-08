@@ -2,9 +2,12 @@ import React, { useState, useContext } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
+import { validatePostcode } from './validatePostcode';
+
 export default function AddCustomerForm({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [formCompleted, setFormCompleted] = useState(false);
+  const [selectAddress, setSelectAddress] = useState(false);
 
   async function addCustomer() {
     const access_token = manageAppContext.accessToken.access_token;
@@ -20,6 +23,48 @@ export default function AddCustomerForm({ props }) {
       const body = {
         oneTouchPath: 'addCustomerToDB',
         access_token,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        manageAppContext.setPageData(false);
+        console.log(data);
+        return;
+      }
+
+      manageAppContext.setPageData(data.contracts);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function fetchAddress() {
+    const URL = '/.netlify/functions/mongoDB';
+    const postcode = document.querySelector('#postcode').value;
+
+    if (!postcode) {
+      const msg = `Please fill in the postcode`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+    if (!validatePostcode(postcode)) {
+      const msg = `Provided postcode not valid`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+
+    try {
+      const body = {
+        oneTouchPath: 'fetchAddress',
       };
       console.log(body);
 
@@ -156,12 +201,22 @@ export default function AddCustomerForm({ props }) {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label>Confirm Password</Form.Label>
-        <Form.Control
-          id="signUpConfirmPassword"
-          type="password"
-          placeholder="Password"
-        />
+        <Row>
+          <Col>
+            <Form.Label>Postcode</Form.Label>
+            <Form.Control id="postcode" type="text" placeholder="Postcode" />
+          </Col>
+          <Col style={styles.btn}>
+            <Button
+              onClick={() => fetchAddress()}
+              variant="primary"
+              size="lg"
+              className="btn-one-touch shadow-none"
+            >
+              Search Address
+            </Button>
+          </Col>
+        </Row>
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -192,5 +247,10 @@ const styles = {
     display: 'grid',
     justifyContent: 'center',
     fontSize: '20px',
+  },
+  btn: {
+    textAlign: 'center',
+    margin: 'auto',
+    padding: '10px',
   },
 };
