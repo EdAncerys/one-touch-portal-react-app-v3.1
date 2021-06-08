@@ -1,30 +1,18 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
+import React from 'react';
 
 import NDGBanner from '../NDGBanner';
 import ContractCard from './ContractCard';
 import ContractOverviewCard from './ContractOverviewCard';
-import OrderOverviewCard from '../BroadbandOrders/OrderOverviewCard';
 
 export default function LiveContractComponent({
   setFindContract,
   filterContract,
   setFilterContract,
 }) {
-  const { manageAppContext } = useContext(AppContext);
-
-  const page = manageAppContext.page;
-
   return (
     <div className="features">
       <div className="flex-container-30">
-        {page === 'live-connections' && (
-          <ContractOverviewCard setFilterContract={setFilterContract} />
-        )}
-        {page === 'broadband-orders' && (
-          <OrderOverviewCard setFilterContract={setFilterContract} />
-        )}
-
+        <ContractOverviewCard setFilterContract={setFilterContract} />
         <NDGBanner width="flex-container-30" />
       </div>
 

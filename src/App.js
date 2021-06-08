@@ -39,15 +39,15 @@ export default function App({ props }) {
   );
 
   useEffect(() => {
+    setPageData(false);
+  }, [page]);
+
+  useEffect(() => {
     const data = sessionStorage.getItem(SESSION_STORAGE_KEY);
     const userSession = JSON.parse(data);
     if (userSession) setAccessToken(userSession.accessToken);
     if (userSession) setPage(userSession.page);
   }, []);
-
-  useEffect(() => {
-    setPageData(false);
-  }, [page]);
 
   useEffect(() => {
     sessionStorage.setItem(

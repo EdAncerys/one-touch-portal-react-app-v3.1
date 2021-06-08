@@ -10,12 +10,13 @@ export default function LiveConnections({ props }) {
   const [filterContract, setFilterContract] = useState(false);
 
   const pageData = manageAppContext.pageData;
+  const page = manageAppContext.page;
 
   console.log(findContract);
 
   useEffect(() => {
-    if (!pageData) liveConnections();
-  }, []);
+    liveConnections();
+  }, [page]);
 
   async function liveConnections() {
     const access_token = manageAppContext.accessToken.access_token;

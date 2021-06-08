@@ -13,6 +13,7 @@ export default function ContractOverviewCard({ setFilterContract }) {
   let sixMonthPlusContracts = 0;
   let sixMonthLessContracts = 0;
   let expiredContracts = 0;
+  let liveContracts = 0;
 
   pageData.map((contract) => {
     const contractStartDay = contract.oneTouchBroadband.contractStartDay;
@@ -22,6 +23,7 @@ export default function ContractOverviewCard({ setFilterContract }) {
     const today = new Date();
     if (contractStartDay)
       contractEndDay = new Date(contract.oneTouchBroadband.contractEndDay);
+
     const sixMonthsFromNow = new Date();
     sixMonthsFromNow.setMonth(today.getMonth() + 7);
 
@@ -34,12 +36,13 @@ export default function ContractOverviewCard({ setFilterContract }) {
     if (contractEndDay > sixMonthsFromNow) {
       sixMonthPlusContracts += 1;
     }
-
     if (!contractStartDay) {
       totalPendingContracts += 1;
     }
+    if (contractStartDay && contractEndDay > today) {
+      liveContracts += 1;
+    }
   });
-
   return (
     <div>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
@@ -58,6 +61,13 @@ export default function ContractOverviewCard({ setFilterContract }) {
               >
                 <td>Total Contracts</td>
                 <td>{totalContracts}</td>
+              </tr>
+              <tr
+                onClick={() => setFilterContract('live-contracts')}
+                className="cursor-on"
+              >
+                <td>Live Contracts</td>
+                <td>{liveContracts}</td>
               </tr>
               <tr
                 onClick={() => setFilterContract('pending')}
