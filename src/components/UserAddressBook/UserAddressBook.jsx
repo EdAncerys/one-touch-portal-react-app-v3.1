@@ -1,30 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
-import LiveContractComponent from './LiveContractComponent';
-import ContractInfoCard from './ContractInfoCard';
+import CustomerListComponent from '../UserManagement/CustomerListComponent';
+import CustomerInfoCard from '../UserManagement/CustomerInfoCard';
 
-export default function LiveConnections({ props }) {
+export default function UserAddressBook({ props }) {
   const { manageAppContext } = useContext(AppContext);
-  const [findContract, setFindContract] = useState(false);
-  const [filterContract, setFilterContract] = useState(false);
+  const [findCustomer, setFindCustomer] = useState(false);
 
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
 
-  console.log(findContract);
-
   useEffect(() => {
-    liveConnections();
+    userManagement();
   }, [page]);
 
-  async function liveConnections() {
+  async function userManagement() {
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/mongoDB';
 
     try {
       const body = {
-        oneTouchPath: 'liveConnections',
+        oneTouchPath: 'userManagement',
+        role: 'admin',
         access_token,
       };
       console.log(body);
@@ -43,7 +41,7 @@ export default function LiveConnections({ props }) {
         return;
       }
 
-      manageAppContext.setPageData(data.contracts);
+      manageAppContext.setPageData(data.customerList);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -52,17 +50,13 @@ export default function LiveConnections({ props }) {
 
   return (
     <>
-      {pageData && !findContract && (
-        <LiveContractComponent
-          setFindContract={setFindContract}
-          filterContract={filterContract}
-          setFilterContract={setFilterContract}
-        />
+      {pageData && !findCustomer && (
+        <CustomerListComponent setFindCustomer={setFindCustomer} />
       )}
-      {findContract && (
-        <ContractInfoCard
-          findContract={findContract}
-          setFindContract={setFindContract}
+      {findCustomer && (
+        <CustomerInfoCard
+          findCustomer={findCustomer}
+          setFindCustomer={setFindCustomer}
         />
       )}
     </>

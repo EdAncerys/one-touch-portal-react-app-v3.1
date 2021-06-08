@@ -12,6 +12,7 @@ import RaiseTicket from './components/RaiseTicket/RaiseTicket';
 import UserManagement from './components/UserManagement/UserManagement';
 import LiveConnections from './components/LiveConnections/LiveConnections';
 import BroadbandOrders from './components/BroadbandOrders/BroadbandOrders';
+import UserAddressBook from './components/UserAddressBook/UserAddressBook';
 import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
@@ -88,6 +89,7 @@ export default function App({ props }) {
               {page === 'user-management' && <UserManagement />}
               {page === 'live-connections' && <LiveConnections />}
               {page === 'broadband-orders' && <BroadbandOrders />}
+              {page === 'user-address-book' && <UserAddressBook />}
             </div>
           )}
         </div>

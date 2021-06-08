@@ -250,13 +250,18 @@ const myAccount = async (db, data) => {
 const userManagement = async (db, data) => {
   const userAccount = {
     access_token: data.access_token,
+    role: data.role,
   };
 
   try {
     const oneTouchUser = await authUser(userAccount.access_token);
+    const admin = userAccount.role;
+    let findByID = { 'oneTouchSuperUser.id': oneTouchUser._id };
+    if (admin) findByID = {};
+
     const customerList = await db
       .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
-      .find({ 'oneTouchSuperUser.id': oneTouchUser._id })
+      .find(findByID)
       .toArray();
     console.log('DB customerList:', customerList);
 

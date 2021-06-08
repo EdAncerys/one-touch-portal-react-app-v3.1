@@ -9,10 +9,11 @@ export default function UserManagement({ props }) {
   const [findCustomer, setFindCustomer] = useState(false);
 
   const pageData = manageAppContext.pageData;
+  const page = manageAppContext.page;
 
   useEffect(() => {
-    if (!pageData) userManagement();
-  }, []);
+    userManagement();
+  }, [page]);
 
   async function userManagement() {
     const access_token = manageAppContext.accessToken.access_token;
@@ -33,7 +34,7 @@ export default function UserManagement({ props }) {
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ msg: data.msg });
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
         console.log(data);
         return;
@@ -49,9 +50,7 @@ export default function UserManagement({ props }) {
   return (
     <>
       {pageData && !findCustomer && (
-        <CustomerListComponent
-          setFindCustomer={setFindCustomer}
-        />
+        <CustomerListComponent setFindCustomer={setFindCustomer} />
       )}
       {findCustomer && (
         <CustomerInfoCard
