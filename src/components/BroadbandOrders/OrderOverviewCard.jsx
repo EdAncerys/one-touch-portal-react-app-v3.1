@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
 import { Card, Table } from 'react-bootstrap';
 
 import colors from '../../config/colors';
 
-export default function OrderOverviewCard({ pageData, setFilterContract }) {
+export default function OrderOverviewCard({ setFilterContract }) {
+  const { manageAppContext } = useContext(AppContext);
+
+  const pageData = manageAppContext.pageData;
   let totalContracts = pageData.length;
   let totalPendingContracts = 0;
   let sixMonthPlusContracts = 0;
   let sixMonthLessContracts = 0;
   let expiredContracts = 0;
+  let liveContracts = 0;
 
   pageData.map((contract) => {
     const contractStartDay = contract.oneTouchBroadband.contractStartDay;
@@ -18,6 +23,7 @@ export default function OrderOverviewCard({ pageData, setFilterContract }) {
     const today = new Date();
     if (contractStartDay)
       contractEndDay = new Date(contract.oneTouchBroadband.contractEndDay);
+
     const sixMonthsFromNow = new Date();
     sixMonthsFromNow.setMonth(today.getMonth() + 7);
 
@@ -30,9 +36,11 @@ export default function OrderOverviewCard({ pageData, setFilterContract }) {
     if (contractEndDay > sixMonthsFromNow) {
       sixMonthPlusContracts += 1;
     }
-
     if (!contractStartDay) {
       totalPendingContracts += 1;
+    }
+    if (contractStartDay && contractEndDay > today) {
+      liveContracts += 1;
     }
   });
 
@@ -56,6 +64,13 @@ export default function OrderOverviewCard({ pageData, setFilterContract }) {
                 <td>{totalContracts}</td>
               </tr>
               <tr
+                onClick={() => setFilterContract('live-contracts')}
+                className="cursor-on"
+              >
+                <td>Live Contracts</td>
+                <td>{liveContracts}</td>
+              </tr>
+              <tr
                 onClick={() => setFilterContract('pending')}
                 className="cursor-on"
                 style={{ background: colors.bgPENDING }}
@@ -64,12 +79,28 @@ export default function OrderOverviewCard({ pageData, setFilterContract }) {
                 <td>{totalPendingContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('live')}
+                onClick={() => setFilterContract('moreThenSixMonth')}
                 className="cursor-on"
                 style={{ background: colors.bgGO }}
               >
-                <td>Live Contracts</td>
+                <td>Contracts EXD {'>'} 6 month</td>
                 <td>{sixMonthPlusContracts}</td>
+              </tr>
+              <tr
+                onClick={() => setFilterContract('lessThenSixMonth')}
+                className="cursor-on"
+                style={{ background: colors.bgSET }}
+              >
+                <td>Contracts EXD {'<'} 6 month</td>
+                <td>{sixMonthLessContracts}</td>
+              </tr>
+              <tr
+                onClick={() => setFilterContract('expired')}
+                className="cursor-on"
+                style={{ background: colors.bgSTOP }}
+              >
+                <td>Expired Contracts</td>
+                <td>{expiredContracts}</td>
               </tr>
             </tbody>
           </Table>

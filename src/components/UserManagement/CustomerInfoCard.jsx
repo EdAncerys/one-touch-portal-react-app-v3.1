@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
 import { Card, Table, Button } from 'react-bootstrap';
 
 import NDGBanner from '../NDGBanner';
 import colors from '../../config/colors';
 
-export default function CustomerInfoCard({
-  pageData,
-  findCustomer,
-  setFindCustomer,
-}) {
+export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
+  const { manageAppContext } = useContext(AppContext);
+
+  const pageData = manageAppContext.pageData;
   let data = pageData.filter((customer) => customer._id === findCustomer)[0]
     .oneTouchCustomer;
   console.log(data);

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
 import { Card, Table } from 'react-bootstrap';
 
 import NDGBanner from '../NDGBanner';
 import CustomerCard from './CustomerCard';
 
-export default function CustomerListComponent({ pageData, setFindCustomer }) {
+export default function CustomerListComponent({ setFindCustomer }) {
+  const { manageAppContext } = useContext(AppContext);
+
+  const pageData = manageAppContext.pageData;
   let totalCustomers = pageData.length;
 
   return (
@@ -30,7 +34,7 @@ export default function CustomerListComponent({ pageData, setFindCustomer }) {
       </div>
 
       <div className="flex-container-70">
-        <CustomerCard pageData={pageData} setFindCustomer={setFindCustomer} />
+        <CustomerCard setFindCustomer={setFindCustomer} />
       </div>
     </div>
   );

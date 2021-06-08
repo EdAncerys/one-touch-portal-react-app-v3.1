@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
 import { Card, Table, Button } from 'react-bootstrap';
 
 import colors from '../../config/colors';
 
-export default function CustomerCard({ pageData, setFindCustomer }) {
+export default function CustomerCard({ setFindCustomer }) {
+  const { manageAppContext } = useContext(AppContext);
+
+  const pageData = manageAppContext.pageData;
+
   return (
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">

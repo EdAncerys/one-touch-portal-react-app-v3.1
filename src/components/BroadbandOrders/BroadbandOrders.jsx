@@ -54,16 +54,13 @@ export default function BroadbandOrders({ props }) {
     <>
       {pageData && !findContract && (
         <LiveContractComponent
-          pageData={pageData}
           setFindContract={setFindContract}
           filterContract={filterContract}
           setFilterContract={setFilterContract}
-          page={page}
         />
       )}
       {findContract && (
         <ContractInfoCard
-          pageData={pageData}
           findContract={findContract}
           setFindContract={setFindContract}
         />

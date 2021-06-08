@@ -50,13 +50,11 @@ export default function UserManagement({ props }) {
     <>
       {pageData && !findCustomer && (
         <CustomerListComponent
-          pageData={pageData}
           setFindCustomer={setFindCustomer}
         />
       )}
       {findCustomer && (
         <CustomerInfoCard
-          pageData={pageData}
           findCustomer={findCustomer}
           setFindCustomer={setFindCustomer}
         />
