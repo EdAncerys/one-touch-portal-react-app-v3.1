@@ -287,14 +287,22 @@ const userManagement = async (db, data) => {
 const liveConnections = async (db, data) => {
   const userAccount = {
     access_token: data.access_token,
+    role: data.role,
   };
 
   try {
     const oneTouchUser = await authUser(userAccount.access_token);
-    const liveConnections = await db
+    const admin = userAccount.role;
+
+    let liveConnections = await db
       .collection(COLLECTION_ONE_TOUCH_BROADBAND)
       .find({ 'oneTouchSuperUser.id': oneTouchUser._id })
       .toArray();
+    if (admin)
+      liveConnections = await db
+        .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+        .find({})
+        .toArray();
     console.log('DB liveConnections:', liveConnections);
 
     if (!liveConnections.length) {

@@ -10,7 +10,6 @@ export default function BroadbandOrders({ props }) {
   const [filterContract, setFilterContract] = useState(false);
 
   const pageData = manageAppContext.pageData;
-  const page = manageAppContext.page;
 
   console.log(findContract);
 
@@ -25,6 +24,7 @@ export default function BroadbandOrders({ props }) {
     try {
       const body = {
         oneTouchPath: 'liveConnections',
+        role: 'admin',
         access_token,
       };
       console.log(body);
@@ -37,7 +37,7 @@ export default function BroadbandOrders({ props }) {
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ msg: data.msg });
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
         console.log(data);
         return;
