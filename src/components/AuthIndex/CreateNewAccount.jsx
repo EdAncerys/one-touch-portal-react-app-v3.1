@@ -54,7 +54,7 @@ export default function CreateNewAccount({ props }) {
 
     try {
       const body = {
-        // oneTouchPath: 'oneTouchSignUp',
+        oneTouchPath: 'oneTouchSignUp',
         fName,
         lName,
         email,

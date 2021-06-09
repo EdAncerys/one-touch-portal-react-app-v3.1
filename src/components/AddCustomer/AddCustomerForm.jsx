@@ -48,11 +48,13 @@ export default function AddCustomerForm({ props }) {
   }
 
   async function fetchAddress() {
-    const URL = '/.netlify/functions/mongoDB';
-    const postcode = document.querySelector('#postcode').value;
+    const URL = '/.netlify/functions/icUK';
+    const postcode = document
+      .querySelector('#postcode')
+      .value.replace(/\s/g, '');
 
     if (!postcode) {
-      const msg = `Please fill in the postcode`;
+      const msg = `Postcode not provided`;
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
@@ -61,29 +63,29 @@ export default function AddCustomerForm({ props }) {
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
+    const body = {
+      oneTouchPath: 'fetchAddress',
+      postcode,
+    };
+    console.log(body);
+    const config = {
+      method: 'POST',
+      body: JSON.stringify(body),
+    };
 
     try {
-      const body = {
-        oneTouchPath: 'fetchAddress',
-      };
-      console.log(body);
-
-      const config = {
-        method: 'POST',
-        body: JSON.stringify(body),
-      };
       const response = await fetch(URL, config);
       const data = await response.json();
+      console.log(response);
+      console.log(data);
 
       if (!response.ok) {
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
-        console.log(data);
         return;
       }
 
-      manageAppContext.setPageData(data.contracts);
-      console.log(data);
+      manageAppContext.setPageData(data);
     } catch (err) {
       console.log(err);
     }
