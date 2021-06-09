@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AppContext } from "../../App";
+import { Card, Table, Button } from "react-bootstrap";
 
-import NDGBanner from '../NDGBanner';
-import colors from '../../config/colors';
+import NDGBanner from "../NDGBanner";
+import { colors } from "../../config/colors";
 
 export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
   const { manageAppContext } = useContext(AppContext);
@@ -31,7 +31,7 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -74,7 +74,7 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -115,7 +115,7 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -144,16 +144,16 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
                     <td>Installation Address</td>
                     <td>
                       <div>
-                        {data.thoroughfare_number === 'null'
-                          ? ''
-                          : data.thoroughfare_number}{' '}
-                        {data.premises_name === 'null'
-                          ? ''
-                          : data.premises_name}{' '}
-                        {data.sub_premises === 'null' ? '' : data.sub_premises}{' '}
-                        {data.thoroughfare_name === 'null'
-                          ? ''
-                          : data.thoroughfare_name}{' '}
+                        {data.thoroughfare_number === "null"
+                          ? ""
+                          : data.thoroughfare_number}{" "}
+                        {data.premises_name === "null"
+                          ? ""
+                          : data.premises_name}{" "}
+                        {data.sub_premises === "null" ? "" : data.sub_premises}{" "}
+                        {data.thoroughfare_name === "null"
+                          ? ""
+                          : data.thoroughfare_name}{" "}
                         {data.county}
                       </div>
                       <div style={styles.bottomRow}>{data.postcode}</div>
@@ -174,10 +174,10 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
 
 const styles = {
   bottomRow: {
-    fontSize: '12px',
+    fontSize: "12px",
     color: colors.darkGrey,
   },
   btn: {
-    padding: '5px',
+    padding: "5px",
   },
 };

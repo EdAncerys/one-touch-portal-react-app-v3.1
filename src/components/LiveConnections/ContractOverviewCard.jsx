@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
-import { Card, Table } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AppContext } from "../../App";
+import { Card, Table } from "react-bootstrap";
 
-import colors from '../../config/colors';
+import {colors} from "../../config/colors";
 
 export default function ContractOverviewCard({ setFilterContract }) {
   const { manageAppContext } = useContext(AppContext);
@@ -42,10 +42,12 @@ export default function ContractOverviewCard({ setFilterContract }) {
     if (contractStartDay && contractEndDay > today) {
       liveContracts += 1;
     }
+
+    return pageData;
   });
   return (
     <div>
-      <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
+      <Card bg="Light" text="dark" style={{ width: "100%" }} className="mb-2">
         <Card.Header>
           <div>Contract Overview Information</div>
           <div style={styles.bottomRow}>
@@ -63,14 +65,14 @@ export default function ContractOverviewCard({ setFilterContract }) {
                 <td>{totalContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('live-contracts')}
+                onClick={() => setFilterContract("live-contracts")}
                 className="cursor-on"
               >
                 <td>Live Contracts</td>
                 <td>{liveContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('pending')}
+                onClick={() => setFilterContract("pending")}
                 className="cursor-on"
                 style={{ background: colors.bgPENDING }}
               >
@@ -78,23 +80,23 @@ export default function ContractOverviewCard({ setFilterContract }) {
                 <td>{totalPendingContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('moreThenSixMonth')}
+                onClick={() => setFilterContract("moreThenSixMonth")}
                 className="cursor-on"
                 style={{ background: colors.bgGO }}
               >
-                <td>Contracts EXD {'>'} 6 month</td>
+                <td>Contracts EXD {">"} 6 month</td>
                 <td>{sixMonthPlusContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('lessThenSixMonth')}
+                onClick={() => setFilterContract("lessThenSixMonth")}
                 className="cursor-on"
                 style={{ background: colors.bgSET }}
               >
-                <td>Contracts EXD {'<'} 6 month</td>
+                <td>Contracts EXD {"<"} 6 month</td>
                 <td>{sixMonthLessContracts}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('expired')}
+                onClick={() => setFilterContract("expired")}
                 className="cursor-on"
                 style={{ background: colors.bgSTOP }}
               >
@@ -111,7 +113,7 @@ export default function ContractOverviewCard({ setFilterContract }) {
 
 const styles = {
   bottomRow: {
-    fontSize: '12px',
+    fontSize: "12px",
     color: colors.darkGrey,
   },
 };

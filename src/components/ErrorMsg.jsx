@@ -29,9 +29,7 @@ export default function ErrorMsg({ color, msg }) {
 
 const styles = {
   container: {
-    position: '-webkit-sticky',
     position: 'sticky',
-    top: '150px',
     height: 0,
     overflow: 'visible',
     marginLeft: 'auto',

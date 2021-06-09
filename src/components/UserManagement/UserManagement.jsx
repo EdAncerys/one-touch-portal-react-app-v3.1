@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AppContext } from '../../App';
+import React, { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../App";
 
-import CustomerListComponent from './CustomerListComponent';
-import CustomerInfoCard from './CustomerInfoCard';
+import CustomerListComponent from "./CustomerListComponent";
+import CustomerInfoCard from "./CustomerInfoCard";
 
 export default function UserManagement({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -13,28 +13,28 @@ export default function UserManagement({ props }) {
 
   useEffect(() => {
     userManagement();
-  }, [page]);
+  }, [page]); // eslint-disable-line
 
   async function userManagement() {
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
     try {
       const body = {
-        oneTouchPath: 'userManagement',
+        oneTouchPath: "userManagement",
         access_token,
       };
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         manageAppContext.setPageData(false);
         console.log(data);
         return;

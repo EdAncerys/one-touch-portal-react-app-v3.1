@@ -8,7 +8,6 @@ import AddressPicker from './AddressPicker';
 export default function AddCustomerForm({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [formCompleted, setFormCompleted] = useState(false);
-  const [selectAddress, setSelectAddress] = useState(false);
 
   async function addCustomer() {
     const access_token = manageAppContext.accessToken.access_token;
@@ -43,50 +42,6 @@ export default function AddCustomerForm({ props }) {
 
       manageAppContext.setPageData(data.contracts);
       console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function fetchAddress() {
-    const URL = '/.netlify/functions/icUK';
-    const postcode = document
-      .querySelector('#postcode')
-      .value.replace(/\s/g, '');
-
-    if (!postcode) {
-      const msg = `Postcode not provided`;
-      manageAppContext.setAlert({ color: 'warning', msg });
-      return;
-    }
-    if (!validatePostcode(postcode)) {
-      const msg = `Provided postcode not valid`;
-      manageAppContext.setAlert({ color: 'warning', msg });
-      return;
-    }
-    const body = {
-      oneTouchPath: 'fetchAddress',
-      postcode,
-    };
-    console.log(body);
-    const config = {
-      method: 'POST',
-      body: JSON.stringify(body),
-    };
-
-    try {
-      const response = await fetch(URL, config);
-      const data = await response.json();
-      console.log(data);
-
-      if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-        manageAppContext.setPageData(false);
-        return;
-      }
-
-      manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-      manageAppContext.setPageData(data.data.addresses);
     } catch (err) {
       console.log(err);
     }

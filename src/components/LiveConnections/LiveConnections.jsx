@@ -16,7 +16,7 @@ export default function LiveConnections({ props }) {
 
   useEffect(() => {
     liveConnections();
-  }, [page]);
+  }, [page]); // eslint-disable-line
 
   async function liveConnections() {
     const access_token = manageAppContext.accessToken.access_token;

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AppContext } from "../../App";
+import { Card, Table, Button } from "react-bootstrap";
 
-import colors from '../../config/colors';
+import { colors } from "../../config/colors";
 
 export default function CustomerCard({ setFindCustomer }) {
   const { manageAppContext } = useContext(AppContext);
@@ -11,7 +11,7 @@ export default function CustomerCard({ setFindCustomer }) {
 
   return (
     <div style={styles.container}>
-      <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
+      <Card bg="Light" text="dark" style={{ width: "100%" }} className="mb-2">
         <Card.Header>
           <div>{pageData.email} Customer List</div>
         </Card.Header>
@@ -28,8 +28,8 @@ export default function CustomerCard({ setFindCustomer }) {
             <tbody>
               {pageData.map((customer, index) => (
                 <tr key={customer._id.toString()}>
-                  <td key={customer._id.toString() + 'a'}>{index + 1}</td>
-                  <td key={customer._id.toString() + 'b'}>
+                  <td key={customer._id.toString() + "a"}>{index + 1}</td>
+                  <td key={customer._id.toString() + "b"}>
                     <div key={index + 1}>
                       {customer.oneTouchCustomer.companyName}
                     </div>
@@ -37,19 +37,19 @@ export default function CustomerCard({ setFindCustomer }) {
                       {customer.oneTouchCustomer.contactName}
                     </div>
                   </td>
-                  <td key={customer._id.toString() + 'c'}>
+                  <td key={customer._id.toString() + "c"}>
                     <div key={index + 1}>
-                      {customer.oneTouchCustomer.thoroughfare_number}{' '}
-                      {customer.oneTouchCustomer.premises_name}{' '}
-                      {customer.oneTouchCustomer.sub_premises}{' '}
-                      {customer.oneTouchCustomer.thoroughfare_name}{' '}
+                      {customer.oneTouchCustomer.thoroughfare_number}{" "}
+                      {customer.oneTouchCustomer.premises_name}{" "}
+                      {customer.oneTouchCustomer.sub_premises}{" "}
+                      {customer.oneTouchCustomer.thoroughfare_name}{" "}
                       {customer.oneTouchCustomer.county}
                     </div>
                     <div key={index + 2} style={styles.bottomRow}>
                       {customer.oneTouchCustomer.postcode}
                     </div>
                   </td>
-                  <td key={customer._id.toString() + 'd'} style={styles.btn}>
+                  <td key={customer._id.toString() + "d"} style={styles.btn}>
                     <Button
                       onClick={() => setFindCustomer(customer._id)}
                       id={customer._id}
@@ -71,12 +71,12 @@ export default function CustomerCard({ setFindCustomer }) {
 
 const styles = {
   bottomRow: {
-    fontSize: '12px',
+    fontSize: "12px",
     color: colors.darkGrey,
   },
   btn: {
-    textAlign: 'center',
-    margin: 'auto',
-    padding: '10px',
+    textAlign: "center",
+    margin: "auto",
+    padding: "10px",
   },
 };

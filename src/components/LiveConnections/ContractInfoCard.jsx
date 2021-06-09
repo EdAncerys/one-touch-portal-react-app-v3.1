@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AppContext } from "../../App";
+import { Card, Table, Button } from "react-bootstrap";
 
-import NDGBanner from '../NDGBanner';
-import colors from '../../config/colors';
+import NDGBanner from "../NDGBanner";
+import { colors } from "../../config/colors";
 
 export default function CustomerInfoCard({ findContract, setFindContract }) {
   const { manageAppContext } = useContext(AppContext);
@@ -33,7 +33,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -76,7 +76,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -117,7 +117,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -164,7 +164,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -197,7 +197,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -226,18 +226,18 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                     <td>Installation Address</td>
                     <td>
                       <div>
-                        {customerData.thoroughfare_number === 'null'
-                          ? ''
-                          : customerData.thoroughfare_number}{' '}
-                        {customerData.premises_name === 'null'
-                          ? ''
-                          : customerData.premises_name}{' '}
-                        {customerData.sub_premises === 'null'
-                          ? ''
-                          : customerData.sub_premises}{' '}
-                        {customerData.thoroughfare_name === 'null'
-                          ? ''
-                          : customerData.thoroughfare_name}{' '}
+                        {customerData.thoroughfare_number === "null"
+                          ? ""
+                          : customerData.thoroughfare_number}{" "}
+                        {customerData.premises_name === "null"
+                          ? ""
+                          : customerData.premises_name}{" "}
+                        {customerData.sub_premises === "null"
+                          ? ""
+                          : customerData.sub_premises}{" "}
+                        {customerData.thoroughfare_name === "null"
+                          ? ""
+                          : customerData.thoroughfare_name}{" "}
                         {customerData.county}
                       </div>
                       <div style={styles.bottomRow}>
@@ -260,10 +260,10 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
 
 const styles = {
   bottomRow: {
-    fontSize: '12px',
+    fontSize: "12px",
     color: colors.darkGrey,
   },
   btn: {
-    padding: '5px',
+    padding: "5px",
   },
 };
