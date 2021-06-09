@@ -6,6 +6,7 @@ import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
 
 export default function NavBar({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  const admin = manageAppContext.accessToken.role;
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" className="one-touch-nav">
@@ -57,18 +58,24 @@ export default function NavBar({ props }) {
           </Nav>
           <Nav>
             <NavDropdown title="Admin">
-              <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('broadband-orders')}
-                className="admin-nav"
-              >
-                Broadband Orders
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('user-address-book')}
-                className="admin-nav"
-              >
-                User Address Book
-              </NavDropdown.Item>
+              {admin && (
+                <>
+                  <NavDropdown.Item
+                    onClick={() => manageAppContext.setPage('broadband-orders')}
+                    className="admin-nav"
+                  >
+                    Broadband Orders
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() =>
+                      manageAppContext.setPage('user-address-book')
+                    }
+                    className="admin-nav"
+                  >
+                    User Address Book
+                  </NavDropdown.Item>
+                </>
+              )}
               <NavDropdown.Item
                 onClick={() => manageAppContext.setPage('account-overview')}
               >

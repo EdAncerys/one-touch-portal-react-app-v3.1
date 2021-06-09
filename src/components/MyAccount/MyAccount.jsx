@@ -43,9 +43,9 @@ export default function MyAccount({ props }) {
   }
 
   return (
-    <div className="features">
+    <div className="features-align-left">
       {pageData && (
-        <div className="flex-container-100">
+        <div className="flex-container-50">
           <Card
             bg="Light"
             text="dark"
@@ -76,14 +76,16 @@ export default function MyAccount({ props }) {
                   </tr>
                 </tbody>
               </Table>
-              <Button
-                // onClick={() => oneTouchSignUp()}
-                variant="success"
-                size="lg"
-                className="btn-one-touch shadow-none"
-              >
-                Update My Account
-              </Button>
+              <div className="mt-3 mb-3">
+                <Button
+                  // onClick={() => oneTouchSignUp()}
+                  variant="success"
+                  size="lg"
+                  className="btn-one-touch shadow-none"
+                >
+                  Update My Account
+                </Button>
+              </div>
             </Card.Body>
           </Card>
         </div>
