@@ -3,6 +3,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 import { validatePostcode } from './validatePostcode';
+import AddressPicker from './AddressPicker';
 
 export default function AddCustomerForm({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -76,7 +77,6 @@ export default function AddCustomerForm({ props }) {
     try {
       const response = await fetch(URL, config);
       const data = await response.json();
-      console.log(response);
       console.log(data);
 
       if (!response.ok) {
@@ -85,7 +85,8 @@ export default function AddCustomerForm({ props }) {
         return;
       }
 
-      manageAppContext.setPageData(data);
+      manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+      manageAppContext.setPageData(data.data.addresses);
     } catch (err) {
       console.log(err);
     }
@@ -202,24 +203,7 @@ export default function AddCustomerForm({ props }) {
         </Row>
       </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Row>
-          <Col>
-            <Form.Label>Postcode</Form.Label>
-            <Form.Control id="postcode" type="text" placeholder="Postcode" />
-          </Col>
-          <Col style={styles.btn}>
-            <Button
-              onClick={() => fetchAddress()}
-              variant="primary"
-              size="lg"
-              className="btn-one-touch shadow-none"
-            >
-              Search Address
-            </Button>
-          </Col>
-        </Row>
-      </Form.Group>
+      <AddressPicker />
 
       <Form.Group className="mb-3">
         <Form.Label>Notes</Form.Label>
