@@ -73,9 +73,44 @@ export default function AddCustomerForm({ props }) {
       const access_token = manageAppContext.accessToken.access_token;
       const URL = '/.netlify/functions/mongoDB';
 
+      const county = selectedAddress['county'];
+      const district_id = selectedAddress['district_id'];
+      const locality = selectedAddress['locality'];
+      const nad_key = selectedAddress['nad_key'];
+      const post_town = selectedAddress['post_town'];
+      const postcode = selectedAddress['postcode'];
+      const premises_name = selectedAddress['premises_name'];
+      const sub_premises = selectedAddress['sub_premises'];
+      const thoroughfare_name = selectedAddress['thoroughfare_name'];
+      const thoroughfare_number = selectedAddress['thoroughfare_number'];
+
       const body = {
         oneTouchPath: 'addCustomerToDB',
         access_token,
+        fName,
+        lName,
+        email,
+        phoneNumber,
+        companyName,
+        productType,
+        companyEmail,
+        companyPhoneNumber,
+        accountManager,
+        companyRegistration,
+        contactFirstName,
+        contactLastName,
+        contactEmail,
+        contactPhoneNumber,
+        county,
+        district_id,
+        locality,
+        nad_key,
+        post_town,
+        postcode,
+        premises_name,
+        sub_premises,
+        thoroughfare_name,
+        thoroughfare_number,
       };
       console.log(body);
 
@@ -93,7 +128,7 @@ export default function AddCustomerForm({ props }) {
         return;
       }
 
-      manageAppContext.setPageData(data.contracts);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       console.log(data);
     } catch (err) {
       console.log(err);

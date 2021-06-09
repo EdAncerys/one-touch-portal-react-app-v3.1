@@ -59,6 +59,8 @@ export async function handler(event, context, callback) {
       return liveConnections(db, body);
     case 'fetchAddress':
       return fetchAddress(db, body);
+    case 'addCustomerToDB':
+      return addCustomerToDB(db, body);
 
     default:
       return {
@@ -87,27 +89,22 @@ const authUser = async (access_token) => {
   return authToken;
 };
 const oneTouchLogin = async (db, data) => {
-  const loginUser = {
-    email: data.email,
-    password: data.password,
-  };
+  const email = data.email;
+  const password = data.password;
 
   try {
     let passwordValid = false;
     const user = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
-      .find({ email: loginUser.email })
+      .find({ email: email })
       .toArray();
     console.log('DB User:', user);
 
     if (user.length)
-      passwordValid = await bcrypt.compare(
-        loginUser.password,
-        user[0].password
-      );
+      passwordValid = await bcrypt.compare(password, user[0].password);
 
     if (!user.length) {
-      const msg = `User do not exist with email: ` + loginUser.email;
+      const msg = `User do not exist with email: ` + email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -115,7 +112,7 @@ const oneTouchLogin = async (db, data) => {
       };
     }
     if (user.length && !passwordValid) {
-      const msg = `Email or password do not match for : ` + loginUser.email;
+      const msg = `Email or password do not match for : ` + email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -132,8 +129,8 @@ const oneTouchLogin = async (db, data) => {
     const access_token = jwt.sign(userData, ACCESS_TOKEN_SECRET, {
       expiresIn: expTime,
     });
-    const role = ONE_TOUCH_ADMIN.includes(loginUser.email) ? 'admin' : false;
-    const msg = `Welcome to One Touch Portal ` + loginUser.email;
+    const role = ONE_TOUCH_ADMIN.includes(email) ? 'admin' : false;
+    const msg = `Welcome to One Touch Portal ` + email;
     console.log(msg);
 
     return {
@@ -149,26 +146,22 @@ const oneTouchLogin = async (db, data) => {
   }
 };
 const oneTouchSignUp = async (db, data) => {
-  const signUpUser = {
-    fName: data.fName,
-    lName: data.lName,
-    email: data.email,
-    password: data.password,
-    signUpConfirmPassword: data.signUpConfirmPassword,
-  };
+  const fName = data.fName;
+  const lName = data.lName;
+  const email = data.email;
+  const password = data.password;
+  const signUpConfirmPassword = data.signUpConfirmPassword;
 
   try {
     let userValid = false;
-    let passwordValid =
-      signUpUser.password === signUpUser.signUpConfirmPassword;
+    let passwordValid = password === signUpConfirmPassword;
     const user = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
-      .find({ email: signUpUser.email })
+      .find({ email: email })
       .toArray();
 
     if (!passwordValid) {
-      const msg =
-        `Password do not match or not valid for email: ` + signUpUser.email;
+      const msg = `Password do not match or not valid for email: ` + email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -176,7 +169,7 @@ const oneTouchSignUp = async (db, data) => {
       };
     }
     if (!!user.length) {
-      const msg = `User already exist with email : ` + signUpUser.email;
+      const msg = `User already exist with email : ` + email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -185,15 +178,14 @@ const oneTouchSignUp = async (db, data) => {
     }
 
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(signUpUser.password, saltRounds);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     delete data.oneTouchPath;
     delete data.signUpConfirmPassword;
     data.password = hashedPassword;
     await db.collection(COLLECTION_ONE_TOUCH_SUPER_USER).insertMany([data]);
     const msg =
-      `Account created successfully! Welcome to One Touch Portal ` +
-      signUpUser.fName;
+      `Account created successfully! Welcome to One Touch Portal ` + fName;
     console.log(msg);
 
     return {
@@ -209,12 +201,10 @@ const oneTouchSignUp = async (db, data) => {
   }
 };
 const myAccount = async (db, data) => {
-  const userAccount = {
-    access_token: data.access_token,
-  };
+  const access_token = data.access_token;
 
   try {
-    const oneTouchUser = await authUser(userAccount.access_token);
+    const oneTouchUser = await authUser(access_token);
     const superUserObjectId = new ObjectId(oneTouchUser._id);
     const user = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
@@ -247,14 +237,12 @@ const myAccount = async (db, data) => {
   }
 };
 const userManagement = async (db, data) => {
-  const userAccount = {
-    access_token: data.access_token,
-    role: data.role,
-  };
+  const access_token = data.access_token;
+  const role = data.role;
 
   try {
-    const oneTouchUser = await authUser(userAccount.access_token);
-    const admin = userAccount.role;
+    const oneTouchUser = await authUser(access_token);
+    const admin = role;
     let findByID = { 'oneTouchSuperUser.id': oneTouchUser._id };
     if (admin) findByID = {};
 
@@ -289,14 +277,12 @@ const userManagement = async (db, data) => {
   }
 };
 const liveConnections = async (db, data) => {
-  const userAccount = {
-    access_token: data.access_token,
-    role: data.role,
-  };
+  const access_token = data.access_token;
+  const role = data.role;
 
   try {
-    const oneTouchUser = await authUser(userAccount.access_token);
-    const admin = userAccount.role;
+    const oneTouchUser = await authUser(access_token);
+    const admin = role;
     let findByID = { 'oneTouchSuperUser.id': oneTouchUser._id };
     if (admin) findByID = {};
 
@@ -341,6 +327,57 @@ const liveConnections = async (db, data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ contracts, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const addCustomerToDB = async (db, data) => {
+  const access_token = data.access_token;
+  const email = data.email;
+
+  try {
+    const oneTouchUser = await authUser(access_token);
+    let findCustomer = {
+      'oneTouchSuperUser.id': oneTouchUser._id,
+      'oneTouchCustomer.email': email,
+    };
+
+    let customer = await db
+      .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
+      .find(findCustomer)
+      .toArray();
+    console.log('DB customer:', customer);
+
+    if (!!customer.length) {
+      const msg = `Customer already exists with email: ` + email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+    delete data['oneTouchPath'];
+    delete data['access_token'];
+
+    const oneTouchCustomer = {
+      oneTouchSuperUser: { id: oneTouchUser._id },
+      oneTouchCustomer: data,
+    };
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
+      .insertMany([oneTouchCustomer]);
+    const msg = `Customer successfully added with email: ` + email;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
     };
   } catch (err) {
     console.log(err);
