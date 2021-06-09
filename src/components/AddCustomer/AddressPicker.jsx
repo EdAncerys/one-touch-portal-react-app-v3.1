@@ -55,22 +55,25 @@ export default function AddressPicker({ props }) {
 
   return (
     <Form.Group className="mb-3">
-      <Row>
-        <Col>
-          <Form.Label>Postcode</Form.Label>
-          <Form.Control id="postcode" type="text" placeholder="Postcode" />
-        </Col>
-        <Col style={styles.btn}>
-          <Button
-            onClick={() => fetchAddress()}
-            variant="primary"
-            size="lg"
-            className="btn-one-touch shadow-none"
-          >
-            Search Address
-          </Button>
-        </Col>
-      </Row>
+      {!fetchedData && (
+        <Row>
+          <Col>
+            <Form.Label>Postcode</Form.Label>
+            <Form.Control id="postcode" type="text" placeholder="Postcode" />
+          </Col>
+          <Col style={styles.btn}>
+            <Button
+              onClick={() => fetchAddress()}
+              variant="primary"
+              size="lg"
+              className="btn-one-touch shadow-none"
+            >
+              Search Address
+            </Button>
+          </Col>
+        </Row>
+      )}
+      {fetchedData && <div>picker component</div>}
     </Form.Group>
   );
 }
@@ -79,6 +82,7 @@ const styles = {
   btn: {
     textAlign: 'center',
     margin: 'auto',
+    bottom: 0,
     padding: '10px',
   },
 };
