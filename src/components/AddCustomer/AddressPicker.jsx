@@ -3,12 +3,12 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 import { validatePostcode } from './validatePostcode';
+import DropDownPicker from './DropDownPicker';
 
-export default function AddressPicker({ props }) {
+export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
-  const [selectAddress, setSelectAddress] = useState(false);
-  console.log(fetchedData);
+
   async function fetchAddress() {
     const URL = '/.netlify/functions/icUK';
     const postcode = document
@@ -73,16 +73,57 @@ export default function AddressPicker({ props }) {
           </Col>
         </Row>
       )}
-      {fetchedData && <div>picker component</div>}
+
+      {fetchedData && !selectedAddress && (
+        <DropDownPicker
+          fetchedData={fetchedData}
+          setSelectedAddress={setSelectedAddress}
+        />
+      )}
+
+      {selectedAddress && (
+        <Row>
+          <Col style={styles.btn}>
+            <Form.Label>
+              {selectedAddress.thoroughfare_number === 'null'
+                ? ''
+                : selectedAddress.thoroughfare_number}{' '}
+              {selectedAddress.premises_name === 'null'
+                ? ''
+                : selectedAddress.premises_name}{' '}
+              {selectedAddress.sub_premises === 'null'
+                ? ''
+                : selectedAddress.sub_premises}{' '}
+              {selectedAddress.thoroughfare_name === 'null'
+                ? ''
+                : selectedAddress.thoroughfare_name}{' '}
+              {selectedAddress.county === 'null' ? '' : selectedAddress.county}{' '}
+              {selectedAddress.postcode}
+            </Form.Label>
+          </Col>
+          <Col style={styles.btn}>
+            <Button
+              onClick={() => {
+                setFetchedData(false);
+                setSelectedAddress(false);
+              }}
+              variant="primary"
+              size="lg"
+              className="btn-one-touch shadow-none"
+            >
+              Search Again
+            </Button>
+          </Col>
+        </Row>
+      )}
     </Form.Group>
   );
 }
 
 const styles = {
   btn: {
+    display: 'flex',
+    alignSelf: 'flex-end',
     textAlign: 'center',
-    margin: 'auto',
-    bottom: 0,
-    padding: '10px',
   },
 };

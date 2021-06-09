@@ -2,24 +2,77 @@ import React, { useState, useContext } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
-import { validatePostcode } from './validatePostcode';
 import AddressPicker from './AddressPicker';
+import { validateEmail } from '../AuthIndex/validateEmail';
 
 export default function AddCustomerForm({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  const [selectedAddress, setSelectedAddress] = useState(false);
   const [formCompleted, setFormCompleted] = useState(false);
 
   async function addCustomer() {
-    const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const fName = document.getElementById('fName').value;
+    const lName = document.getElementById('lName').value;
+    const email = document.getElementById('email').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
 
-    if (!formCompleted) {
+    const companyName = document.getElementById('companyName').value;
+    const productType = document.getElementById('productType').value;
+    const companyEmail = document.getElementById('companyEmail').value;
+    const companyPhoneNumber =
+      document.getElementById('companyPhoneNumber').value;
+    const accountManager = document.getElementById('accountManager').value;
+    const companyRegistration = document.getElementById(
+      'companyRegistration'
+    ).value;
+
+    const contactFirstName = document.getElementById('contactFirstName').value;
+    const contactLastName = document.getElementById('contactLastName').value;
+    const contactEmail = document.getElementById('contactEmail').value;
+    const contactPhoneNumber =
+      document.getElementById('contactPhoneNumber').value;
+
+    const notes = document.getElementById('notes').value;
+
+    if (
+      !validateEmail(email) ||
+      !validateEmail(companyEmail) ||
+      !validateEmail(contactEmail)
+    ) {
+      const msg = `Provided email not valid`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+
+    if (
+      !!fName &&
+      !!lName &&
+      !!email &&
+      !!phoneNumber &&
+      !!companyName &&
+      !!productType &&
+      !!companyEmail &&
+      !!companyPhoneNumber &&
+      !!accountManager &&
+      !!companyRegistration &&
+      !!contactFirstName &&
+      !!contactLastName &&
+      !!contactEmail &&
+      !!contactPhoneNumber &&
+      selectedAddress
+    )
+      setFormCompleted(true);
+
+    if (!selectedAddress && !formCompleted) {
       const msg = `Please fill in all required fields`;
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
 
     try {
+      const access_token = manageAppContext.accessToken.access_token;
+      const URL = '/.netlify/functions/mongoDB';
+
       const body = {
         oneTouchPath: 'addCustomerToDB',
         access_token,
@@ -158,7 +211,10 @@ export default function AddCustomerForm({ props }) {
         </Row>
       </Form.Group>
 
-      <AddressPicker />
+      <AddressPicker
+        selectedAddress={selectedAddress}
+        setSelectedAddress={setSelectedAddress}
+      />
 
       <Form.Group className="mb-3">
         <Form.Label>Notes</Form.Label>

@@ -49,7 +49,7 @@ export default function MyAccount({ props }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '50%' }}
+            style={{ width: '100%' }}
             className="mb-2"
           >
             <Card.Header>
