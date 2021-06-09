@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 let ObjectId = require('mongodb').ObjectID;
 require('dotenv').config(); // Enabling to load Environment variables from a .env File
 
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
