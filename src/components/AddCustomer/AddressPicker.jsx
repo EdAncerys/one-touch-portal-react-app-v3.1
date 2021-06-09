@@ -8,7 +8,7 @@ export default function AddressPicker({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
   const [selectAddress, setSelectAddress] = useState(false);
-
+  console.log(fetchedData);
   async function fetchAddress() {
     const URL = '/.netlify/functions/icUK';
     const postcode = document
@@ -47,7 +47,7 @@ export default function AddressPicker({ props }) {
       }
 
       manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-      setFetchedData(data.data.addresses);
+      setFetchedData(data.addresses);
     } catch (err) {
       console.log(err);
     }

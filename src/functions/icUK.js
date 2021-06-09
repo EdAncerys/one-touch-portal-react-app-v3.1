@@ -73,10 +73,11 @@ const fetchAddress = async (data) => {
 
     const msg = `Addresses successfully fetched for: ` + postcode;
     console.log(msg);
+    const addresses = data.addresses;
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ data, msg }),
+      body: JSON.stringify({ addresses, msg }),
     };
   } catch (err) {
     console.log(err);
