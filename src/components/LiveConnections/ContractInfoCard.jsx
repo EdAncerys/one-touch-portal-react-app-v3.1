@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import { Form, Row, Col, Card, Table, Button } from 'react-bootstrap';
 
 import NDGBanner from '../NDGBanner';
 import { colors } from '../../config/colors';
@@ -76,9 +76,56 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
       console.log(err);
     }
   }
+  async function activateContract() {
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/mongoDB';
+
+    try {
+      const body = {
+        oneTouchPath: 'activateContract',
+        access_token,
+        id: findContract,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      const updateData = (pageData.filter(
+        (contract) => contract._id === findContract
+      ).oneTouchBroadband = data);
+
+      manageAppContext.setPageData(updateData);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
+      <div className="features-align-right">
+        <div style={styles.btn}>
+          <Button
+            onClick={() => setFindContract(false)}
+            variant="outline-dark"
+            size="sm"
+          >
+            <span aria-hidden="true">×</span>
+          </Button>
+        </div>
+      </div>
+
       {admin && (
         <div className="features">
           <div className="flex-container-50">
@@ -89,10 +136,42 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
               className="mb-2"
             >
               <Card.Header>
-                <div>Broadband Information</div>
+                <div>Activate Contract</div>
               </Card.Header>
               <Card.Body>
-                <div>Admin</div>
+                <Form>
+                  <Form.Group className="mb-3">
+                    <Row>
+                      <Col>
+                        <Form.Label>Contract Start Day</Form.Label>
+                        <Form.Control
+                          id="contractStartDay"
+                          type="date"
+                          placeholder="DD/MM/YYYY"
+                        />
+                      </Col>
+                      <Col>
+                        <Form.Label>Contract End Day</Form.Label>
+                        <Form.Control
+                          id="contractEndDay"
+                          type="date"
+                          placeholder="DD/MM/YYYY"
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mt-3">
+                      <Col>
+                        <Button
+                          onClick={() => activateContract()}
+                          variant="outline-success"
+                          size="sm"
+                        >
+                          Delete Contract
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form.Group>
+                </Form>
               </Card.Body>
             </Card>
           </div>
@@ -125,23 +204,19 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                       </tr>
                     </tbody>
                   </Table>
+                  <div style={styles.TLS}>
+                    <div style={{ background: colors.bgGO }}>EXD {'>'} 6</div>
+                    <div style={{ background: colors.bgSET }}>EXD {'<'} 6</div>
+                    <div style={{ background: colors.bgSTOP }}>Expired</div>
+                    <div style={{ background: colors.bgPENDING }}>Pending</div>
+                  </div>
                 </Card.Body>
               </Card>
             )}
           </div>
         </div>
       )}
-      <div className="features-align-right">
-        <div style={styles.btn}>
-          <Button
-            onClick={() => setFindContract(false)}
-            variant="outline-dark"
-            size="sm"
-          >
-            <span aria-hidden="true">×</span>
-          </Button>
-        </div>
-      </div>
+
       <div className="features">
         <div className="flex-container-50">
           <Card
@@ -407,5 +482,9 @@ const styles = {
   },
   btn: {
     padding: '5px',
+  },
+  TLS: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr',
   },
 };
