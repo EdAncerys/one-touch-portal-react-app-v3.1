@@ -9,7 +9,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   const { manageAppContext } = useContext(AppContext);
   const pageData = manageAppContext.pageData;
 
-  let data = pageData.filter((customer) => customer._id === findContract)[0];
+  let data = pageData.filter((contract) => contract._id === findContract)[0];
   console.log(data);
 
   const broadbandData = data.oneTouchBroadband;
@@ -37,6 +37,43 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   }
   if (!contractStartDay) {
     bgColor = colors.bgPENDING;
+  }
+
+  async function deleteContract() {
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/mongoDB';
+
+    try {
+      const body = {
+        oneTouchPath: 'deleteContract',
+        access_token,
+        id: findContract,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      const updateData = pageData.filter(
+        (contract) => contract._id !== findContract
+      );
+
+      setFindContract(false);
+      manageAppContext.setPageData(updateData);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -216,7 +253,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         </div>
       </div>
 
-      <div className="features-align-left ">
+      <div className="features">
         <div className="flex-container-50">
           <Card
             bg="Light"
@@ -267,6 +304,32 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                       <div style={styles.bottomRow}>
                         {customerData.postcode}
                       </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </div>
+
+        <div className="flex-container-50">
+          <Card style={styles.manageCard} className="mb-2">
+            <Card.Header>
+              <div>Manage Contract</div>
+            </Card.Header>
+            <Card.Body>
+              <Table bordered hover size="sm">
+                <tbody>
+                  <tr>
+                    <td style={styles.cardText}>Delete Contract</td>
+                    <td style={styles.btn}>
+                      <Button
+                        onClick={() => deleteContract()}
+                        variant="outline-danger"
+                        size="sm"
+                      >
+                        Delete Contract
+                      </Button>
                     </td>
                   </tr>
                 </tbody>

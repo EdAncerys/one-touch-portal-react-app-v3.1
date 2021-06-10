@@ -63,6 +63,8 @@ export async function handler(event, context, callback) {
       return addCustomerToDB(db, body);
     case 'deleteCustomer':
       return deleteCustomer(db, body);
+    case 'deleteContract':
+      return deleteContract(db, body);
 
     default:
       return {
@@ -422,6 +424,44 @@ const deleteCustomer = async (db, data) => {
       .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
       .deleteOne({ _id: objectID });
     const msg = `Customer successfully deleted!`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const deleteContract = async (db, data) => {
+  const id = data.id;
+  const objectID = new ObjectId(id);
+
+  try {
+    const findContract = { _id: objectID };
+
+    let liveConnections = await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .find(findContract)
+      .toArray();
+    console.log('DB liveConnections:', liveConnections);
+
+    if (!liveConnections.length) {
+      const msg = `Error. Could not delete the contract!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    await db.collection(COLLECTION_ONE_TOUCH_BROADBAND).deleteOne(findContract);
+    const msg = `Contract successfully deleted!`;
     console.log(msg);
 
     return {
