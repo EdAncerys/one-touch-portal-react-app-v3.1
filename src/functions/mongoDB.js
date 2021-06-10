@@ -61,6 +61,8 @@ export async function handler(event, context, callback) {
       return fetchAddress(db, body);
     case 'addCustomerToDB':
       return addCustomerToDB(db, body);
+    case 'deleteCustomer':
+      return deleteCustomer(db, body);
 
     default:
       return {
@@ -373,6 +375,53 @@ const addCustomerToDB = async (db, data) => {
       .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
       .insertMany([oneTouchCustomer]);
     const msg = `Customer successfully added with email: ` + email;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const deleteCustomer = async (db, data) => {
+  const id = data.id;
+  const objectID = new ObjectId(id);
+
+  try {
+    const findCustomer = { _id: objectID };
+    const findContract = { 'oneTouchCustomer.id': id };
+
+    let customer = await db
+      .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
+      .find(findCustomer)
+      .toArray();
+    console.log('DB customer:', customer);
+
+    let liveConnections = await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .find(findContract)
+      .toArray();
+    console.log('DB liveConnections:', liveConnections);
+
+    if (!!customer.length && !!liveConnections.length) {
+      const msg = `Customer associated with contract. Delete contract first!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
+      .deleteOne({ _id: objectID });
+    const msg = `Customer successfully deleted!`;
     console.log(msg);
 
     return {

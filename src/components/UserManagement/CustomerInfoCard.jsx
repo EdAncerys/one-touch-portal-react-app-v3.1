@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { AppContext } from "../../App";
-import { Card, Table, Button } from "react-bootstrap";
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
+import { Card, Table, Button } from 'react-bootstrap';
 
-import NDGBanner from "../NDGBanner";
-import { colors } from "../../config/colors";
+import NDGBanner from '../NDGBanner';
+import { colors } from '../../config/colors';
 
 export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
   const { manageAppContext } = useContext(AppContext);
@@ -13,10 +13,47 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
     .oneTouchCustomer;
   console.log(data);
 
+  async function deleteCustomer() {
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/mongoDB';
+
+    try {
+      const body = {
+        oneTouchPath: 'deleteCustomer',
+        access_token,
+        id: findCustomer,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      const updateData = pageData.filter(
+        (customer) => customer._id !== findCustomer
+      );
+
+      setFindCustomer(false);
+      manageAppContext.setPageData(updateData);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <div className="features-align-right">
-        <div style={styles.btn}>
+        <div style={styles.btnClose}>
           <Button
             onClick={() => setFindCustomer(false)}
             variant="outline-dark"
@@ -31,7 +68,7 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
             className="mb-2"
           >
             <Card.Header>
@@ -74,7 +111,7 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
             className="mb-2"
           >
             <Card.Header>
@@ -110,12 +147,12 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
         </div>
       </div>
 
-      <div className="features-align-left ">
+      <div className="features">
         <div className="flex-container-50">
           <Card
             bg="Light"
             text="dark"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
             className="mb-2"
           >
             <Card.Header>
@@ -144,19 +181,44 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
                     <td>Installation Address</td>
                     <td>
                       <div>
-                        {data.thoroughfare_number === "null"
-                          ? ""
-                          : data.thoroughfare_number}{" "}
-                        {data.premises_name === "null"
-                          ? ""
-                          : data.premises_name}{" "}
-                        {data.sub_premises === "null" ? "" : data.sub_premises}{" "}
-                        {data.thoroughfare_name === "null"
-                          ? ""
-                          : data.thoroughfare_name}{" "}
+                        {data.thoroughfare_number === 'null'
+                          ? ''
+                          : data.thoroughfare_number}{' '}
+                        {data.premises_name === 'null'
+                          ? ''
+                          : data.premises_name}{' '}
+                        {data.sub_premises === 'null' ? '' : data.sub_premises}{' '}
+                        {data.thoroughfare_name === 'null'
+                          ? ''
+                          : data.thoroughfare_name}{' '}
                         {data.county}
                       </div>
                       <div style={styles.bottomRow}>{data.postcode}</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </div>
+        <div className="flex-container-50">
+          <Card style={styles.manageCard} className="mb-2">
+            <Card.Header>
+              <div>Manage Customer</div>
+            </Card.Header>
+            <Card.Body>
+              <Table bordered hover size="sm">
+                <tbody>
+                  <tr>
+                    <td style={styles.cardText}>Delete Customer</td>
+                    <td style={styles.btn}>
+                      <Button
+                        onClick={() => deleteCustomer()}
+                        variant="outline-danger"
+                        size="sm"
+                      >
+                        Delete Customer
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
@@ -174,10 +236,21 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
 
 const styles = {
   bottomRow: {
-    fontSize: "12px",
+    fontSize: '12px',
     color: colors.darkGrey,
   },
+  manageCard: {
+    background: colors.bgSTOP,
+    color: colors.white,
+  },
+  cardText: {
+    color: colors.white,
+  },
+  btnClose: {
+    padding: '5px',
+  },
   btn: {
-    padding: "5px",
+    textAlign: 'center',
+    margin: 'auto',
   },
 };
