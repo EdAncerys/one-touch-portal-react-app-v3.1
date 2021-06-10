@@ -19,7 +19,6 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   let bgColor = '';
   const contractStartDay = broadbandData.contractStartDay;
   let contractEndDay;
-  let contractVisibility = '';
 
   // contract expiration day
   const today = new Date();
@@ -80,11 +79,19 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/mongoDB';
 
+    const contractStartDay = document.querySelector('#contractStartDay').value;
+    const contractEndDay = document.querySelector('#contractEndDay').value;
+
+    let contract = data;
+    contract.oneTouchBroadband.contractStartDay = contractStartDay;
+    contract.oneTouchBroadband.contractEndDay = contractEndDay;
+
     try {
       const body = {
         oneTouchPath: 'activateContract',
         access_token,
         id: findContract,
+        contract,
       };
       console.log(body);
 
@@ -101,9 +108,9 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         return;
       }
 
-      const updateData = (pageData.filter(
-        (contract) => contract._id === findContract
-      ).oneTouchBroadband = data);
+      const updateData = pageData.map((listContract) =>
+        listContract._id === findContract ? contract : listContract
+      );
 
       manageAppContext.setPageData(updateData);
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
@@ -130,9 +137,8 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         <div className="features">
           <div className="flex-container-50">
             <Card
-              bg="Light"
               text="dark"
-              style={{ width: '100%' }}
+              style={{ background: colors.lightGrey }}
               className="mb-2"
             >
               <Card.Header>
@@ -166,7 +172,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                           variant="outline-success"
                           size="sm"
                         >
-                          Delete Contract
+                          Activate Contract
                         </Button>
                       </Col>
                     </Row>
@@ -177,42 +183,40 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           </div>
 
           <div className="flex-container-50">
-            {admin && (
-              <Card
-                bg="Light"
-                text="dark"
-                style={{ width: '100%' }}
-                className="mb-2"
-              >
-                <Card.Header>
-                  <div>Contract Information</div>
-                </Card.Header>
-                <Card.Body>
-                  <Table bordered hover size="sm">
-                    <tbody>
-                      <tr style={{ background: bgColor }}>
-                        <td>Contract Start Day</td>
-                        <td>{broadbandData.contractStartDay}</td>
-                      </tr>
-                      <tr style={{ background: bgColor }}>
-                        <td>Contract End Day</td>
-                        <td>{broadbandData.contractEndDay}</td>
-                      </tr>
-                      <tr>
-                        <td>Contract Price</td>
-                        <td>{broadbandData.price}</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                  <div style={styles.TLS}>
-                    <div style={{ background: colors.bgGO }}>EXD {'>'} 6</div>
-                    <div style={{ background: colors.bgSET }}>EXD {'<'} 6</div>
-                    <div style={{ background: colors.bgSTOP }}>Expired</div>
-                    <div style={{ background: colors.bgPENDING }}>Pending</div>
-                  </div>
-                </Card.Body>
-              </Card>
-            )}
+            <Card
+              bg="Light"
+              text="dark"
+              style={{ width: '100%' }}
+              className="mb-2"
+            >
+              <Card.Header>
+                <div>Contract Information</div>
+              </Card.Header>
+              <Card.Body>
+                <Table bordered hover size="sm">
+                  <tbody>
+                    <tr style={{ background: bgColor }}>
+                      <td>Contract Start Day</td>
+                      <td>{broadbandData.contractStartDay}</td>
+                    </tr>
+                    <tr style={{ background: bgColor }}>
+                      <td>Contract End Day</td>
+                      <td>{broadbandData.contractEndDay}</td>
+                    </tr>
+                    <tr>
+                      <td>Contract Price</td>
+                      <td>{broadbandData.price}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <div style={styles.TLS}>
+                  <div style={{ background: colors.bgGO }}>EXD {'>'} 6</div>
+                  <div style={{ background: colors.bgSET }}>EXD {'<'} 6</div>
+                  <div style={{ background: colors.bgSTOP }}>Expired</div>
+                  <div style={{ background: colors.bgPENDING }}>Pending</div>
+                </div>
+              </Card.Body>
+            </Card>
           </div>
         </div>
       )}

@@ -65,6 +65,8 @@ export async function handler(event, context, callback) {
       return deleteCustomer(db, body);
     case 'deleteContract':
       return deleteContract(db, body);
+    case 'activateContract':
+      return activateContract(db, body);
 
     default:
       return {
@@ -151,7 +153,6 @@ const oneTouchLogin = async (db, data) => {
 };
 const oneTouchSignUp = async (db, data) => {
   const fName = data.fName;
-  const lName = data.lName;
   const email = data.email;
   const password = data.password;
   const signUpConfirmPassword = data.signUpConfirmPassword;
@@ -365,8 +366,8 @@ const addCustomerToDB = async (db, data) => {
         body: JSON.stringify({ msg }),
       };
     }
-    delete data['oneTouchPath'];
-    delete data['access_token'];
+    delete data.oneTouchPath;
+    delete data.access_token;
 
     const oneTouchCustomer = {
       oneTouchSuperUser: { id: oneTouchUser._id },
@@ -420,6 +421,10 @@ const deleteCustomer = async (db, data) => {
       };
     }
 
+    delete data.oneTouchPath;
+    delete data.access_token;
+    delete data.id;
+
     await db
       .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
       .deleteOne({ _id: objectID });
@@ -460,8 +465,61 @@ const deleteContract = async (db, data) => {
       };
     }
 
+    delete data.oneTouchPath;
+    delete data.access_token;
+    delete data.id;
+
     await db.collection(COLLECTION_ONE_TOUCH_BROADBAND).deleteOne(findContract);
     const msg = `Contract successfully deleted!`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const activateContract = async (db, data) => {
+  const contract = data.contract.oneTouchBroadband;
+  const id = data.id;
+  const objectID = new ObjectId(id);
+
+  try {
+    const query = { _id: objectID };
+    const update = {
+      $set: { oneTouchBroadband: contract },
+    };
+    const options = { upsert: true };
+
+    let liveConnections = await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .find(query)
+      .toArray();
+    console.log('DB liveConnections:', liveConnections);
+
+    if (!liveConnections.length) {
+      const msg = `Error. Could not activate the contract!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    delete data.oneTouchPath;
+    delete data.access_token;
+    delete data.id;
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .updateOne(query, update, options);
+    const msg = `Contract successfully activated!`;
     console.log(msg);
 
     return {
