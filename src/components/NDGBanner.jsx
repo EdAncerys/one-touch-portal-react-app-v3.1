@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../App';
 
 import NDGLogo from '../img/NDG/NDG-Logo.png';
 
-export default function Index({ css }) {
+export default function NDGBanner({ css }) {
+  const { manageAppContext } = useContext(AppContext);
+
   const height = '100px';
   const className = 'd-inline-block align-top index-icon';
 
@@ -14,6 +17,7 @@ export default function Index({ css }) {
       <div style={styles.container}>
         <div style={styles.logo}>
           <img
+            onClick={() => manageAppContext.setPage('index')}
             src={NDGLogo}
             height={height}
             className={className}
