@@ -8,6 +8,7 @@ import { colors } from '../../config/colors';
 export default function CustomerInfoCard({ findContract, setFindContract }) {
   const { manageAppContext } = useContext(AppContext);
   const pageData = manageAppContext.pageData;
+  const admin = manageAppContext.accessToken.role;
 
   let data = pageData.filter((contract) => contract._id === findContract)[0];
   console.log(data);
@@ -78,6 +79,58 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
 
   return (
     <>
+      {admin && (
+        <div className="features">
+          <div className="flex-container-50">
+            <Card
+              bg="Light"
+              text="dark"
+              style={{ width: '100%' }}
+              className="mb-2"
+            >
+              <Card.Header>
+                <div>Broadband Information</div>
+              </Card.Header>
+              <Card.Body>
+                <div>Admin</div>
+              </Card.Body>
+            </Card>
+          </div>
+
+          <div className="flex-container-50">
+            {admin && (
+              <Card
+                bg="Light"
+                text="dark"
+                style={{ width: '100%' }}
+                className="mb-2"
+              >
+                <Card.Header>
+                  <div>Contract Information</div>
+                </Card.Header>
+                <Card.Body>
+                  <Table bordered hover size="sm">
+                    <tbody>
+                      <tr style={{ background: bgColor }}>
+                        <td>Contract Start Day</td>
+                        <td>{broadbandData.contractStartDay}</td>
+                      </tr>
+                      <tr style={{ background: bgColor }}>
+                        <td>Contract End Day</td>
+                        <td>{broadbandData.contractEndDay}</td>
+                      </tr>
+                      <tr>
+                        <td>Contract Price</td>
+                        <td>{broadbandData.price}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
+            )}
+          </div>
+        </div>
+      )}
       <div className="features-align-right">
         <div style={styles.btn}>
           <Button
@@ -222,34 +275,36 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         </div>
 
         <div className="flex-container-50">
-          <Card
-            bg="Light"
-            text="dark"
-            style={{ width: '100%' }}
-            className="mb-2"
-          >
-            <Card.Header>
-              <div>Contract Information</div>
-            </Card.Header>
-            <Card.Body>
-              <Table bordered hover size="sm">
-                <tbody>
-                  <tr style={{ background: bgColor }}>
-                    <td>Contract Start Day</td>
-                    <td>{broadbandData.contractStartDay}</td>
-                  </tr>
-                  <tr style={{ background: bgColor }}>
-                    <td>Contract End Day</td>
-                    <td>{broadbandData.contractEndDay}</td>
-                  </tr>
-                  <tr>
-                    <td>Contract Price</td>
-                    <td>{broadbandData.price}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
+          {!admin && (
+            <Card
+              bg="Light"
+              text="dark"
+              style={{ width: '100%' }}
+              className="mb-2"
+            >
+              <Card.Header>
+                <div>Contract Information</div>
+              </Card.Header>
+              <Card.Body>
+                <Table bordered hover size="sm">
+                  <tbody>
+                    <tr style={{ background: bgColor }}>
+                      <td>Contract Start Day</td>
+                      <td>{broadbandData.contractStartDay}</td>
+                    </tr>
+                    <tr style={{ background: bgColor }}>
+                      <td>Contract End Day</td>
+                      <td>{broadbandData.contractEndDay}</td>
+                    </tr>
+                    <tr>
+                      <td>Contract Price</td>
+                      <td>{broadbandData.price}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          )}
         </div>
       </div>
 

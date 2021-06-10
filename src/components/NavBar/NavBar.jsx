@@ -77,18 +77,18 @@ export default function NavBar({ props }) {
                 </>
               )}
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('account-overview')}
+                onClick={() => manageAppContext.setPage('build-in-progress')}
               >
                 Account Overview
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('raise-ticket')}
+                onClick={() => manageAppContext.setPage('build-in-progress')}
               >
                 Raise Ticket
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('reseller-customers')}
+                onClick={() => manageAppContext.setPage('build-in-progress')}
               >
                 Reseller Customers
               </NavDropdown.Item>
