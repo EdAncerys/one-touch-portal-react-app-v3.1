@@ -122,23 +122,23 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
                 <tbody>
                   <tr>
                     <td>First Name</td>
-                    <td>{data.customerFName}</td>
+                    <td>{data.fName}</td>
                   </tr>
                   <tr>
                     <td>Last Name</td>
-                    <td>{data.customerLName}</td>
+                    <td>{data.lName}</td>
                   </tr>
                   <tr>
                     <td>Customer Email</td>
-                    <td>{data.customerEmail}</td>
+                    <td>{data.email}</td>
                   </tr>
                   <tr>
                     <td>Customer Phone Number</td>
-                    <td>{data.customerPhoneNumber}</td>
+                    <td>{data.phoneNumber}</td>
                   </tr>
                   <tr>
                     <td>Notes</td>
-                    <td>{data.customerNotes}</td>
+                    <td>{data.notes}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -163,19 +163,19 @@ export default function CustomerInfoCard({ findCustomer, setFindCustomer }) {
                 <tbody>
                   <tr>
                     <td>Contact Name</td>
-                    <td>{data.contactFName}</td>
+                    <td>{data.contactFirstName}</td>
                   </tr>
                   <tr>
                     <td>Contact Last Name</td>
-                    <td>{data.contactLName}</td>
+                    <td>{data.contactLastName}</td>
                   </tr>
                   <tr>
                     <td>Contact Email</td>
-                    <td>{data.customerEmail}</td>
+                    <td>{data.contactEmail}</td>
                   </tr>
                   <tr>
                     <td>Contact Phone Number</td>
-                    <td>{data.customerPhoneNumber}</td>
+                    <td>{data.contactPhoneNumber}</td>
                   </tr>
                   <tr>
                     <td>Installation Address</td>

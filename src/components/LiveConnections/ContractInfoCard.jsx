@@ -148,11 +148,11 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                 <tbody>
                   <tr>
                     <td>First Name</td>
-                    <td>{customerData.customerFName}</td>
+                    <td>{customerData.fName}</td>
                   </tr>
                   <tr>
                     <td>Last Name</td>
-                    <td>{customerData.customerLName}</td>
+                    <td>{customerData.lName}</td>
                   </tr>
                   <tr>
                     <td>Customer Email</td>
@@ -269,19 +269,19 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                 <tbody>
                   <tr>
                     <td>Contact Name</td>
-                    <td>{customerData.contactFName}</td>
+                    <td>{customerData.contactFirstName}</td>
                   </tr>
                   <tr>
                     <td>Contact Last Name</td>
-                    <td>{customerData.contactLName}</td>
+                    <td>{customerData.contactLastName}</td>
                   </tr>
                   <tr>
                     <td>Contact Email</td>
-                    <td>{customerData.customerEmail}</td>
+                    <td>{customerData.contactEmail}</td>
                   </tr>
                   <tr>
                     <td>Contact Phone Number</td>
-                    <td>{customerData.customerPhoneNumber}</td>
+                    <td>{customerData.contactPhoneNumber}</td>
                   </tr>
                   <tr>
                     <td>Installation Address</td>

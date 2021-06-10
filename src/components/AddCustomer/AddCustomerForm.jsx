@@ -31,7 +31,6 @@ export default function AddCustomerForm({ props }) {
     const contactEmail = document.getElementById('contactEmail').value;
     const contactPhoneNumber =
       document.getElementById('contactPhoneNumber').value;
-
     const notes = document.getElementById('notes').value;
 
     if (
@@ -111,6 +110,7 @@ export default function AddCustomerForm({ props }) {
         sub_premises,
         thoroughfare_name,
         thoroughfare_number,
+        notes,
       };
       console.log(body);
 
