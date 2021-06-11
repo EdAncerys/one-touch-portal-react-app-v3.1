@@ -64,9 +64,9 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
           <Col style={styles.btn}>
             <Button
               onClick={() => fetchAddress()}
-              variant="primary"
-              size="lg"
-              className="btn-one-touch shadow-none"
+              variant="outline-success"
+              style={{ width: '100%' }}
+              className="shadow-none"
             >
               Search Address
             </Button>
@@ -77,6 +77,7 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
       {fetchedData && !selectedAddress && (
         <DropDownPicker
           fetchedData={fetchedData}
+          setFetchedData={setFetchedData}
           setSelectedAddress={setSelectedAddress}
         />
       )}

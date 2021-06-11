@@ -1,8 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { AppContext } from '../../App';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 
-export default function DropDownPicker({ fetchedData, setSelectedAddress }) {
+export default function DropDownPicker({
+  fetchedData,
+  setFetchedData,
+  setSelectedAddress,
+}) {
   const { manageAppContext } = useContext(AppContext);
   const [dataIndex, setDataIndex] = useState(false);
   let addressData = [];
@@ -24,38 +28,63 @@ export default function DropDownPicker({ fetchedData, setSelectedAddress }) {
 
   return (
     <div>
-      <div className="mt-3 mb-3">
-        <select className="form-select" onChange={(e) => handleDropDown(e)}>
-          <option defaultValue value="defaultValue">
-            Please Choose Your Address
-          </option>
-
-          {addressData.map((address, index) => (
-            <option value={index} key={index}>
-              {address.thoroughfare_number === 'null'
-                ? ''
-                : address.thoroughfare_number}{' '}
-              {address.premises_name === 'null' ? '' : address.premises_name}{' '}
-              {address.sub_premises === 'null' ? '' : address.sub_premises}{' '}
-              {address.thoroughfare_name === 'null'
-                ? ''
-                : address.thoroughfare_name}{' '}
-              {address.county === 'null' ? '' : address.county}{' '}
-              {address.postcode}
+      <Row className="mt-3 mb-3">
+        <Col>
+          <select className="form-select" onChange={(e) => handleDropDown(e)}>
+            <option defaultValue value="defaultValue">
+              Please Choose Your Address
             </option>
-          ))}
-        </select>
-      </div>
-      <div className="mb-3">
-        <Button
-          onClick={() => selectAddress()}
-          variant="primary"
-          size="lg"
-          className="btn-one-touch shadow-none"
-        >
-          Select Address
-        </Button>
-      </div>
+
+            {addressData.map((address, index) => (
+              <option value={index} key={index}>
+                {address.thoroughfare_number === 'null'
+                  ? ''
+                  : address.thoroughfare_number}{' '}
+                {address.premises_name === 'null' ? '' : address.premises_name}{' '}
+                {address.sub_premises === 'null' ? '' : address.sub_premises}{' '}
+                {address.thoroughfare_name === 'null'
+                  ? ''
+                  : address.thoroughfare_name}{' '}
+                {address.county === 'null' ? '' : address.county}{' '}
+                {address.postcode}
+              </option>
+            ))}
+          </select>
+        </Col>
+      </Row>
+      <Row className="mt-3 mb-3">
+        <Col style={styles.btn}>
+          <Button
+            onClick={() => selectAddress()}
+            variant="outline-success"
+            style={{ width: '100%' }}
+            className="shadow-none"
+          >
+            Select Address
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            onClick={() => {
+              setFetchedData(false);
+              setSelectedAddress(false);
+            }}
+            variant="outline-primary"
+            style={{ width: '100%' }}
+            className="shadow-none"
+          >
+            Search New Postcode
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 }
+
+const styles = {
+  btn: {
+    display: 'flex',
+    alignSelf: 'flex-end',
+    textAlign: 'center',
+  },
+};

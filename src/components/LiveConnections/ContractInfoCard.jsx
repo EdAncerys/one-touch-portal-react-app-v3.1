@@ -9,6 +9,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   const { manageAppContext } = useContext(AppContext);
   const pageData = manageAppContext.pageData;
   const admin = manageAppContext.accessToken.role;
+  const page = manageAppContext.page === 'broadband-orders';
 
   let data = pageData.filter((contract) => contract._id === findContract)[0];
   console.log(data);
@@ -24,7 +25,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   const today = new Date();
   if (contractStartDay) contractEndDay = new Date(broadbandData.contractEndDay);
   const sixMonthsFromNow = new Date();
-  sixMonthsFromNow.setMonth(today.getMonth() + 7);
+  sixMonthsFromNow.setMonth(today.getMonth() + 6);
 
   if (contractEndDay < today && contractStartDay) {
     bgColor = colors.bgSTOP;
@@ -82,6 +83,12 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
     const contractStartDay = document.querySelector('#contractStartDay').value;
     const contractEndDay = document.querySelector('#contractEndDay').value;
 
+    if (!contractStartDay || !contractEndDay) {
+      const msg = `Please choose contract start and end days!`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      return;
+    }
+
     let contract = data;
     contract.oneTouchBroadband.contractStartDay = contractStartDay;
     contract.oneTouchBroadband.contractEndDay = contractEndDay;
@@ -133,7 +140,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         </div>
       </div>
 
-      {admin && (
+      {admin && page && (
         <div className="features">
           <div className="flex-container-50">
             <Card
@@ -354,7 +361,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         </div>
 
         <div className="flex-container-50">
-          {!admin && (
+          {!page && (
             <Card
               bg="Light"
               text="dark"
@@ -381,6 +388,12 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                     </tr>
                   </tbody>
                 </Table>
+                <div style={styles.TLS}>
+                  <div style={{ background: colors.bgGO }}>EXD {'>'} 6</div>
+                  <div style={{ background: colors.bgSET }}>EXD {'<'} 6</div>
+                  <div style={{ background: colors.bgSTOP }}>Expired</div>
+                  <div style={{ background: colors.bgPENDING }}>Pending</div>
+                </div>
               </Card.Body>
             </Card>
           )}
