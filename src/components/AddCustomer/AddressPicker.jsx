@@ -46,7 +46,7 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
         return;
       }
 
-      manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setFetchedData(data.addresses);
     } catch (err) {
       console.log(err);
@@ -108,11 +108,11 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
                 setFetchedData(false);
                 setSelectedAddress(false);
               }}
-              variant="primary"
-              size="lg"
-              className="btn-one-touch shadow-none"
+              variant="outline-primary"
+              style={{ width: '100%' }}
+              className="shadow-none"
             >
-              Search Again
+              Search New Postcode
             </Button>
           </Col>
         </Row>

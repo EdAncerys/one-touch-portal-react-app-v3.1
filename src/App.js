@@ -14,6 +14,7 @@ import LiveConnections from './components/LiveConnections/LiveConnections';
 import BroadbandOrders from './components/BroadbandOrders/BroadbandOrders';
 import UserAddressBook from './components/UserAddressBook/UserAddressBook';
 import AddCustomer from './components/AddCustomer/AddCustomer';
+import ConnectionChecker from './components/ConnectionChecker/ConnectionChecker';
 import BuildInProgress from './components/BuildInProgress/BuildInProgress';
 
 export const AppContext = React.createContext();
@@ -93,6 +94,7 @@ export default function App({ props }) {
               {page === 'broadband-orders' && <BroadbandOrders />}
               {page === 'user-address-book' && <UserAddressBook />}
               {page === 'add-customer' && <AddCustomer />}
+              {page === 'connection-checker' && <ConnectionChecker />}
             </div>
           )}
         </div>
