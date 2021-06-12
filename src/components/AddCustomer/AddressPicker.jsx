@@ -54,7 +54,7 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
   }
 
   return (
-    <Form.Group className="mb-3">
+    <Form.Group className="mb-3 bg-white">
       {!fetchedData && (
         <Row>
           <Col>

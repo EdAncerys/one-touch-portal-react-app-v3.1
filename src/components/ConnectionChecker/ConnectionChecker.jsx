@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { AppContext } from '../../App';
 
 import AddressPicker from '../AddCustomer/AddressPicker';
@@ -8,23 +8,20 @@ import BroadbandConnection from '../../img/oneTouch/Broadband-Connection.png';
 
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  const [selectedAddress, setSelectedAddress] = useState(false);
 
   const height = '350px';
-  const className = 'd-inline-block align-top index-icon';
+  const className = 'd-inline-block align-top';
 
   return (
     <>
       <div style={styles.container} className="features-flex-wrap">
         <div style={styles.wrapper}>
-          <img
-            onClick={() => manageAppContext.setPage('build-in-progress')}
-            src={BroadbandConnection}
-            height={height}
-            className={className}
-            alt={BroadbandConnection}
-          />
           <div style={styles.addressPicker}>
-            <AddressPicker />
+            <AddressPicker
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
           </div>
         </div>
 
@@ -51,11 +48,17 @@ const styles = {
   },
   wrapper: {
     display: 'grid',
-    gridTemplateRow: '350px 1fr',
+    justifyContent: 'center',
+    width: '400px',
+    height: '350px',
+    gridTemplateColumns: '350px',
+    background: `url(${BroadbandConnection})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
   },
   addressPicker: {
-    // position: 'relative',
-    // zIndex: '5',
-    marginBottom: '100px',
+    zIndex: '2',
+    marginTop: '175px',
   },
 };
