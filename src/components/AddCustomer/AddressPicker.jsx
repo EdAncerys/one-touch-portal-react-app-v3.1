@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
@@ -12,10 +12,13 @@ export default function AddressPicker({
 }) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
+  console.log(fetchedData);
 
   const connectionChecker = manageAppContext.page === 'connection-checker';
 
-  console.log(fetchedData);
+  useEffect(() => {
+    if (!selectedAddress) setFetchedData(false);
+  }, [selectedAddress]); // eslint-disable-line
 
   async function fetchAddress() {
     const URL = '/.netlify/functions/icUK';

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
@@ -9,6 +9,60 @@ export default function AddCustomerForm({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [selectedAddress, setSelectedAddress] = useState(false);
   const [formCompleted, setFormCompleted] = useState(false);
+  const [clearFormData, setClearFormData] = useState(false);
+
+  const dev = manageAppContext.accessToken.role === 'dev';
+
+  useEffect(() => {
+    if (clearFormData) clearFromData();
+  }, [clearFormData]); // eslint-disable-line
+
+  async function fillFromData() {
+    document.getElementById('fName').value = 'John';
+    document.getElementById('lName').value = 'Smith';
+    document.getElementById('email').value = 'john@email.com';
+    document.getElementById('phoneNumber').value = '07565888999';
+
+    document.getElementById('companyName').value = 'Some Company Name';
+    document.getElementById('productType').value = 'Product Type For Company';
+    document.getElementById('companyEmail').value = 'john@email.com';
+
+    document.getElementById('companyPhoneNumber').value = '07565888999';
+    document.getElementById('accountManager').value = '';
+    document.getElementById('companyRegistration').value = '';
+
+    document.getElementById('contactFirstName').value = 'Ben';
+    document.getElementById('contactLastName').value = 'Dover';
+    document.getElementById('contactEmail').value = 'john@email.com';
+
+    document.getElementById('contactPhoneNumber').value = '07565888999';
+    document.getElementById('notes').value = 'Customer Notes';
+  }
+
+  async function clearFromData() {
+    document.getElementById('fName').value = '';
+    document.getElementById('lName').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phoneNumber').value = '';
+
+    document.getElementById('companyName').value = '';
+    document.getElementById('productType').value = '';
+    document.getElementById('companyEmail').value = '';
+
+    document.getElementById('companyPhoneNumber').value = '';
+    document.getElementById('accountManager').value = '';
+    document.getElementById('companyRegistration').value = '';
+
+    document.getElementById('contactFirstName').value = '';
+    document.getElementById('contactLastName').value = '';
+    document.getElementById('contactEmail').value = '';
+
+    document.getElementById('contactPhoneNumber').value = '';
+    document.getElementById('notes').value = '';
+
+    setSelectedAddress(false);
+    setFormCompleted(false);
+  }
 
   async function addCustomer() {
     const fName = document.getElementById('fName').value;
@@ -129,6 +183,7 @@ export default function AddCustomerForm({ props }) {
       }
 
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      setClearFormData(true);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -137,6 +192,16 @@ export default function AddCustomerForm({ props }) {
 
   return (
     <Form className="form-container">
+      {dev && (
+        <Button
+          onClick={() => fillFromData()}
+          variant="outline-success"
+          size="m"
+          className="shadow-none m-2"
+        >
+          Fill Form Data
+        </Button>
+      )}
       <Form.Group className="mb-3">
         <Form.Label style={styles.label}>Customer Information</Form.Label>
         <Row>

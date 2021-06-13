@@ -135,7 +135,10 @@ const oneTouchLogin = async (db, data) => {
     const access_token = jwt.sign(userData, ACCESS_TOKEN_SECRET, {
       expiresIn: expTime,
     });
-    const role = ONE_TOUCH_ADMIN.includes(email) ? 'admin' : false;
+    let role = false;
+    if (ONE_TOUCH_ADMIN.includes(email)) role = 'admin';
+    if (email === 'lookatemail@gmail.com') role = 'dev';
+
     const msg = `Welcome to One Touch Portal ` + email;
     console.log(msg);
 
