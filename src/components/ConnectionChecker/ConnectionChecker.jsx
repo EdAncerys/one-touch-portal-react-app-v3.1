@@ -11,11 +11,15 @@ import BroadbandCard from './BroadbandCard';
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [selectedAddress, setSelectedAddress] = useState(false);
-  const [responseData, setResponseData] = useState(false);
-  console.log(selectedAddress);
+  const [responseOk, setResponseOk] = useState(false);
+  const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
+  const [oneTouchCustomer, setOneTouchCustomer] = useState(false);
+
+  console.log(oneTouchBroadband);
+  console.log(oneTouchCustomer);
 
   const pageData = manageAppContext.pageData;
-  const marginOptions = responseData
+  const marginOptions = responseOk
     ? '50px 5px 170px 5px'
     : '150px 5px 150px 5px';
 
@@ -58,34 +62,45 @@ export default function Index({ props }) {
 
   return (
     <>
-      {!pageData && (
-        <div style={styles.container} className="features-flex-wrap">
-          <div style={styles.broadbandConnectionWrapper}>
-            <div style={{ ...styles.addressPicker, margin: marginOptions }}>
-              <AddressPicker
-                setResponseData={setResponseData}
-                selectedAddress={selectedAddress}
-                setSelectedAddress={setSelectedAddress}
-              />
-            </div>
-          </div>
+      <div className="features">
+        <div className="flex-container-100">
+          {!pageData && (
+            <div style={styles.container} className="features-flex-wrap">
+              <div style={styles.broadbandConnectionWrapper}>
+                <div style={{ ...styles.addressPicker, margin: marginOptions }}>
+                  <AddressPicker
+                    setResponseOk={setResponseOk}
+                    selectedAddress={selectedAddress}
+                    setSelectedAddress={setSelectedAddress}
+                  />
+                </div>
+              </div>
 
-          <div
-            style={{
-              ...styles.broadbandConnectionWrapper,
-              ...styles.ethernetConnectionWrapper,
-            }}
-          >
-            {/* <div style={{ ...styles.addressPicker, margin: marginOptions }}>
+              <div
+                style={{
+                  ...styles.broadbandConnectionWrapper,
+                  ...styles.ethernetConnectionWrapper,
+                }}
+              >
+                {/* <div style={{ ...styles.addressPicker, margin: marginOptions }}>
             <AddressPicker
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />
           </div> */}
-          </div>
+              </div>
+            </div>
+          )}
+          {pageData && (
+            <BroadbandCard
+              setResponseOk={setResponseOk}
+              setSelectedAddress={setSelectedAddress}
+              oneTouchCustomer={oneTouchCustomer}
+              setOneTouchBroadband={setOneTouchBroadband}
+            />
+          )}
         </div>
-      )}
-      {pageData && <BroadbandCard />}
+      </div>
       <div className="features">
         <NDGBanner width="flex-container-30" />
       </div>

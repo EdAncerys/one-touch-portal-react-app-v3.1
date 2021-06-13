@@ -5,9 +5,16 @@ import { Card, Table, Button } from 'react-bootstrap';
 import { colors } from '../../config/colors';
 import { broadbandPriceFilter } from './broadbandPriceFilter';
 
-export default function BroadbandCard({ setFindCustomer }) {
+export default function BroadbandCard({
+  setSelectedAddress,
+  setResponseOk,
+  setOneTouchBroadband,
+  oneTouchCustomer,
+}) {
   const { manageAppContext } = useContext(AppContext);
 
+  const setPage = manageAppContext.setPage;
+  const setPageData = manageAppContext.setPageData;
   const pageData = manageAppContext.pageData;
   const broadbandData = broadbandPriceFilter(pageData);
   console.log(broadbandData);
@@ -41,24 +48,54 @@ export default function BroadbandCard({ setFindCustomer }) {
                   <td key={index.toString() + 'c'}>
                     <div key={index + 1}>{broadband.price}</div>
                     <div key={index + 2} style={styles.bottomRow}>
-                      {broadband.installationPrice}
+                      {broadband.installation}
                     </div>
                   </td>
                   <td key={index.toString() + 'd'} style={styles.btn}>
-                    <Button
-                      onClick={() => setFindCustomer(index)}
-                      id={index}
-                      size="sm"
-                      className="shadow-none"
-                    >
-                      Customer Info
-                    </Button>
+                    {oneTouchCustomer && (
+                      <Button
+                        onClick={() =>
+                          setOneTouchBroadband(broadbandData[index])
+                        }
+                        id={index}
+                        size="sm"
+                        className="shadow-none"
+                      >
+                        Place Order
+                      </Button>
+                    )}
+                    {!oneTouchCustomer && (
+                      <Button
+                        onClick={() => setPage('add-customer')}
+                        id={index}
+                        size="sm"
+                        variant="outline-primary"
+                        className="shadow-none"
+                      >
+                        <div style={styles.msg}>
+                          Customer profile not linked
+                        </div>
+                        <div>Add Customer</div>
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </Card.Body>
+        <Button
+          onClick={() => {
+            setResponseOk(false);
+            setSelectedAddress(false);
+            setPageData(false);
+          }}
+          variant="outline-success"
+          size="m"
+          className="shadow-none m-2"
+        >
+          Search Again
+        </Button>
       </Card>
     </div>
   );
@@ -68,6 +105,9 @@ const styles = {
   bottomRow: {
     fontSize: '12px',
     color: colors.darkGrey,
+  },
+  msg: {
+    fontSize: '10px',
   },
   btn: {
     textAlign: 'center',

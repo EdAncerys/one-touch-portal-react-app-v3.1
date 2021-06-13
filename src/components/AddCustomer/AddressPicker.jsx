@@ -8,7 +8,7 @@ import DropDownPicker from './DropDownPicker';
 export default function AddressPicker({
   selectedAddress,
   setSelectedAddress,
-  setResponseData,
+  setResponseOk,
 }) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
@@ -56,7 +56,7 @@ export default function AddressPicker({
 
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setFetchedData(data.addresses);
-      if (connectionChecker) setResponseData(true);
+      if (connectionChecker) setResponseOk(true);
     } catch (err) {
       console.log(err);
     }
