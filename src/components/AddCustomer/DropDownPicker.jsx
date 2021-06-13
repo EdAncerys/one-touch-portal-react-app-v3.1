@@ -9,6 +9,8 @@ export default function DropDownPicker({
 }) {
   const { manageAppContext } = useContext(AppContext);
   const [dataIndex, setDataIndex] = useState(false);
+
+  const connectionChecker = manageAppContext.page === 'connection-checker';
   let addressData = [];
   if (fetchedData) addressData = fetchedData;
 
@@ -60,7 +62,7 @@ export default function DropDownPicker({
             style={{ width: '100%' }}
             className="shadow-none"
           >
-            Select Address
+            {connectionChecker ? 'Find Broadband' : 'Select Address'}
           </Button>
         </Col>
         <Col>

@@ -5,9 +5,17 @@ import { AppContext } from '../../App';
 import { validatePostcode } from './validatePostcode';
 import DropDownPicker from './DropDownPicker';
 
-export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
+export default function AddressPicker({
+  selectedAddress,
+  setSelectedAddress,
+  setResponseData,
+}) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
+
+  const connectionChecker = manageAppContext.page === 'connection-checker';
+
+  console.log(fetchedData);
 
   async function fetchAddress() {
     const URL = '/.netlify/functions/icUK';
@@ -48,13 +56,14 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
 
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setFetchedData(data.addresses);
+      if (connectionChecker) setResponseData(true);
     } catch (err) {
       console.log(err);
     }
   }
 
   return (
-    <Form.Group className="mb-3 bg-white">
+    <Form.Group style={styles.addressPicker} className="mb-3">
       {!fetchedData && (
         <Row>
           <Col>

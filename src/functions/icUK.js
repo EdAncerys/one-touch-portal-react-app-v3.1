@@ -22,8 +22,8 @@ export async function handler(event, context, callback) {
   switch (path) {
     case 'fetchAddress':
       return fetchAddress(body);
-    case 'addressesForPostcodeProvided':
-      return addressesForPostcodeProvided(body);
+    case 'broadbandAvailability':
+      return broadbandAvailability(body);
 
     default:
       return {
@@ -78,6 +78,67 @@ const fetchAddress = async (data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ addresses, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const broadbandAvailability = async (data) => {
+  console.log('QuatAGuard Proxy Server Agent');
+  const postcode = data.selectedAddress.postcode;
+  const district_id = data.selectedAddress.district_id;
+  console.log(postcode);
+
+  const ICUK_END_POINT = '/broadband/availability/';
+  const HASH = sha512(ICUK_END_POINT + postcode + ICUK_API_KEY);
+  const URL = ICUK_URL + ICUK_END_POINT + postcode;
+
+  const headers = {
+    User: ICUK_USER,
+    Hash: HASH,
+    Encryption: 'SHA-512',
+    'Content-Type': 'application/json',
+  };
+  const body = {
+    postcode,
+    district_id,
+  };
+  const config = {
+    headers,
+    body: JSON.stringify(body),
+    method: 'POST',
+    agent: proxyAgent,
+    timeout: 10000,
+    followRedirect: true,
+    maxRedirects: 10,
+  };
+  console.log(config);
+
+  try {
+    const response = await fetch(URL, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      const msg = `No broadband been found for: ` + postcode;
+      console.log(msg);
+
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const msg = `Broadband successfully fetched for: ` + postcode;
+    console.log(msg);
+    const products = data.products;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ products, msg }),
     };
   } catch (err) {
     console.log(err);

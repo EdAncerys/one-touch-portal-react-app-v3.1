@@ -65,7 +65,7 @@ export default function Login({ props }) {
 
   return (
     <div className="features">
-      <div className="flex-container-40">
+      <div className="flex-container-40 NDG-banner">
         <img
           src={OneTouchLogo}
           height="60px"
