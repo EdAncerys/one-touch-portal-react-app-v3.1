@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
+import { colors } from '../../config/colors';
 
 import AddressPicker from '../AddCustomer/AddressPicker';
 import NDGBanner from '../NDGBanner';
 import EthernetConnection from '../../img/oneTouch/Ethernet-Connection.png';
 import BroadbandConnection from '../../img/oneTouch/Broadband-Connection.png';
-import { colors } from '../../config/colors';
 import BroadbandCard from './BroadbandCard';
+import UserManagement from '../UserManagement/UserManagement';
 
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -15,11 +16,13 @@ export default function Index({ props }) {
   const [responseOk, setResponseOk] = useState(false);
   const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
   const [oneTouchCustomer, setOneTouchCustomer] = useState(false);
+  const [addCustomer, setAddCustomer] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState(true);
 
-  console.log(oneTouchBroadband);
-  console.log(oneTouchCustomer);
+  console.log(customerInfo);
 
   const pageData = manageAppContext.pageData;
+  const setPageData = manageAppContext.setPageData;
   const marginOptions = responseOk
     ? '50px 5px 100px 5px'
     : '150px 5px 100px 5px';
@@ -63,6 +66,27 @@ export default function Index({ props }) {
 
   return (
     <>
+      {addCustomer && (
+        <>
+          {customerInfo && (
+            <div className="features-align-right">
+              <div style={styles.btnClose}>
+                <Button
+                  onClick={() => {
+                    setPageData(false);
+                    setAddCustomer(false);
+                  }}
+                  variant="outline-dark"
+                  size="sm"
+                >
+                  <span aria-hidden="true">×</span>
+                </Button>
+              </div>
+            </div>
+          )}
+          <UserManagement setCustomerInfo={setCustomerInfo} />
+        </>
+      )}
       {!pageData && (
         <div style={styles.container} className="features-flex-wrap">
           <div className="flex-container-40">
@@ -75,7 +99,7 @@ export default function Index({ props }) {
                 />
               </div>
               <Button
-                // onClick={() => {}}
+                onClick={() => setAddCustomer(true)}
                 variant="outline-success"
                 size="m"
                 className="btn-one-touch shadow-none mt-3"
@@ -99,7 +123,7 @@ export default function Index({ props }) {
           </div>
         </div>
       )}
-      {pageData && (
+      {pageData && !addCustomer && (
         <div style={styles.container} className="features">
           <div className="flex-container-100">
             <BroadbandCard
@@ -111,9 +135,11 @@ export default function Index({ props }) {
           </div>
         </div>
       )}
-      <div style={styles.ndgBanner} className="features">
-        <NDGBanner width="flex-container-30" />
-      </div>
+      {!addCustomer && (
+        <div style={styles.ndgBanner} className="features">
+          <NDGBanner width="flex-container-30" />
+        </div>
+      )}
     </>
   );
 }
