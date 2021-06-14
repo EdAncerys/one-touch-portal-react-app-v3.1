@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 import AddressPicker from '../AddCustomer/AddressPicker';
@@ -20,8 +21,8 @@ export default function Index({ props }) {
 
   const pageData = manageAppContext.pageData;
   const marginOptions = responseOk
-    ? '50px 5px 170px 5px'
-    : '150px 5px 150px 5px';
+    ? '50px 5px 100px 5px'
+    : '150px 5px 100px 5px';
 
   useEffect(() => {
     if (selectedAddress) broadbandAvailability();
@@ -62,46 +63,55 @@ export default function Index({ props }) {
 
   return (
     <>
-      <div className="features">
-        <div className="flex-container-100">
-          {!pageData && (
-            <div style={styles.container} className="features-flex-wrap">
-              <div style={styles.broadbandConnectionWrapper}>
-                <div style={{ ...styles.addressPicker, margin: marginOptions }}>
-                  <AddressPicker
-                    setResponseOk={setResponseOk}
-                    selectedAddress={selectedAddress}
-                    setSelectedAddress={setSelectedAddress}
-                  />
-                </div>
+      {!pageData && (
+        <div style={styles.container} className="features-flex-wrap">
+          <div className="flex-container-40">
+            <div style={styles.broadbandConnectionWrapper}>
+              <div style={{ ...styles.addressPicker, margin: marginOptions }}>
+                <AddressPicker
+                  setResponseOk={setResponseOk}
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
+                />
               </div>
-
-              <div
-                style={{
-                  ...styles.broadbandConnectionWrapper,
-                  ...styles.ethernetConnectionWrapper,
-                }}
+              <Button
+                // onClick={() => {}}
+                variant="outline-success"
+                size="m"
+                className="btn-one-touch shadow-none mt-3"
               >
-                {/* <div style={{ ...styles.addressPicker, margin: marginOptions }}>
-            <AddressPicker
-              selectedAddress={selectedAddress}
-              setSelectedAddress={setSelectedAddress}
-            />
-          </div> */}
+                Add Customer
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex-container-40">
+            <div
+              style={{
+                ...styles.broadbandConnectionWrapper,
+                ...styles.ethernetConnectionWrapper,
+              }}
+            >
+              <div style={{ ...styles.addressPicker, margin: marginOptions }}>
+                <div style={styles.buildInProgress}>Coming Soon</div>
               </div>
             </div>
-          )}
-          {pageData && (
+          </div>
+        </div>
+      )}
+      {pageData && (
+        <div style={styles.container} className="features">
+          <div className="flex-container-100">
             <BroadbandCard
               setResponseOk={setResponseOk}
               setSelectedAddress={setSelectedAddress}
               oneTouchCustomer={oneTouchCustomer}
               setOneTouchBroadband={setOneTouchBroadband}
             />
-          )}
+          </div>
         </div>
-      </div>
-      <div className="features">
+      )}
+      <div style={styles.ndgBanner} className="features">
         <NDGBanner width="flex-container-30" />
       </div>
     </>
@@ -112,7 +122,6 @@ const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: '50px',
   },
   broadbandConnectionWrapper: {
     display: 'grid',
@@ -125,14 +134,28 @@ const styles = {
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
     borderRadius: '15px',
+    marginTop: '50px',
   },
   ethernetConnectionWrapper: {
     background: `url(${EthernetConnection})`,
+    opacity: 0.4,
+  },
+  buildInProgress: {
+    marginTop: '20px',
+    textAlign: 'center',
+    fontSize: '36px',
+    color: colors.danger,
+    height: 0,
+    overflow: 'visible',
+  },
+  ndgBanner: {
+    marginTop: '50px',
   },
   addressPicker: {
     zIndex: '2',
     padding: '5px',
-    background: colors.white,
+    background: colors.lightGrey,
+    border: `1px solid ${colors.mint}`,
     borderRadius: '10px',
   },
 };

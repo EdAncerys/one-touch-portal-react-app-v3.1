@@ -60,7 +60,7 @@ export default function DropDownPicker({
             onClick={() => selectAddress()}
             variant="outline-success"
             style={{ width: '100%' }}
-            className="shadow-none"
+            className="shadow-none btn-round"
           >
             {connectionChecker ? 'Find Broadband' : 'Select Address'}
           </Button>
@@ -73,7 +73,7 @@ export default function DropDownPicker({
             }}
             variant="outline-primary"
             style={{ width: '100%' }}
-            className="shadow-none"
+            className="shadow-none btn-round"
           >
             Search New Postcode
           </Button>

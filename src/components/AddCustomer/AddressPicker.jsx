@@ -78,7 +78,7 @@ export default function AddressPicker({
               onClick={() => fetchAddress()}
               variant="outline-success"
               style={{ width: '100%' }}
-              className="shadow-none"
+              className="shadow-none btn-round"
             >
               Search Address
             </Button>
@@ -120,7 +120,7 @@ export default function AddressPicker({
                 setFetchedData(false);
                 setSelectedAddress(false);
               }}
-              variant="outline-primary"
+              variant="outline-primary btn-round"
               style={{ width: '100%' }}
               className="shadow-none"
             >
