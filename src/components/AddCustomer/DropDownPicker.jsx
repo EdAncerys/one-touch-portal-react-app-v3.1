@@ -54,7 +54,7 @@ export default function DropDownPicker({
           </select>
         </Col>
       </Row>
-      <Row className="mt-3 mb-3">
+      <Row className="mt-3">
         <Col style={styles.btn}>
           <Button
             onClick={() => selectAddress()}

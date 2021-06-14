@@ -5,11 +5,7 @@ import { AppContext } from '../../App';
 import { validatePostcode } from './validatePostcode';
 import DropDownPicker from './DropDownPicker';
 
-export default function AddressPicker({
-  selectedAddress,
-  setSelectedAddress,
-  setResponseOk,
-}) {
+export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
   console.log(fetchedData);
@@ -59,7 +55,6 @@ export default function AddressPicker({
 
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setFetchedData(data.addresses);
-      if (connectionChecker) setResponseOk(true);
     } catch (err) {
       console.log(err);
     }
@@ -114,19 +109,21 @@ export default function AddressPicker({
               {selectedAddress.postcode}
             </Form.Label>
           </Col>
-          <Col style={styles.btn}>
-            <Button
-              onClick={() => {
-                setFetchedData(false);
-                setSelectedAddress(false);
-              }}
-              variant="outline-primary btn-round"
-              style={{ width: '100%' }}
-              className="shadow-none"
-            >
-              Search New Postcode
-            </Button>
-          </Col>
+          {!connectionChecker && (
+            <Col style={styles.btn}>
+              <Button
+                onClick={() => {
+                  setFetchedData(false);
+                  setSelectedAddress(false);
+                }}
+                variant="outline-primary btn-round"
+                style={{ width: '100%' }}
+                className="shadow-none"
+              >
+                Search New Postcode
+              </Button>
+            </Col>
+          )}
         </Row>
       )}
     </Form.Group>

@@ -1,0 +1,11 @@
+.ethernetConnectionWrapper::before {
+  content: '';
+  position: absolute;
+  height: 350px;
+  width: 400px;
+  background-image: url('../img/oneTouch/Ethernet-Connection.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0.4;
+}

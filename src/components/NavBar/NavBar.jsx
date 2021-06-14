@@ -45,12 +45,12 @@ export default function NavBar({ props }) {
             </NavDropdown>
             <NavDropdown title="Broadband">
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('broadband-accounts')}
+                onClick={() => manageAppContext.setPage('live-connections')}
               >
                 Broadband Accounts
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('add-broadband')}
+                onClick={() => manageAppContext.setPage('connection-checker')}
               >
                 Add Broadband
               </NavDropdown.Item>

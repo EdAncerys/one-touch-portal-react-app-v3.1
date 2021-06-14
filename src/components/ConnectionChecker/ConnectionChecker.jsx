@@ -13,19 +13,16 @@ import UserManagement from '../UserManagement/UserManagement';
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [selectedAddress, setSelectedAddress] = useState(false);
-  const [responseOk, setResponseOk] = useState(false);
   const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
   const [oneTouchCustomer, setOneTouchCustomer] = useState(false);
   const [addCustomer, setAddCustomer] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState(true);
+  const [customerInfo, setCustomerInfo] = useState(false);
 
   console.log(customerInfo);
 
   const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;
-  const marginOptions = responseOk
-    ? '50px 5px 100px 5px'
-    : '150px 5px 100px 5px';
+  const marginOptions = '50px 5px 50px 5px';
 
   useEffect(() => {
     if (selectedAddress) broadbandAvailability();
@@ -35,40 +32,40 @@ export default function Index({ props }) {
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/icUK';
 
-    try {
-      const body = {
-        oneTouchPath: 'broadbandAvailability',
-        selectedAddress,
-        access_token,
-      };
-      console.log(body);
+    // try {
+    //   const body = {
+    //     oneTouchPath: 'broadbandAvailability',
+    //     selectedAddress,
+    //     access_token,
+    //   };
+    //   console.log(body);
 
-      const config = {
-        method: 'POST',
-        body: JSON.stringify(body),
-      };
-      const response = await fetch(URL, config);
-      const data = await response.json();
+    //   const config = {
+    //     method: 'POST',
+    //     body: JSON.stringify(body),
+    //   };
+    //   const response = await fetch(URL, config);
+    //   const data = await response.json();
 
-      if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-        manageAppContext.setPageData(false);
-        console.log(data);
-        return;
-      }
+    //   if (!response.ok) {
+    //     manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+    //     manageAppContext.setPageData(false);
+    //     console.log(data);
+    //     return;
+    //   }
 
-      manageAppContext.setPageData(data.products);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
+    //   manageAppContext.setPageData(data.products);
+    //   console.log(data);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   return (
     <>
       {addCustomer && (
         <>
-          {customerInfo && (
+          {!customerInfo && (
             <div className="features-align-right">
               <div style={styles.btnClose}>
                 <Button
@@ -90,34 +87,46 @@ export default function Index({ props }) {
       {!pageData && (
         <div style={styles.container} className="features-flex-wrap">
           <div className="flex-container-40">
-            <div style={styles.broadbandConnectionWrapper}>
-              <div style={{ ...styles.addressPicker, margin: marginOptions }}>
-                <AddressPicker
-                  setResponseOk={setResponseOk}
-                  selectedAddress={selectedAddress}
-                  setSelectedAddress={setSelectedAddress}
-                />
+            <div style={styles.warper}>
+              <div style={styles.broadbandConnectionWrapper}>
+                <div style={{ ...styles.addressPicker, margin: marginOptions }}>
+                  <AddressPicker
+                    selectedAddress={selectedAddress}
+                    setSelectedAddress={setSelectedAddress}
+                  />
+                </div>
               </div>
-              <Button
-                onClick={() => setAddCustomer(true)}
-                variant="outline-success"
-                size="m"
-                className="btn-one-touch shadow-none mt-3"
-              >
-                Add Customer
-              </Button>
+              <div>
+                <Button
+                  onClick={() => setAddCustomer(true)}
+                  variant="outline-success"
+                  size="m"
+                  className="btn-one-touch shadow-none mt-3"
+                >
+                  Add Customer
+                </Button>
+              </div>
             </div>
           </div>
 
           <div className="flex-container-40">
-            <div
-              style={{
-                ...styles.broadbandConnectionWrapper,
-                ...styles.ethernetConnectionWrapper,
-              }}
-            >
-              <div style={{ ...styles.addressPicker, margin: marginOptions }}>
+            <div style={styles.warper}>
+              <div className="ethernetConnectionWrapper">
                 <div style={styles.buildInProgress}>Coming Soon</div>
+                {/* <div
+                  style={{ ...styles.addressPicker, margin: marginOptions }}
+                ></div> */}
+              </div>
+              <div>
+                <Button
+                  // onClick={() => setAddCustomer(true)}
+                  style={{ opacity: 0.4 }}
+                  variant="outline-success"
+                  size="m"
+                  className="btn-one-touch shadow-none mt-3"
+                >
+                  Add Customer
+                </Button>
               </div>
             </div>
           </div>
@@ -125,9 +134,9 @@ export default function Index({ props }) {
       )}
       {pageData && !addCustomer && (
         <div style={styles.container} className="features">
-          <div className="flex-container-100">
+          <div className="flex-container-70">
             <BroadbandCard
-              setResponseOk={setResponseOk}
+              setAddCustomer={setAddCustomer}
               setSelectedAddress={setSelectedAddress}
               oneTouchCustomer={oneTouchCustomer}
               setOneTouchBroadband={setOneTouchBroadband}
@@ -136,7 +145,7 @@ export default function Index({ props }) {
         </div>
       )}
       {!addCustomer && (
-        <div style={styles.ndgBanner} className="features">
+        <div className="features">
           <NDGBanner width="flex-container-30" />
         </div>
       )}
@@ -148,40 +157,39 @@ const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
+    marginTop: '50px',
   },
-  broadbandConnectionWrapper: {
+  warper: {
     display: 'grid',
     justifyContent: 'center',
-    width: '400px',
-    height: '350px',
-    gridTemplateColumns: '1fr',
+    gridTemplateColumns: '400px',
+    gridTemplateRows: '350px auto',
+  },
+  broadbandConnectionWrapper: {
     background: `url(${BroadbandConnection})`,
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
-    backgroundSize: 'cover',
     borderRadius: '15px',
-    marginTop: '50px',
   },
   ethernetConnectionWrapper: {
     background: `url(${EthernetConnection})`,
-    opacity: 0.4,
   },
   buildInProgress: {
-    marginTop: '20px',
+    zIndex: '9',
     textAlign: 'center',
     fontSize: '36px',
     color: colors.danger,
-    height: 0,
-    overflow: 'visible',
-  },
-  ndgBanner: {
-    marginTop: '50px',
+    paddingTop: '200px',
   },
   addressPicker: {
+    display: 'grid',
+    alignItems: 'center',
     zIndex: '2',
     padding: '5px',
     background: colors.lightGrey,
     border: `1px solid ${colors.mint}`,
     borderRadius: '10px',
+    height: '150px',
   },
 };

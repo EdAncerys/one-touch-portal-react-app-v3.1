@@ -4,6 +4,7 @@
 @import url('./login-logout.css');
 @import url('./btn.css');
 @import url('./manage-customer.css');
+@import url('./connection-checker.css');
 
 body {
   padding: 0;
@@ -95,6 +96,7 @@ body {
   .features,
   .features-align-left {
     flex-direction: column;
+    padding: 10px;
   }
   .content-container {
     width: 100vw;

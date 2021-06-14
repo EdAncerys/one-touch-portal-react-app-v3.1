@@ -7,7 +7,7 @@ import CustomerInfoCard from './CustomerInfoCard';
 export default function UserManagement({ setCustomerInfo }) {
   const { manageAppContext } = useContext(AppContext);
   const [findCustomer, setFindCustomer] = useState(false);
-
+  console.log('CI ', findCustomer);
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
 
@@ -16,7 +16,7 @@ export default function UserManagement({ setCustomerInfo }) {
   }, [page]); // eslint-disable-line
 
   useEffect(() => {
-    if (findCustomer) setCustomerInfo(false);
+    if (setCustomerInfo) setCustomerInfo(!!findCustomer);
   }, [findCustomer]); // eslint-disable-line
 
   async function userManagement() {

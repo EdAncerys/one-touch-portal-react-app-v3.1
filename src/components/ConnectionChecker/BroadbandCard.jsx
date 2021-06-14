@@ -7,9 +7,9 @@ import { broadbandPriceFilter } from './broadbandPriceFilter';
 
 export default function BroadbandCard({
   setSelectedAddress,
-  setResponseOk,
   setOneTouchBroadband,
   oneTouchCustomer,
+  setAddCustomer,
 }) {
   const { manageAppContext } = useContext(AppContext);
 
@@ -23,7 +23,7 @@ export default function BroadbandCard({
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
         <Card.Header>
-          <div>{pageData.email} Customer List</div>
+          <div>{pageData.email} Broadband List</div>
         </Card.Header>
         <Card.Body>
           <Table responsive bordered hover size="sm">
@@ -67,6 +67,7 @@ export default function BroadbandCard({
                     {!oneTouchCustomer && (
                       <Button
                         onClick={() => setPage('add-customer')}
+                        // onClick={() => setAddCustomer(true)}
                         id={index}
                         size="sm"
                         variant="outline-primary"
@@ -86,7 +87,6 @@ export default function BroadbandCard({
         </Card.Body>
         <Button
           onClick={() => {
-            setResponseOk(false);
             setSelectedAddress(false);
             setPageData(false);
           }}
