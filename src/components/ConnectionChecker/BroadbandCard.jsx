@@ -6,18 +6,18 @@ import { colors } from '../../config/colors';
 import { broadbandPriceFilter } from './broadbandPriceFilter';
 
 export default function BroadbandCard({
-  setSelectedAddress,
-  setOneTouchBroadband,
-  oneTouchCustomer,
+  broadbandData,
   setAddCustomer,
+  setSelectedAddress,
+  oneTouchCustomer,
+  setBroadbandData,
 }) {
   const { manageAppContext } = useContext(AppContext);
 
-  const setPage = manageAppContext.setPage;
   const setPageData = manageAppContext.setPageData;
   const pageData = manageAppContext.pageData;
-  const broadbandData = broadbandPriceFilter(pageData);
-  console.log(broadbandData);
+  const broadbandDataFiltered = broadbandPriceFilter(broadbandData);
+  console.log(broadbandDataFiltered);
 
   return (
     <div style={styles.container}>
@@ -36,7 +36,7 @@ export default function BroadbandCard({
               </tr>
             </thead>
             <tbody>
-              {broadbandData.map((broadband, index) => (
+              {broadbandDataFiltered.map((broadband, index) => (
                 <tr key={index.toString()}>
                   <td key={index.toString() + 'a'}>{index + 1}</td>
                   <td key={index.toString() + 'b'}>
@@ -55,7 +55,7 @@ export default function BroadbandCard({
                     {oneTouchCustomer && (
                       <Button
                         onClick={() =>
-                          setOneTouchBroadband(broadbandData[index])
+                          setBroadbandData(broadbandDataFiltered[index])
                         }
                         id={index}
                         size="sm"
@@ -66,8 +66,10 @@ export default function BroadbandCard({
                     )}
                     {!oneTouchCustomer && (
                       <Button
-                        onClick={() => setPage('add-customer')}
-                        // onClick={() => setAddCustomer(true)}
+                        onClick={() => {
+                          setBroadbandData(false);
+                          setAddCustomer(true);
+                        }}
                         id={index}
                         size="sm"
                         variant="outline-primary"
@@ -87,7 +89,9 @@ export default function BroadbandCard({
         </Card.Body>
         <Button
           onClick={() => {
+            setAddCustomer(false);
             setSelectedAddress(false);
+            setBroadbandData(false);
             setPageData(false);
           }}
           variant="outline-success"

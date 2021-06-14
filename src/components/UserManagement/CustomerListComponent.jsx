@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
-import { AppContext } from "../../App";
-import { Card, Table } from "react-bootstrap";
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
+import { Card, Table } from 'react-bootstrap';
 
-import NDGBanner from "../NDGBanner";
-import CustomerCard from "./CustomerCard";
+import NDGBanner from '../NDGBanner';
+import CustomerCard from './CustomerCard';
 
-export default function CustomerListComponent({ setFindCustomer }) {
+export default function CustomerListComponent({
+  setFindCustomer,
+  setOneTouchCustomer,
+}) {
   const { manageAppContext } = useContext(AppContext);
 
   const pageData = manageAppContext.pageData;
@@ -14,7 +17,7 @@ export default function CustomerListComponent({ setFindCustomer }) {
   return (
     <div className="features">
       <div className="flex-container-30">
-        <Card bg="Light" text="dark" style={{ width: "100%" }} className="mb-2">
+        <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
           <Card.Header>
             <div>{pageData.fName} Customer Information</div>
           </Card.Header>
@@ -34,7 +37,10 @@ export default function CustomerListComponent({ setFindCustomer }) {
       </div>
 
       <div className="flex-container-70">
-        <CustomerCard setFindCustomer={setFindCustomer} />
+        <CustomerCard
+          setFindCustomer={setFindCustomer}
+          setOneTouchCustomer={setOneTouchCustomer}
+        />
       </div>
     </div>
   );

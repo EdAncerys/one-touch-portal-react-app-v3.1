@@ -4,10 +4,16 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function CustomerCard({ setFindCustomer }) {
+export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
   const { manageAppContext } = useContext(AppContext);
 
   const pageData = manageAppContext.pageData;
+  const connectionChecker = manageAppContext.page === 'connection-checker';
+
+  async function filterCustomers(id) {
+    const customer = pageData.filter((data) => data._id === id)[0];
+    setOneTouchCustomer(customer);
+  }
 
   return (
     <div style={styles.container}>
@@ -59,15 +65,31 @@ export default function CustomerCard({ setFindCustomer }) {
                       {customer.oneTouchCustomer.postcode}
                     </div>
                   </td>
-                  <td key={customer._id.toString() + 'd'} style={styles.btn}>
+                  <td
+                    key={customer._id.toString() + 'd'}
+                    style={styles.btnComponent}
+                  >
                     <Button
                       onClick={() => setFindCustomer(customer._id)}
                       id={customer._id}
                       size="sm"
                       className="shadow-none"
+                      style={styles.btn}
                     >
                       Customer Info
                     </Button>
+                    {connectionChecker && (
+                      <Button
+                        onClick={() => filterCustomers(customer._id)}
+                        id={customer._id}
+                        variant="outline-success"
+                        size="sm"
+                        className="shadow-none"
+                        style={styles.btn}
+                      >
+                        Add Customer
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -84,9 +106,12 @@ const styles = {
     fontSize: '12px',
     color: colors.darkGrey,
   },
-  btn: {
+  btnComponent: {
     textAlign: 'center',
     margin: 'auto',
     padding: '10px',
+  },
+  btn: {
+    margin: '0 5px',
   },
 };

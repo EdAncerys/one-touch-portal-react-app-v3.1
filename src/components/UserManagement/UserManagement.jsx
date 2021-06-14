@@ -4,10 +4,13 @@ import { AppContext } from '../../App';
 import CustomerListComponent from './CustomerListComponent';
 import CustomerInfoCard from './CustomerInfoCard';
 
-export default function UserManagement({ setCustomerInfo }) {
+export default function UserManagement({
+  setCustomerInfo,
+  setOneTouchCustomer,
+}) {
   const { manageAppContext } = useContext(AppContext);
   const [findCustomer, setFindCustomer] = useState(false);
-  console.log('CI ', findCustomer);
+
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
 
@@ -54,7 +57,10 @@ export default function UserManagement({ setCustomerInfo }) {
   return (
     <>
       {pageData && !findCustomer && (
-        <CustomerListComponent setFindCustomer={setFindCustomer} />
+        <CustomerListComponent
+          setFindCustomer={setFindCustomer}
+          setOneTouchCustomer={setOneTouchCustomer}
+        />
       )}
       {findCustomer && (
         <CustomerInfoCard

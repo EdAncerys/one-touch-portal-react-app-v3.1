@@ -13,12 +13,12 @@ import UserManagement from '../UserManagement/UserManagement';
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [selectedAddress, setSelectedAddress] = useState(false);
-  const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
+  const [broadbandData, setBroadbandData] = useState(false);
   const [oneTouchCustomer, setOneTouchCustomer] = useState(false);
   const [addCustomer, setAddCustomer] = useState(false);
   const [customerInfo, setCustomerInfo] = useState(false);
 
-  console.log(customerInfo);
+  console.log(broadbandData);
 
   const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;
@@ -27,49 +27,56 @@ export default function Index({ props }) {
   useEffect(() => {
     if (selectedAddress) broadbandAvailability();
   }, [selectedAddress]); // eslint-disable-line
+  useEffect(() => {
+    if (oneTouchCustomer) {
+      setSelectedAddress(oneTouchCustomer.oneTouchCustomer);
+      setAddCustomer(true);
+    }
+  }, [oneTouchCustomer]); // eslint-disable-line
 
   async function broadbandAvailability() {
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/icUK';
 
-    // try {
-    //   const body = {
-    //     oneTouchPath: 'broadbandAvailability',
-    //     selectedAddress,
-    //     access_token,
-    //   };
-    //   console.log(body);
+    try {
+      const body = {
+        oneTouchPath: 'broadbandAvailability',
+        selectedAddress,
+        access_token,
+      };
+      console.log(body);
 
-    //   const config = {
-    //     method: 'POST',
-    //     body: JSON.stringify(body),
-    //   };
-    //   const response = await fetch(URL, config);
-    //   const data = await response.json();
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
 
-    //   if (!response.ok) {
-    //     manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-    //     manageAppContext.setPageData(false);
-    //     console.log(data);
-    //     return;
-    //   }
+      if (!response.ok) {
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        manageAppContext.setPageData(false);
+        console.log(data);
+        return;
+      }
 
-    //   manageAppContext.setPageData(data.products);
-    //   console.log(data);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+      setBroadbandData(data.products);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
     <>
-      {addCustomer && (
+      {!broadbandData && addCustomer && (
         <>
           {!customerInfo && (
             <div className="features-align-right">
               <div style={styles.btnClose}>
                 <Button
                   onClick={() => {
+                    setSelectedAddress(false);
                     setPageData(false);
                     setAddCustomer(false);
                   }}
@@ -81,10 +88,13 @@ export default function Index({ props }) {
               </div>
             </div>
           )}
-          <UserManagement setCustomerInfo={setCustomerInfo} />
+          <UserManagement
+            setCustomerInfo={setCustomerInfo}
+            setOneTouchCustomer={setOneTouchCustomer}
+          />
         </>
       )}
-      {!pageData && (
+      {!broadbandData && !addCustomer && (
         <div style={styles.container} className="features-flex-wrap">
           <div className="flex-container-40">
             <div style={styles.warper}>
@@ -93,6 +103,7 @@ export default function Index({ props }) {
                   <AddressPicker
                     selectedAddress={selectedAddress}
                     setSelectedAddress={setSelectedAddress}
+                    setOneTouchCustomer={setOneTouchCustomer}
                   />
                 </div>
               </div>
@@ -132,14 +143,15 @@ export default function Index({ props }) {
           </div>
         </div>
       )}
-      {pageData && !addCustomer && (
+      {broadbandData && (
         <div style={styles.container} className="features">
           <div className="flex-container-70">
             <BroadbandCard
+              broadbandData={broadbandData}
               setAddCustomer={setAddCustomer}
               setSelectedAddress={setSelectedAddress}
               oneTouchCustomer={oneTouchCustomer}
-              setOneTouchBroadband={setOneTouchBroadband}
+              setBroadbandData={setBroadbandData}
             />
           </div>
         </div>

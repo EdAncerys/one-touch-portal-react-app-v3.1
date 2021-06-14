@@ -5,7 +5,11 @@ import { AppContext } from '../../App';
 import { validatePostcode } from './validatePostcode';
 import DropDownPicker from './DropDownPicker';
 
-export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
+export default function AddressPicker({
+  selectedAddress,
+  setSelectedAddress,
+  setOneTouchCustomer,
+}) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
   console.log(fetchedData);
@@ -61,7 +65,7 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
   }
 
   return (
-    <Form.Group style={styles.addressPicker} className="mb-3">
+    <Form.Group style={styles.addressPicker}>
       {!fetchedData && (
         <Row>
           <Col>
@@ -70,7 +74,10 @@ export default function AddressPicker({ selectedAddress, setSelectedAddress }) {
           </Col>
           <Col style={styles.btn}>
             <Button
-              onClick={() => fetchAddress()}
+              onClick={() => {
+                if (setOneTouchCustomer) setOneTouchCustomer(false);
+                fetchAddress();
+              }}
               variant="outline-success"
               style={{ width: '100%' }}
               className="shadow-none btn-round"
