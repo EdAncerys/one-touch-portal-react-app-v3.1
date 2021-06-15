@@ -57,7 +57,6 @@ export default function AddressPicker({
       if (!response.ok) {
         setSpinner(false);
         manageAppContext.setAlert({ color: "warning", msg: data.msg });
-        manageAppContext.setPageData(false);
         return;
       }
 

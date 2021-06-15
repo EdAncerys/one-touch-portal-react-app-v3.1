@@ -58,7 +58,6 @@ export default function Index({ props }) {
         setSpinner(false);
         manageAppContext.setAlert({ color: "warning", msg: data.msg });
         setBroadbandData(false);
-        manageAppContext.setPageData(false);
         console.log(data);
         return;
       }

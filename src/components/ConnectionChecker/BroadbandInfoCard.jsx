@@ -45,7 +45,6 @@ export default function BroadbandInfoCard({
       if (!response.ok) {
         setSpinner(false);
         manageAppContext.setAlert({ color: "warning", msg: data.msg });
-        manageAppContext.setPageData(false);
         console.log(data);
         return;
       }
