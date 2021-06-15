@@ -12,6 +12,7 @@ export default function AddCustomerForm({ props }) {
   const [clearFormData, setClearFormData] = useState(false);
 
   const dev = manageAppContext.accessToken.role === 'dev';
+  const setSpinner = manageAppContext.setSpinner;
 
   useEffect(() => {
     if (clearFormData) clearFromData();
@@ -66,6 +67,8 @@ export default function AddCustomerForm({ props }) {
   }
 
   async function addCustomer() {
+    setSpinner(true);
+
     const fName = document.getElementById('fName').value;
     const lName = document.getElementById('lName').value;
     const email = document.getElementById('email').value;
@@ -93,6 +96,7 @@ export default function AddCustomerForm({ props }) {
       !validateEmail(companyEmail) ||
       !validateEmail(contactEmail)
     ) {
+      setSpinner(false)
       const msg = `Provided email not valid`;
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
@@ -118,6 +122,7 @@ export default function AddCustomerForm({ props }) {
       setFormCompleted(true);
 
     if (!selectedAddress && !formCompleted) {
+      setSpinner(false)
       const msg = `Please fill in all required fields`;
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
@@ -177,12 +182,14 @@ export default function AddCustomerForm({ props }) {
       const data = await response.json();
 
       if (!response.ok) {
+        setSpinner(false)
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
         console.log(data);
         return;
       }
 
+      setSpinner(false)
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setClearFormData(true);
       console.log(data);
