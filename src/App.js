@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Spinner } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
-import { colors } from './config/colors';
 
 import NavBar from './components/NavBar/NavBar';
 import ErrorMsg from './components/ErrorMsg';
+import SpinnerMsg from './components/SpinnerMsg';
 import AuthIndex from './components/AuthIndex/AuthIndex';
 import Index from './components/Index/Index';
 import Docs from './components/docs/Docs';
@@ -26,7 +25,7 @@ export default function App({ props }) {
   const [accessToken, setAccessToken] = useState(false);
   const [page, setPage] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
   const [pageData, setPageData] = useState(false);
 
   const SESSION_STORAGE_KEY = 'oneTouchPortal.App';
@@ -79,14 +78,7 @@ export default function App({ props }) {
       }}
     >
       {alert && <ErrorMsg color={alert.color} msg={alert.msg} />}
-      {spinner && (
-        <div style={styles.spinnerContainer}>
-          <div style={styles.spinnerWrapper}>
-            <Spinner animation="border" role="status"></Spinner>
-            <span>Loading...</span>
-          </div>
-        </div>
-      )}
+      {spinner && <SpinnerMsg spinner={spinner} />}
 
       <div className="oneTouchBodyContainer">
         <div className="oneTouchBodyWrapper Oswald">
@@ -114,18 +106,3 @@ export default function App({ props }) {
     </AppContext.Provider>
   );
 }
-
-const styles = {
-  spinnerContainer: {
-    position: 'absolute',
-    width: '100vw',
-    height: '100vh',
-    zIndex: '999',
-    background: colors.bgGO,
-  },
-  spinnerWrapper: {
-    position: 'relative',
-    marginTop: '40%',
-    marginLeft: '50%',
-  },
-};
