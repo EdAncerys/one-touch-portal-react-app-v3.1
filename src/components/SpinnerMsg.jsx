@@ -5,9 +5,11 @@ import { colors } from '../config/colors';
 
 export default function SpinnerMsg({ spinner }) {
   return (
-    <div style={styles.spinnerContainer}>
-      <div style={styles.spinnerWrapper}>
-        <Spinner animation="border" role="status"></Spinner>
+    <div style={styles.container}>
+      <div style={styles.wrapper}>
+        <div style={styles.spinner}>
+          <Spinner animation="border" role="status"></Spinner>
+        </div>
         <span>Loading...</span>
       </div>
     </div>
@@ -15,16 +17,23 @@ export default function SpinnerMsg({ spinner }) {
 }
 
 const styles = {
-  spinnerContainer: {
+  container: {
     position: 'absolute',
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    minHeight: '100%',
     zIndex: '999',
-    background: colors.bgGO,
+    color: colors.danger,
+    // background: colors.bgGO,
   },
-  spinnerWrapper: {
-    position: 'relative',
-    marginTop: '40%',
-    marginLeft: '50%',
+  wrapper: {
+    display: 'grid',
+    gridTemplateRows: '1fr auto',
+    gap: '10px',
+    justifyContent: 'center',
+    marginTop: '30vh',
+  },
+  spinner: {
+    display: 'grid',
+    justifyContent: 'center',
   },
 };

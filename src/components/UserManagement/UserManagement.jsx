@@ -14,6 +14,7 @@ export default function UserManagement({
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
   const setPage = manageAppContext.setPage;
+  const setSpinner = manageAppContext.setSpinner;
 
   useEffect(() => {
     userManagement();
@@ -26,6 +27,7 @@ export default function UserManagement({
   async function userManagement() {
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/mongoDB';
+    setSpinner(true);
 
     try {
       const body = {
@@ -42,13 +44,15 @@ export default function UserManagement({
       const data = await response.json();
 
       if (!response.ok) {
+        setSpinner(false);
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
         setPage('add-customer');
         console.log(data);
         return;
       }
-
+      setSpinner(false);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       manageAppContext.setPageData(data.customerList);
       console.log(data);
     } catch (err) {

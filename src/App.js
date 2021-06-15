@@ -25,7 +25,7 @@ export default function App({ props }) {
   const [accessToken, setAccessToken] = useState(false);
   const [page, setPage] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [spinner, setSpinner] = useState(true);
+  const [spinner, setSpinner] = useState(false);
   const [pageData, setPageData] = useState(false);
 
   const SESSION_STORAGE_KEY = 'oneTouchPortal.App';
@@ -40,6 +40,8 @@ export default function App({ props }) {
       setAlert,
       pageData,
       setPageData,
+      spinner,
+      setSpinner,
     }),
     [accessToken, page, alert, pageData]
   );
