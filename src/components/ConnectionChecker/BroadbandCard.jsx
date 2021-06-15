@@ -11,6 +11,7 @@ export default function BroadbandCard({
   setSelectedAddress,
   oneTouchCustomer,
   setBroadbandData,
+  setOneTouchBroadband,
 }) {
   const { manageAppContext } = useContext(AppContext);
 
@@ -55,13 +56,13 @@ export default function BroadbandCard({
                     {oneTouchCustomer && (
                       <Button
                         onClick={() =>
-                          setBroadbandData(broadbandDataFiltered[index])
+                          setOneTouchBroadband(broadbandDataFiltered[index])
                         }
                         id={index}
                         size="sm"
                         className="shadow-none"
                       >
-                        Place Order
+                        Select Deal
                       </Button>
                     )}
                     {!oneTouchCustomer && (

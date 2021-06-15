@@ -8,6 +8,7 @@ import NDGBanner from '../NDGBanner';
 import EthernetConnection from '../../img/oneTouch/Ethernet-Connection.png';
 import BroadbandConnection from '../../img/oneTouch/Broadband-Connection.png';
 import BroadbandCard from './BroadbandCard';
+import BroadbandInfoCard from './BroadbandInfoCard';
 import UserManagement from '../UserManagement/UserManagement';
 
 export default function Index({ props }) {
@@ -17,8 +18,9 @@ export default function Index({ props }) {
   const [oneTouchCustomer, setOneTouchCustomer] = useState(false);
   const [addCustomer, setAddCustomer] = useState(false);
   const [customerInfo, setCustomerInfo] = useState(false);
+  const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
 
-  console.log(broadbandData);
+  console.log(oneTouchBroadband, oneTouchCustomer);
 
   const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;
@@ -55,11 +57,13 @@ export default function Index({ props }) {
 
       if (!response.ok) {
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setBroadbandData(false);
         manageAppContext.setPageData(false);
         console.log(data);
         return;
       }
 
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setBroadbandData(data.products);
       console.log(data);
     } catch (err) {
@@ -143,7 +147,7 @@ export default function Index({ props }) {
           </div>
         </div>
       )}
-      {broadbandData && (
+      {broadbandData && !oneTouchBroadband && (
         <div style={styles.container} className="features">
           <div className="flex-container-70">
             <BroadbandCard
@@ -152,9 +156,17 @@ export default function Index({ props }) {
               setSelectedAddress={setSelectedAddress}
               oneTouchCustomer={oneTouchCustomer}
               setBroadbandData={setBroadbandData}
+              setOneTouchBroadband={setOneTouchBroadband}
             />
           </div>
         </div>
+      )}
+      {broadbandData && oneTouchBroadband && (
+        <BroadbandInfoCard
+          oneTouchCustomer={oneTouchCustomer}
+          oneTouchBroadband={oneTouchBroadband}
+          setOneTouchBroadband={setOneTouchBroadband}
+        />
       )}
       {!addCustomer && (
         <div className="features">
