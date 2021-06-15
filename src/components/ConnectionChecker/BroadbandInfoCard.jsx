@@ -97,11 +97,11 @@ export default function BroadbandInfoCard({
                     <Table bordered hover size="sm">
                       <tbody>
                         <tr>
-                          <td>Contract Start Day</td>
+                          <td>Broadband Name</td>
                           <td>{oneTouchBroadband.name}</td>
                         </tr>
                         <tr>
-                          <td>Contract End Day</td>
+                          <td>Provider</td>
                           <td>{oneTouchBroadband.provider}</td>
                         </tr>
                         <tr>

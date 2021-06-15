@@ -16,7 +16,9 @@ export default function ContractOverviewCard({ setFilterContract }) {
   let liveContracts = 0;
 
   pageData.map((contract) => {
-    const contractStartDay = contract.oneTouchBroadband.contractStartDay;
+    let contractStartDay = '';
+    if (!!contract.length)
+      contractStartDay = contract.oneTouchBroadband.contractStartDay;
     let contractEndDay;
 
     // contract expiration day

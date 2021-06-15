@@ -27,12 +27,15 @@ export default function CustomerCard({ setFindContract, filterContract }) {
             </thead>
             <tbody>
               {pageData.map((customer, index) => {
-                const broadbandData = customer.oneTouchBroadband;
+                let broadbandData = customer.oneTouchBroadband;
                 let customerData = customer.oneTouchCustomer;
                 let notFound = customerData.length === 0;
 
                 let bgColor = '';
-                const contractStartDay = broadbandData.contractStartDay;
+                let contractStartDay = '';
+                if (!!customer.length)
+                  contractStartDay = broadbandData.contractStartDay;
+
                 let contractEndDay;
                 let contractVisibility = '';
                 let contractStatus = '';
