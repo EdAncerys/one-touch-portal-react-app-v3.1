@@ -13,6 +13,7 @@ export default function UserManagement({
 
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
+  const setPage = manageAppContext.setPage;
 
   useEffect(() => {
     userManagement();
@@ -43,6 +44,7 @@ export default function UserManagement({
       if (!response.ok) {
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
+        setPage('add-customer');
         console.log(data);
         return;
       }

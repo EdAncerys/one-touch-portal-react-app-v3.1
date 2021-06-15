@@ -504,4 +504,8 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
   },
+  manageCard: {
+    background: colors.bgSTOP,
+    color: colors.white,
+  },
 };
