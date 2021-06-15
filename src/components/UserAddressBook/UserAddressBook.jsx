@@ -39,7 +39,7 @@ export default function UserAddressBook({ props }) {
       if (!response.ok) {
         setSpinner(false);
         manageAppContext.setAlert({ color: "warning", msg: data.msg });
-        manageAppContext.setPageData(false);
+        manageAppContext.setPageData([]);
         console.log(data);
         return;
       }
