@@ -28,8 +28,9 @@ export default function AddCustomerForm({ props }) {
     document.getElementById('companyEmail').value = 'john@email.com';
 
     document.getElementById('companyPhoneNumber').value = '07565888999';
-    document.getElementById('accountManager').value = '';
-    document.getElementById('companyRegistration').value = '';
+    document.getElementById('accountManager').value = 'Account Manager';
+    document.getElementById('companyRegistration').value =
+      'Company Registration';
 
     document.getElementById('contactFirstName').value = 'Ben';
     document.getElementById('contactLastName').value = 'Dover';
