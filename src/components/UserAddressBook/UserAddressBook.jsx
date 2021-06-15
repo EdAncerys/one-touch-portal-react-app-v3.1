@@ -8,6 +8,7 @@ export default function UserAddressBook({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [findCustomer, setFindCustomer] = useState(false);
 
+  const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
 
@@ -16,6 +17,7 @@ export default function UserAddressBook({ props }) {
   }, [page]); // eslint-disable-line
 
   async function userManagement() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
     const URL = "/.netlify/functions/mongoDB";
 
@@ -35,12 +37,14 @@ export default function UserAddressBook({ props }) {
       const data = await response.json();
 
       if (!response.ok) {
+        setSpinner(false);
         manageAppContext.setAlert({ color: "warning", msg: data.msg });
         manageAppContext.setPageData(false);
         console.log(data);
         return;
       }
 
+      setSpinner(false);
       manageAppContext.setPageData(data.customerList);
       console.log(data);
     } catch (err) {

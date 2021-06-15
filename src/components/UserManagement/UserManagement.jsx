@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AppContext } from '../../App';
+import React, { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../App";
 
-import CustomerListComponent from './CustomerListComponent';
-import CustomerInfoCard from './CustomerInfoCard';
+import CustomerListComponent from "./CustomerListComponent";
+import CustomerInfoCard from "./CustomerInfoCard";
 
 export default function UserManagement({
   setCustomerInfo,
@@ -11,10 +11,10 @@ export default function UserManagement({
   const { manageAppContext } = useContext(AppContext);
   const [findCustomer, setFindCustomer] = useState(false);
 
+  const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
   const setPage = manageAppContext.setPage;
-  const setSpinner = manageAppContext.setSpinner;
 
   useEffect(() => {
     userManagement();
@@ -25,19 +25,19 @@ export default function UserManagement({
   }, [findCustomer]); // eslint-disable-line
 
   async function userManagement() {
-    const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
     setSpinner(true);
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = "/.netlify/functions/mongoDB";
 
     try {
       const body = {
-        oneTouchPath: 'userManagement',
+        oneTouchPath: "userManagement",
         access_token,
       };
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -45,14 +45,15 @@ export default function UserManagement({
 
       if (!response.ok) {
         setSpinner(false);
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         manageAppContext.setPageData(false);
-        setPage('add-customer');
+        setPage("add-customer");
         console.log(data);
         return;
       }
+
       setSpinner(false);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setAlert({ color: "success", msg: data.msg });
       manageAppContext.setPageData(data.customerList);
       console.log(data);
     } catch (err) {

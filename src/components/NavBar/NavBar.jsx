@@ -6,6 +6,7 @@ import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
 
 export default function NavBar({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  
   const admin = manageAppContext.accessToken.role;
 
   return (

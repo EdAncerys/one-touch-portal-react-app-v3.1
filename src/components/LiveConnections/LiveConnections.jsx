@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AppContext } from '../../App';
+import React, { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../App";
 
-import LiveContractComponent from './LiveContractComponent';
-import ContractInfoCard from './ContractInfoCard';
+import LiveContractComponent from "./LiveContractComponent";
+import ContractInfoCard from "./ContractInfoCard";
 
 export default function LiveConnections({ props }) {
   const { manageAppContext } = useContext(AppContext);
   const [findContract, setFindContract] = useState(false);
   const [filterContract, setFilterContract] = useState(false);
 
+  const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
   const setPage = manageAppContext.setPage;
@@ -20,31 +21,34 @@ export default function LiveConnections({ props }) {
   }, [page]); // eslint-disable-line
 
   async function liveConnections() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
     try {
       const body = {
-        oneTouchPath: 'liveConnections',
+        oneTouchPath: "liveConnections",
         access_token,
       };
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setSpinner(false);
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         manageAppContext.setPageData(false);
-        setPage('connection-checker');
+        setPage("connection-checker");
         console.log(data);
         return;
       }
 
+      setSpinner(false);
       manageAppContext.setPageData(data.contracts);
       console.log(data);
     } catch (err) {

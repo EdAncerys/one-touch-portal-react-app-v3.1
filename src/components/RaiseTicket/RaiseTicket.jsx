@@ -1,42 +1,46 @@
-import React, { useContext, useEffect } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import { AppContext } from '../../App';
+import React, { useContext, useEffect } from "react";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { AppContext } from "../../App";
 
-import NDGBanner from '../NDGBanner';
+import NDGBanner from "../NDGBanner";
 
 export default function RaiseTicket({ props }) {
   const { manageAppContext } = useContext(AppContext);
 
+  const setSpinner = manageAppContext.setSpinner;
+
   useEffect(() => {
     const listener = (event) => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
         event.preventDefault();
-        oneTouchSignUp();
+        raiseTicket();
       }
     };
-    document.addEventListener('keydown', listener);
+    document.addEventListener("keydown", listener);
     return () => {
-      document.removeEventListener('keydown', listener);
+      document.removeEventListener("keydown", listener);
     };
   });
 
-  async function oneTouchSignUp() {
-    const fName = document.querySelector('#fName').value;
-    const lName = document.querySelector('#lName').value;
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
+  async function raiseTicket() {
+    setSpinner(true);
+    const fName = document.querySelector("#fName").value;
+    const lName = document.querySelector("#lName").value;
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password").value;
     const signUpConfirmPassword = document.querySelector(
-      '#signUpConfirmPassword'
+      "#signUpConfirmPassword"
     ).value;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
     if (
-      fName === '' ||
-      lName === '' ||
-      email === '' ||
-      password === '' ||
-      signUpConfirmPassword === ''
+      fName === "" ||
+      lName === "" ||
+      email === "" ||
+      password === "" ||
+      signUpConfirmPassword === ""
     ) {
+      setSpinner(false);
       const msg = `Please fill in all required fields!`;
       manageAppContext.setAlert({ msg });
       console.log(msg);
@@ -45,7 +49,7 @@ export default function RaiseTicket({ props }) {
 
     try {
       const body = {
-        oneTouchPath: 'oneTouchSignUp',
+        oneTouchPath: "raiseTicket",
         fName,
         lName,
         email,
@@ -55,20 +59,22 @@ export default function RaiseTicket({ props }) {
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
+        setSpinner(false);
         manageAppContext.setAlert({ msg: data.msg });
         console.log(data);
         return;
       }
 
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      manageAppContext.setPage('login');
+      setSpinner(false);
+      manageAppContext.setAlert({ color: "success", msg: data.msg });
+      manageAppContext.setPage("login");
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -104,12 +110,12 @@ export default function RaiseTicket({ props }) {
               id="description"
               as="textarea"
               placeholder="Enter description"
-              style={{ height: '150px' }}
+              style={{ height: "150px" }}
             />
           </Form.Group>
 
           <Button
-            onClick={() => manageAppContext.setPage('login')}
+            onClick={() => manageAppContext.setPage("login")}
             variant="primary"
             size="lg"
             className="btn-one-touch shadow-none"

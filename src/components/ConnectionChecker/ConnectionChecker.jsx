@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import { AppContext } from '../../App';
-import { colors } from '../../config/colors';
+import React, { useState, useContext, useEffect } from "react";
+import { Button } from "react-bootstrap";
+import { AppContext } from "../../App";
+import { colors } from "../../config/colors";
 
-import AddressPicker from '../AddCustomer/AddressPicker';
-import NDGBanner from '../NDGBanner';
-import EthernetConnection from '../../img/oneTouch/Ethernet-Connection.png';
-import BroadbandConnection from '../../img/oneTouch/Broadband-Connection.png';
-import BroadbandCard from './BroadbandCard';
-import BroadbandInfoCard from './BroadbandInfoCard';
-import UserManagement from '../UserManagement/UserManagement';
+import AddressPicker from "../AddCustomer/AddressPicker";
+import NDGBanner from "../NDGBanner";
+import EthernetConnection from "../../img/oneTouch/Ethernet-Connection.png";
+import BroadbandConnection from "../../img/oneTouch/Broadband-Connection.png";
+import BroadbandCard from "./BroadbandCard";
+import BroadbandInfoCard from "./BroadbandInfoCard";
+import UserManagement from "../UserManagement/UserManagement";
 
 export default function Index({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -21,7 +21,8 @@ export default function Index({ props }) {
   const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
 
   const setPageData = manageAppContext.setPageData;
-  const marginOptions = '50px 5px 50px 5px';
+  const setSpinner = manageAppContext.setSpinner;
+  const marginOptions = "50px 5px 50px 5px";
 
   useEffect(() => {
     if (selectedAddress) broadbandAvailability();
@@ -34,33 +35,36 @@ export default function Index({ props }) {
   }, [oneTouchCustomer]); // eslint-disable-line
 
   async function broadbandAvailability() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/icUK';
+    const URL = "/.netlify/functions/icUK";
 
     try {
       const body = {
-        oneTouchPath: 'broadbandAvailability',
+        oneTouchPath: "broadbandAvailability",
         selectedAddress,
         access_token,
       };
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setSpinner(false);
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         setBroadbandData(false);
         manageAppContext.setPageData(false);
         console.log(data);
         return;
       }
 
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      setSpinner(false);
+      manageAppContext.setAlert({ color: "success", msg: data.msg });
       setBroadbandData(data.products);
       console.log(data);
     } catch (err) {
@@ -180,41 +184,41 @@ export default function Index({ props }) {
 
 const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '50px',
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "50px",
   },
   warper: {
-    display: 'grid',
-    justifyContent: 'center',
-    gridTemplateColumns: '400px',
-    gridTemplateRows: '350px auto',
+    display: "grid",
+    justifyContent: "center",
+    gridTemplateColumns: "400px",
+    gridTemplateRows: "350px auto",
   },
   broadbandConnectionWrapper: {
     background: `url(${BroadbandConnection})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center center',
-    borderRadius: '15px',
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    borderRadius: "15px",
   },
   ethernetConnectionWrapper: {
     background: `url(${EthernetConnection})`,
   },
   buildInProgress: {
-    zIndex: '9',
-    textAlign: 'center',
-    fontSize: '36px',
+    zIndex: "9",
+    textAlign: "center",
+    fontSize: "36px",
     color: colors.danger,
-    paddingTop: '200px',
+    paddingTop: "200px",
   },
   addressPicker: {
-    display: 'grid',
-    alignItems: 'center',
-    zIndex: '2',
-    padding: '5px',
+    display: "grid",
+    alignItems: "center",
+    zIndex: "2",
+    padding: "5px",
     background: colors.lightGrey,
     border: `1px solid ${colors.mint}`,
-    borderRadius: '10px',
-    height: '150px',
+    borderRadius: "10px",
+    height: "150px",
   },
 };

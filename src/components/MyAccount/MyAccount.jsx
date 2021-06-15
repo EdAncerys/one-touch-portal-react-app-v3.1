@@ -1,9 +1,11 @@
-import React, { useEffect, useContext } from 'react';
-import { Card, Table, Button } from 'react-bootstrap';
-import { AppContext } from '../../App';
+import React, { useEffect, useContext } from "react";
+import { Card, Table, Button } from "react-bootstrap";
+import { AppContext } from "../../App";
 
 export default function MyAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
+
+  const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData[0];
 
   useEffect(() => {
@@ -11,30 +13,33 @@ export default function MyAccount({ props }) {
   });
 
   async function myAccount() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
     try {
       const body = {
-        oneTouchPath: 'myAccount',
+        oneTouchPath: "myAccount",
         access_token,
       };
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
+        setSpinner(false);
         manageAppContext.setAlert({ msg: data.msg });
         manageAppContext.setPageData(data.msg);
         console.log(data);
         return;
       }
 
+      setSpinner(false);
       manageAppContext.setPageData(data.user);
       console.log(data);
     } catch (err) {
@@ -49,7 +54,7 @@ export default function MyAccount({ props }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>

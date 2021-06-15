@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
-import { Form, Row, Col, Card, Table, Button } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AppContext } from "../../App";
+import { Form, Row, Col, Card, Table, Button } from "react-bootstrap";
 
-import NDGBanner from '../NDGBanner';
-import { colors } from '../../config/colors';
+import NDGBanner from "../NDGBanner";
+import { colors } from "../../config/colors";
 
 export default function CustomerInfoCard({ findContract, setFindContract }) {
   const { manageAppContext } = useContext(AppContext);
+
+  const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
   const admin = manageAppContext.accessToken.role;
-  const page = manageAppContext.page === 'broadband-orders';
+  const page = manageAppContext.page === "broadband-orders";
 
   let data = pageData.filter((contract) => contract._id === findContract)[0];
   console.log(data);
@@ -17,7 +19,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   const broadbandData = data.oneTouchBroadband;
   const customerData = data.oneTouchCustomer;
 
-  let bgColor = '';
+  let bgColor = "";
   const contractStartDay = broadbandData.contractStartDay;
   let contractEndDay;
 
@@ -41,26 +43,28 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
   }
 
   async function deleteContract() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
     try {
       const body = {
-        oneTouchPath: 'deleteContract',
+        oneTouchPath: "deleteContract",
         access_token,
         id: findContract,
       };
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setSpinner(false);
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         console.log(data);
         return;
       }
@@ -69,23 +73,26 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         (contract) => contract._id !== findContract
       );
 
+      setSpinner(false);
       setFindContract(false);
       manageAppContext.setPageData(updateData);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setAlert({ color: "success", msg: data.msg });
     } catch (err) {
       console.log(err);
     }
   }
   async function activateContract() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
-    const contractStartDay = document.querySelector('#contractStartDay').value;
-    const contractEndDay = document.querySelector('#contractEndDay').value;
+    const contractStartDay = document.querySelector("#contractStartDay").value;
+    const contractEndDay = document.querySelector("#contractEndDay").value;
 
     if (!contractStartDay || !contractEndDay) {
+      setSpinner(false);
       const msg = `Please choose contract start and end days!`;
-      manageAppContext.setAlert({ color: 'warning', msg });
+      manageAppContext.setAlert({ color: "warning", msg });
       return;
     }
 
@@ -95,7 +102,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
 
     try {
       const body = {
-        oneTouchPath: 'activateContract',
+        oneTouchPath: "activateContract",
         access_token,
         id: findContract,
         contract,
@@ -103,14 +110,15 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setSpinner(false);
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         console.log(data);
         return;
       }
@@ -119,8 +127,9 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
         listContract._id === findContract ? contract : listContract
       );
 
+      setSpinner(false);
       manageAppContext.setPageData(updateData);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setAlert({ color: "success", msg: data.msg });
     } catch (err) {
       console.log(err);
     }
@@ -193,7 +202,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
             <Card
               bg="Light"
               text="dark"
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               className="mb-2"
             >
               <Card.Header>
@@ -217,8 +226,8 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                   </tbody>
                 </Table>
                 <div style={styles.TLS}>
-                  <div style={{ background: colors.bgGO }}>EXD {'>'} 6</div>
-                  <div style={{ background: colors.bgSET }}>EXD {'<'} 6</div>
+                  <div style={{ background: colors.bgGO }}>EXD {">"} 6</div>
+                  <div style={{ background: colors.bgSET }}>EXD {"<"} 6</div>
                   <div style={{ background: colors.bgSTOP }}>Expired</div>
                   <div style={{ background: colors.bgPENDING }}>Pending</div>
                 </div>
@@ -233,7 +242,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -276,7 +285,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -317,7 +326,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -365,7 +374,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
             <Card
               bg="Light"
               text="dark"
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               className="mb-2"
             >
               <Card.Header>
@@ -389,8 +398,8 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                   </tbody>
                 </Table>
                 <div style={styles.TLS}>
-                  <div style={{ background: colors.bgGO }}>EXD {'>'} 6</div>
-                  <div style={{ background: colors.bgSET }}>EXD {'<'} 6</div>
+                  <div style={{ background: colors.bgGO }}>EXD {">"} 6</div>
+                  <div style={{ background: colors.bgSET }}>EXD {"<"} 6</div>
                   <div style={{ background: colors.bgSTOP }}>Expired</div>
                   <div style={{ background: colors.bgPENDING }}>Pending</div>
                 </div>
@@ -405,7 +414,7 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mb-2"
           >
             <Card.Header>
@@ -434,18 +443,18 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
                     <td>Installation Address</td>
                     <td>
                       <div>
-                        {customerData.thoroughfare_number === 'null'
-                          ? ''
-                          : customerData.thoroughfare_number}{' '}
-                        {customerData.premises_name === 'null'
-                          ? ''
-                          : customerData.premises_name}{' '}
-                        {customerData.sub_premises === 'null'
-                          ? ''
-                          : customerData.sub_premises}{' '}
-                        {customerData.thoroughfare_name === 'null'
-                          ? ''
-                          : customerData.thoroughfare_name}{' '}
+                        {customerData.thoroughfare_number === "null"
+                          ? ""
+                          : customerData.thoroughfare_number}{" "}
+                        {customerData.premises_name === "null"
+                          ? ""
+                          : customerData.premises_name}{" "}
+                        {customerData.sub_premises === "null"
+                          ? ""
+                          : customerData.sub_premises}{" "}
+                        {customerData.thoroughfare_name === "null"
+                          ? ""
+                          : customerData.thoroughfare_name}{" "}
                         {customerData.county}
                       </div>
                       <div style={styles.bottomRow}>
@@ -494,15 +503,15 @@ export default function CustomerInfoCard({ findContract, setFindContract }) {
 
 const styles = {
   bottomRow: {
-    fontSize: '12px',
+    fontSize: "12px",
     color: colors.darkGrey,
   },
   btn: {
-    padding: '5px',
+    padding: "5px",
   },
   TLS: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr 1fr",
   },
   manageCard: {
     background: colors.bgSTOP,

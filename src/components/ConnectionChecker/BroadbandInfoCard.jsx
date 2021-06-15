@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
-import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import React, { useState, useContext } from "react";
+import { AppContext } from "../../App";
+import { Card, Table, Button } from "react-bootstrap";
 
-import NDGBanner from '../NDGBanner';
-import { colors } from '../../config/colors';
+import NDGBanner from "../NDGBanner";
+import { colors } from "../../config/colors";
 
 export default function BroadbandInfoCard({
   oneTouchBroadband,
@@ -17,16 +17,18 @@ export default function BroadbandInfoCard({
   const { manageAppContext } = useContext(AppContext);
   const [termsAndConditions, setTermsAndConditions] = useState(false);
 
+  const setSpinner = manageAppContext.setSpinner;
   const customerData = oneTouchCustomer.oneTouchCustomer;
   console.log(customerData);
 
   async function placeBroadbandOrder() {
+    setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = '/.netlify/functions/mongoDB';
+    const URL = "/.netlify/functions/mongoDB";
 
     try {
       const body = {
-        oneTouchPath: 'placeBroadbandOrder',
+        oneTouchPath: "placeBroadbandOrder",
         oneTouchBroadband,
         oneTouchCustomer: { id: oneTouchCustomer._id },
         access_token,
@@ -34,20 +36,22 @@ export default function BroadbandInfoCard({
       console.log(body);
 
       const config = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
       const data = await response.json();
 
       if (!response.ok) {
-        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setSpinner(false);
+        manageAppContext.setAlert({ color: "warning", msg: data.msg });
         manageAppContext.setPageData(false);
         console.log(data);
         return;
       }
 
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      setSpinner(false);
+      manageAppContext.setAlert({ color: "success", msg: data.msg });
       manageAppContext.setPageData(false);
       setBroadbandData(false);
       setOneTouchCustomer(false);
@@ -87,7 +91,7 @@ export default function BroadbandInfoCard({
                 <Card
                   bg="Light"
                   text="dark"
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   className="mb-2"
                 >
                   <Card.Header>
@@ -126,7 +130,7 @@ export default function BroadbandInfoCard({
                 <Card
                   bg="Light"
                   text="dark"
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   className="mb-2"
                 >
                   <Card.Header>
@@ -158,21 +162,21 @@ export default function BroadbandInfoCard({
                         <tr>
                           <td>Installation Address</td>
                           <td>
-                            {customerData.thoroughfare_number === 'null'
-                              ? ''
-                              : customerData.thoroughfare_number}{' '}
-                            {customerData.premises_name === 'null'
-                              ? ''
-                              : customerData.premises_name}{' '}
-                            {customerData.sub_premises === 'null'
-                              ? ''
-                              : customerData.sub_premises}{' '}
-                            {customerData.thoroughfare_name === 'null'
-                              ? ''
-                              : customerData.thoroughfare_name}{' '}
-                            {customerData.county === 'null'
-                              ? ''
-                              : customerData.county}{' '}
+                            {customerData.thoroughfare_number === "null"
+                              ? ""
+                              : customerData.thoroughfare_number}{" "}
+                            {customerData.premises_name === "null"
+                              ? ""
+                              : customerData.premises_name}{" "}
+                            {customerData.sub_premises === "null"
+                              ? ""
+                              : customerData.sub_premises}{" "}
+                            {customerData.thoroughfare_name === "null"
+                              ? ""
+                              : customerData.thoroughfare_name}{" "}
+                            {customerData.county === "null"
+                              ? ""
+                              : customerData.county}{" "}
                             {customerData.postcode}
                           </td>
                         </tr>
@@ -224,7 +228,7 @@ export default function BroadbandInfoCard({
               <Card
                 bg="Light"
                 text="dark"
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 className="mb-2"
               >
                 <Card.Header>
@@ -256,14 +260,14 @@ export default function BroadbandInfoCard({
 
 const styles = {
   header: {
-    fontSize: '24px',
-    textAlign: 'center',
+    fontSize: "24px",
+    textAlign: "center",
     color: colors.darkGrey,
   },
   termsAndConditions: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   btn: {
-    padding: '5px',
+    padding: "5px",
   },
 };
