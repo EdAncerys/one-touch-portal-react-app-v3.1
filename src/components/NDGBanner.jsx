@@ -3,13 +3,13 @@ import { AppContext } from '../App';
 
 import NDGLogo from '../img/NDG/NDG-Logo.png';
 
-export default function NDGBanner({ css }) {
+export default function NDGBanner({ css, mobile }) {
   const { manageAppContext } = useContext(AppContext);
 
   const height = '100px';
   const className = 'd-inline-block align-top index-icon';
 
-  let defClass = 'flex-container-30 NDG-banner';
+  let defClass = mobile ? 'flex-container-30' : 'flex-container-30 NDG-banner';
   if (css) defClass = css;
 
   return (

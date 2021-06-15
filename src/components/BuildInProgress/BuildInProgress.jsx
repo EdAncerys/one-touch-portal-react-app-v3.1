@@ -5,9 +5,9 @@ import NDGBanner from '../NDGBanner';
 export default function BuildInProgress({ props }) {
   return (
     <div style={styles.container}>
-      <div>
+      <div className="features">
         <h4>Coming Soon...</h4>
-        <NDGBanner width="flex-container-50" />
+        <NDGBanner width="flex-container-50" mobile={true} />
       </div>
     </div>
   );
@@ -16,10 +16,7 @@ export default function BuildInProgress({ props }) {
 const styles = {
   container: {
     display: 'grid',
-    justifyContent: 'center',
-    alignItems: 'center',
     textAlign: 'center',
-    gap: '5px',
-    height: '100%',
+    marginTop: '20%',
   },
 };
