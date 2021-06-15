@@ -69,6 +69,8 @@ export async function handler(event, context, callback) {
       return activateContract(db, body);
     case 'placeBroadbandOrder':
       return placeBroadbandOrder(db, body);
+    case 'updateMyAccount':
+      return updateMyAccount(db, body);
 
     default:
       return {
@@ -576,6 +578,55 @@ const placeBroadbandOrder = async (db, data) => {
       .collection(COLLECTION_ONE_TOUCH_BROADBAND)
       .insertMany([oneTouchBroadband]);
     const msg = `Broadband order successfully placed.`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const updateMyAccount = async (db, data) => {
+  const access_token = data.access_token;
+
+  try {
+    const oneTouchUser = await authUser(access_token);
+    const id = oneTouchUser._id;
+    const objectID = new ObjectId(id);
+
+    delete data.oneTouchPath;
+    delete data.access_token;
+    const query = { _id: objectID };
+    const update = {
+      $set: { oneTouchCustomer: data },
+    };
+    const options = { upsert: true };
+
+    let superUser = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find(query)
+      .toArray();
+    console.log('DB superUser:', superUser);
+
+    if (!superUser.length) {
+      const msg = `Error. Could not update account details!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .updateOne(query, update, options);
+    const msg = `Account details successfully updated!`;
     console.log(msg);
 
     return {

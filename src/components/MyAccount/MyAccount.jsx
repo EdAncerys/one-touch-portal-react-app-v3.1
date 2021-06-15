@@ -187,7 +187,7 @@ export default function MyAccount({ props }) {
 
       setSpinner(false);
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      setPageData(data);
+      setPageData(data.data);
       console.log(data);
     } catch (err) {
       console.log(err);
