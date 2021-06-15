@@ -20,9 +20,6 @@ export default function Index({ props }) {
   const [customerInfo, setCustomerInfo] = useState(false);
   const [oneTouchBroadband, setOneTouchBroadband] = useState(false);
 
-  console.log(oneTouchBroadband, oneTouchCustomer);
-
-  const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;
   const marginOptions = '50px 5px 50px 5px';
 
@@ -166,6 +163,10 @@ export default function Index({ props }) {
           oneTouchCustomer={oneTouchCustomer}
           oneTouchBroadband={oneTouchBroadband}
           setOneTouchBroadband={setOneTouchBroadband}
+          setOneTouchCustomer={setOneTouchCustomer}
+          setAddCustomer={setAddCustomer}
+          setBroadbandData={setBroadbandData}
+          setSelectedAddress={setSelectedAddress}
         />
       )}
       {!addCustomer && (

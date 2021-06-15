@@ -9,6 +9,10 @@ export default function BroadbandInfoCard({
   oneTouchBroadband,
   oneTouchCustomer,
   setOneTouchBroadband,
+  setOneTouchCustomer,
+  setAddCustomer,
+  setBroadbandData,
+  setSelectedAddress,
 }) {
   const { manageAppContext } = useContext(AppContext);
   const [termsAndConditions, setTermsAndConditions] = useState(false);
@@ -45,8 +49,10 @@ export default function BroadbandInfoCard({
 
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
       manageAppContext.setPageData(false);
-      // setBroadbandData(false);
-      // setAddCustomer(true);
+      setBroadbandData(false);
+      setOneTouchCustomer(false);
+      setAddCustomer(false);
+      setSelectedAddress(false);
       console.log(data);
     } catch (err) {
       console.log(err);

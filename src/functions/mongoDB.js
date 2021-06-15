@@ -67,6 +67,8 @@ export async function handler(event, context, callback) {
       return deleteContract(db, body);
     case 'activateContract':
       return activateContract(db, body);
+    case 'placeBroadbandOrder':
+      return placeBroadbandOrder(db, body);
 
     default:
       return {
@@ -523,6 +525,57 @@ const activateContract = async (db, data) => {
       .collection(COLLECTION_ONE_TOUCH_BROADBAND)
       .updateOne(query, update, options);
     const msg = `Contract successfully activated!`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const placeBroadbandOrder = async (db, data) => {
+  const access_token = data.access_token;
+  const selectedBroadband = data.oneTouchBroadband;
+  const oneTouchCustomer = data.oneTouchCustomer;
+
+  try {
+    const oneTouchUser = await authUser(access_token);
+    let findBroadband = {
+      'oneTouchSuperUser.id': oneTouchUser._id,
+      'oneTouchCustomer.id': oneTouchCustomer.id,
+    };
+
+    let broadband = await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .find(findBroadband)
+      .toArray();
+    console.log('DB broadband:', broadband);
+
+    if (!!broadband.length) {
+      const msg = `Broadband already been placed for this customer.`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const oneTouchBroadband = {
+      oneTouchSuperUser: { id: oneTouchUser._id },
+      oneTouchCustomer,
+      oneTouchBroadband: selectedBroadband,
+    };
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_BROADBAND)
+      .insertMany([oneTouchBroadband]);
+    const msg = `Broadband order successfully placed.`;
     console.log(msg);
 
     return {

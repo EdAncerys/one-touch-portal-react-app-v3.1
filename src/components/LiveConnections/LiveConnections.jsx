@@ -11,6 +11,7 @@ export default function LiveConnections({ props }) {
 
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
+  const setPage = manageAppContext.setPage;
 
   console.log(findContract);
 
@@ -39,6 +40,7 @@ export default function LiveConnections({ props }) {
       if (!response.ok) {
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData(false);
+        setPage('connection-checker');
         console.log(data);
         return;
       }

@@ -12,7 +12,6 @@ export default function AddressPicker({
 }) {
   const { manageAppContext } = useContext(AppContext);
   const [fetchedData, setFetchedData] = useState(false);
-  console.log(fetchedData);
 
   const connectionChecker = manageAppContext.page === 'connection-checker';
 
