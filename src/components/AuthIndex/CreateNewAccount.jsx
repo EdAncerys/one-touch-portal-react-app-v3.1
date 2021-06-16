@@ -48,7 +48,7 @@ export default function CreateNewAccount({ props }) {
     ) {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }

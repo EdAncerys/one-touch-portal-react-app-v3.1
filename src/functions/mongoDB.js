@@ -122,16 +122,16 @@ const oneTouchLogin = async (db, data) => {
         user[0].oneTouchSuperUser.password
       );
 
-    if (!userApproved) {
-      const msg = `Account not yet approved for: ` + email;
+    if (!user.length) {
+      const msg = `User do not exist with email: ` + email;
       console.log(msg);
       return {
         statusCode: 403,
         body: JSON.stringify({ msg }),
       };
     }
-    if (!user.length) {
-      const msg = `User do not exist with email: ` + email;
+    if (!userApproved) {
+      const msg = `Account not yet approved for: ` + email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -148,7 +148,7 @@ const oneTouchLogin = async (db, data) => {
     }
 
     // JWT configuration
-    delete user[0]['password'];
+    delete user[0].oneTouchSuperUser.password;
     const userData = user[0];
     const expTime = '24h';
     console.log('User data passed on to JWT: ', userData);
