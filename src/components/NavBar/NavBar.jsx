@@ -1,20 +1,21 @@
-import React, { useContext } from 'react';
-import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
-import { AppContext } from '../../App';
+import React, { useContext } from "react";
+import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
+import { AppContext } from "../../App";
 
-import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
+import OneTouchLogo from "../../img/oneTouch/One-Touch-Logo.png";
 
 export default function NavBar({ props }) {
   const { manageAppContext } = useContext(AppContext);
-  
+
   const admin = manageAppContext.accessToken.role;
+  const setPageData = manageAppContext.setPageData;
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" className="one-touch-nav">
       <Container>
         <Navbar.Brand>
           <img
-            onClick={() => manageAppContext.setPage('index')}
+            onClick={() => manageAppContext.setPage("index")}
             src={OneTouchLogo}
             height="40px"
             className="d-inline-block align-top one-touch-logo"
@@ -24,34 +25,34 @@ export default function NavBar({ props }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link onClick={() => manageAppContext.setPage('docs')}>
+            <Nav.Link onClick={() => manageAppContext.setPage("docs")}>
               Docs
             </Nav.Link>
             <NavDropdown title="Customers">
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('user-management')}
+                onClick={() => manageAppContext.setPage("user-management")}
               >
                 Address Book
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('live-connections')}
+                onClick={() => manageAppContext.setPage("live-connections")}
               >
                 Manage Contracts
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('add-customer')}
+                onClick={() => manageAppContext.setPage("add-customer")}
               >
                 Add Customer
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Broadband">
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('live-connections')}
+                onClick={() => manageAppContext.setPage("live-connections")}
               >
                 Broadband Accounts
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('connection-checker')}
+                onClick={() => manageAppContext.setPage("connection-checker")}
               >
                 Add Broadband
               </NavDropdown.Item>
@@ -62,15 +63,19 @@ export default function NavBar({ props }) {
               {admin && (
                 <>
                   <NavDropdown.Item
-                    onClick={() => manageAppContext.setPage('broadband-orders')}
+                    onClick={() => {
+                      setPageData(false);
+                      manageAppContext.setPage("broadband-orders");
+                    }}
                     className="admin-nav"
                   >
                     Broadband Orders
                   </NavDropdown.Item>
                   <NavDropdown.Item
-                    onClick={() =>
-                      manageAppContext.setPage('user-address-book')
-                    }
+                    onClick={() => {
+                      setPageData(false);
+                      manageAppContext.setPage("user-address-book");
+                    }}
                     className="admin-nav"
                   >
                     User Address Book
@@ -78,23 +83,23 @@ export default function NavBar({ props }) {
                 </>
               )}
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('build-in-progress')}
+                onClick={() => manageAppContext.setPage("build-in-progress")}
               >
                 Account Overview
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('build-in-progress')}
+                onClick={() => manageAppContext.setPage("build-in-progress")}
               >
                 Raise Ticket
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('build-in-progress')}
+                onClick={() => manageAppContext.setPage("build-in-progress")}
               >
                 Reseller Customers
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link onClick={() => manageAppContext.setPage('my-account')}>
+            <Nav.Link onClick={() => manageAppContext.setPage("my-account")}>
               My Account
             </Nav.Link>
             <Button

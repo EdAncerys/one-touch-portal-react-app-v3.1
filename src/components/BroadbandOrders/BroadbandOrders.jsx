@@ -13,8 +13,6 @@ export default function BroadbandOrders({ props }) {
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
 
-  console.log(findContract);
-
   useEffect(() => {
     liveConnections();
   }, [page]); // eslint-disable-line

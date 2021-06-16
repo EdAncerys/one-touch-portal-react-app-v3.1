@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AppContext } from "../../App";
+import { Card, Table, Button } from "react-bootstrap";
 
-import { colors } from '../../config/colors';
+import { colors } from "../../config/colors";
 
 export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
   const { manageAppContext } = useContext(AppContext);
 
   const pageData = manageAppContext.pageData;
-  const connectionChecker = manageAppContext.page === 'connection-checker';
+  const connectionChecker = manageAppContext.page === "connection-checker";
 
   async function filterCustomers(id) {
     const customer = pageData.filter((data) => data._id === id)[0];
@@ -17,7 +17,7 @@ export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
 
   return (
     <div style={styles.container}>
-      <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
+      <Card bg="Light" text="dark" style={{ width: "100%" }} className="mb-2">
         <Card.Header>
           <div>{pageData.email} Customer List</div>
         </Card.Header>
@@ -34,8 +34,8 @@ export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
             <tbody>
               {pageData.map((customer, index) => (
                 <tr key={customer._id.toString()}>
-                  <td key={customer._id.toString() + 'a'}>{index + 1}</td>
-                  <td key={customer._id.toString() + 'b'}>
+                  <td key={customer._id.toString() + "a"}>{index + 1}</td>
+                  <td key={customer._id.toString() + "b"}>
                     <div key={index + 1}>
                       {customer.oneTouchCustomer.companyName}
                     </div>
@@ -43,22 +43,22 @@ export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
                       {customer.oneTouchCustomer.contactName}
                     </div>
                   </td>
-                  <td key={customer._id.toString() + 'c'}>
+                  <td key={customer._id.toString() + "c"}>
                     <div key={index + 1}>
-                      {customer.oneTouchCustomer.thoroughfare_number === 'null'
-                        ? ''
-                        : customer.oneTouchCustomer.thoroughfare_number}{' '}
-                      {customer.oneTouchCustomer.premises_name === 'null'
-                        ? ''
-                        : customer.oneTouchCustomer.premises_name}{' '}
-                      {customer.oneTouchCustomer.sub_premises === 'null'
-                        ? ''
-                        : customer.oneTouchCustomer.sub_premises}{' '}
-                      {customer.oneTouchCustomer.thoroughfare_name === 'null'
-                        ? ''
-                        : customer.oneTouchCustomer.thoroughfare_name}{' '}
-                      {customer.oneTouchCustomer.county === 'null'
-                        ? ''
+                      {customer.oneTouchCustomer.thoroughfare_number === "null"
+                        ? ""
+                        : customer.oneTouchCustomer.thoroughfare_number}{" "}
+                      {customer.oneTouchCustomer.premises_name === "null"
+                        ? ""
+                        : customer.oneTouchCustomer.premises_name}{" "}
+                      {customer.oneTouchCustomer.sub_premises === "null"
+                        ? ""
+                        : customer.oneTouchCustomer.sub_premises}{" "}
+                      {customer.oneTouchCustomer.thoroughfare_name === "null"
+                        ? ""
+                        : customer.oneTouchCustomer.thoroughfare_name}{" "}
+                      {customer.oneTouchCustomer.county === "null"
+                        ? ""
                         : customer.oneTouchCustomer.county}
                     </div>
                     <div key={index + 2} style={styles.bottomRow}>
@@ -66,7 +66,7 @@ export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
                     </div>
                   </td>
                   <td
-                    key={customer._id.toString() + 'd'}
+                    key={customer._id.toString() + "d"}
                     style={styles.btnComponent}
                   >
                     <Button
@@ -103,15 +103,15 @@ export default function CustomerCard({ setOneTouchCustomer, setFindCustomer }) {
 
 const styles = {
   bottomRow: {
-    fontSize: '12px',
+    fontSize: "12px",
     color: colors.darkGrey,
   },
   btnComponent: {
-    textAlign: 'center',
-    margin: 'auto',
-    padding: '10px',
+    textAlign: "center",
+    margin: "auto",
+    padding: "10px",
   },
   btn: {
-    margin: '0 5px',
+    margin: "0 5px",
   },
 };
