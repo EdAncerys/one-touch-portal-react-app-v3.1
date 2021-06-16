@@ -15,6 +15,8 @@ export default function MyAccount({ props }) {
   const setSpinner = manageAppContext.setSpinner;
   const setPageData = manageAppContext.setPageData;
   const pageData = manageAppContext.pageData;
+  let name = '';
+  if (pageData.fName) name = pageData.fName + `'s`;
 
   useEffect(() => {
     if (!pageData) myAccount();
@@ -206,7 +208,7 @@ export default function MyAccount({ props }) {
               className="mb-2"
             >
               <Card.Header>
-                <div>{pageData.fName} Account Information</div>
+                <div>{name} Account Information</div>
               </Card.Header>
               <Card.Body>
                 <Table responsive="sm">
@@ -231,10 +233,10 @@ export default function MyAccount({ props }) {
                 </Table>
                 <div className="mt-3 mb-3">
                   <Button
-                    onClick={() => {
-                      setUpdateAccount(true);
-                      fillFromData();
-                    }}
+                    // onClick={() => {
+                    //   setUpdateAccount(true);
+                    //   fillFromData();
+                    // }}
                     variant="outline-success"
                     size="lg"
                     className="shadow-none"
@@ -254,7 +256,7 @@ export default function MyAccount({ props }) {
               className="mb-2"
             >
               <Card.Header>
-                <div>{pageData.fName} Company Information</div>
+                <div>{name} Company Information</div>
               </Card.Header>
               <Card.Body>
                 <Table responsive="sm">
@@ -283,7 +285,7 @@ export default function MyAccount({ props }) {
         </div>
       )}
 
-      {pageData && (
+      {pageData && updateAccount && (
         <div className="features">
           <div className="flex-container-60">
             <Form className="form-container">

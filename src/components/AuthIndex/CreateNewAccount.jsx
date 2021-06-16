@@ -30,8 +30,14 @@ export default function CreateNewAccount({ props }) {
     const companyPhoneNumber = document.querySelector(
       '#companyPhoneNumber'
     ).value;
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
+    const email = document
+      .querySelector('#email')
+      .value.replace(/ /g, '')
+      .toLocaleLowerCase();
+    const password = document
+      .querySelector('#password')
+      .value.replace(/ /g, '');
+    const confirmEmail = document.querySelector('#confirmEmail').value;
     const signUpConfirmPassword = document.querySelector(
       '#signUpConfirmPassword'
     ).value;
@@ -52,7 +58,13 @@ export default function CreateNewAccount({ props }) {
       console.log(msg);
       return;
     }
-    console.log(password.length);
+    if (email !== confirmEmail) {
+      setSpinner(false);
+      const msg = `Emails do not match`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      console.log(msg);
+      return;
+    }
     if (password.length < 6) {
       setSpinner(false);
       const msg = `Passwords must be at least 6 characters long`;
@@ -129,19 +141,31 @@ export default function CreateNewAccount({ props }) {
             <Row>
               <Col>
                 <Form.Label>Company Name</Form.Label>
-                <Form.Control id="companyName" placeholder="First name" />
+                <Form.Control id="companyName" placeholder="Company name" />
               </Col>
               <Col>
                 <Form.Label>Company Phone Number</Form.Label>
-                <Form.Control id="companyPhoneNumber" placeholder="Last name" />
+                <Form.Control
+                  id="companyPhoneNumber"
+                  placeholder="Company phone number"
+                />
               </Col>
             </Row>
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control id="email" type="email" placeholder="Enter email" />
+            <Row>
+              <Col>
+                <Form.Label>Email</Form.Label>
+                <Form.Control id="email" placeholder="Email" />
+              </Col>
+              <Col>
+                <Form.Label>Confirm Email</Form.Label>
+                <Form.Control id="confirmEmail" placeholder="Confirm email" />
+              </Col>
+            </Row>
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
