@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
-import { AppContext } from "../../App";
+import React, { useContext, useEffect } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { AppContext } from '../../App';
 
-import OneTouchLogo from "../../img/oneTouch/One-Touch-Logo.png";
+import OneTouchLogo from '../../img/oneTouch/One-Touch-Logo.png';
 
 export default function Login({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -11,41 +11,41 @@ export default function Login({ props }) {
 
   useEffect(() => {
     const listener = (event) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         userLogin();
       }
     };
-    document.addEventListener("keydown", listener);
+    document.addEventListener('keydown', listener);
     return () => {
-      document.removeEventListener("keydown", listener);
+      document.removeEventListener('keydown', listener);
     };
   });
 
   async function userLogin() {
     setSpinner(true);
-    const loginEmail = document.querySelector("#loginEmail").value;
-    const loginPassword = document.querySelector("#loginPassword").value;
-    const URL = "/.netlify/functions/mongoDB";
+    const loginEmail = document.querySelector('#loginEmail').value;
+    const loginPassword = document.querySelector('#loginPassword').value;
+    const URL = '/.netlify/functions/mongoDB';
 
     if (!loginEmail || !loginPassword) {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }
 
     try {
       const body = {
-        oneTouchPath: "oneTouchLogin",
+        oneTouchPath: 'oneTouchLogin',
         email: loginEmail,
         password: loginPassword,
       };
       console.log(body);
 
       const config = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -60,9 +60,9 @@ export default function Login({ props }) {
 
       setSpinner(false);
       const access_token = { access_token: data.access_token, role: data.role };
-      manageAppContext.setAlert({ color: "success", msg: data.msg });
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       manageAppContext.setAccessToken(access_token);
-      manageAppContext.setPage("index");
+      manageAppContext.setPage('index');
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -111,7 +111,7 @@ export default function Login({ props }) {
           </Button>
           <div className="divider"></div>
           <Button
-            onClick={() => manageAppContext.setPage("create-new-account")}
+            onClick={() => manageAppContext.setPage('create-new-account')}
             variant="success"
             size="lg"
             className="btn-one-touch shadow-none"

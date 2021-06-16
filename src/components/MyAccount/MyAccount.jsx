@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Form, Col, Row, Card, Table, Button } from "react-bootstrap";
-import { AppContext } from "../../App";
+import React, { useState, useEffect, useContext } from 'react';
+import { Form, Col, Row, Card, Table, Button } from 'react-bootstrap';
+import { AppContext } from '../../App';
 
-import AddressPicker from "../AddCustomer/AddressPicker";
-import { validateEmail } from "../AuthIndex/validateEmail";
+import AddressPicker from '../AddCustomer/AddressPicker';
+import { validateEmail } from '../AuthIndex/validateEmail';
 
 export default function MyAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -13,7 +13,7 @@ export default function MyAccount({ props }) {
   const setSpinner = manageAppContext.setSpinner;
   const setPageData = manageAppContext.setPageData;
   const pageData = manageAppContext.pageData;
-  let name = "";
+  let name = '';
   if (pageData.fName) name = pageData.fName + `'s`;
 
   useEffect(() => {
@@ -25,29 +25,29 @@ export default function MyAccount({ props }) {
   }, [updateAccount]); // eslint-disable-line
 
   async function fillFromData() {
-    document.getElementById("fName").value = pageData.fName
+    document.getElementById('fName').value = pageData.fName
       ? pageData.fName
-      : "";
-    document.getElementById("lName").value = pageData.lName
+      : '';
+    document.getElementById('lName').value = pageData.lName
       ? pageData.lName
-      : "";
-    document.getElementById("email").value = pageData.email
+      : '';
+    document.getElementById('email').value = pageData.email
       ? pageData.email
-      : "";
-    document.getElementById("phoneNumber").value = pageData.phoneNumber
+      : '';
+    document.getElementById('phoneNumber').value = pageData.phoneNumber
       ? pageData.phoneNumber
-      : "";
-    document.getElementById("companyName").value = pageData.companyName
+      : '';
+    document.getElementById('companyName').value = pageData.companyName
       ? pageData.companyName
-      : "";
-    document.getElementById("productType").value = pageData.productType
+      : '';
+    document.getElementById('productType').value = pageData.productType
       ? pageData.productType
-      : "";
-    document.getElementById("companyEmail").value = pageData.companyEmail
+      : '';
+    document.getElementById('companyEmail').value = pageData.companyEmail
       ? pageData.companyEmail
-      : "";
-    document.getElementById("companyPhoneNumber").value =
-      pageData.companyPhoneNumber ? pageData.companyPhoneNumber : "";
+      : '';
+    document.getElementById('companyPhoneNumber').value =
+      pageData.companyPhoneNumber ? pageData.companyPhoneNumber : '';
 
     // if (pageData.postcode)
     //   setSelectedAddress({
@@ -67,17 +67,17 @@ export default function MyAccount({ props }) {
   async function myAccount() {
     setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
-    const URL = "/.netlify/functions/mongoDB";
+    const URL = '/.netlify/functions/mongoDB';
 
     try {
       const body = {
-        oneTouchPath: "myAccount",
+        oneTouchPath: 'myAccount',
         access_token,
       };
       console.log(body);
 
       const config = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -92,7 +92,7 @@ export default function MyAccount({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setAlert({ color: "success", msg: data.msg });
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       manageAppContext.setPageData(data.oneTouchSuperUser);
       console.log(data);
     } catch (err) {
@@ -102,21 +102,21 @@ export default function MyAccount({ props }) {
   async function updateMyAccount() {
     setSpinner(true);
 
-    const fName = document.getElementById("fName").value;
-    const lName = document.getElementById("lName").value;
-    const email = document.getElementById("email").value;
-    const phoneNumber = document.getElementById("phoneNumber").value;
+    const fName = document.getElementById('fName').value;
+    const lName = document.getElementById('lName').value;
+    const email = document.getElementById('email').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
 
-    const companyName = document.getElementById("companyName").value;
-    const productType = document.getElementById("productType").value;
-    const companyEmail = document.getElementById("companyEmail").value;
+    const companyName = document.getElementById('companyName').value;
+    const productType = document.getElementById('productType').value;
+    const companyEmail = document.getElementById('companyEmail').value;
     const companyPhoneNumber =
-      document.getElementById("companyPhoneNumber").value;
+      document.getElementById('companyPhoneNumber').value;
 
     if (!validateEmail(email) || !validateEmail(companyEmail)) {
       setSpinner(false);
       const msg = `Provided email not valid`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
 
@@ -133,27 +133,27 @@ export default function MyAccount({ props }) {
     ) {
       setSpinner(false);
       const msg = `Please complete all required fields`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
 
     try {
       const access_token = manageAppContext.accessToken.access_token;
-      const URL = "/.netlify/functions/mongoDB";
+      const URL = '/.netlify/functions/mongoDB';
 
-      const county = selectedAddress["county"];
-      const district_id = selectedAddress["district_id"];
-      const locality = selectedAddress["locality"];
-      const nad_key = selectedAddress["nad_key"];
-      const post_town = selectedAddress["post_town"];
-      const postcode = selectedAddress["postcode"];
-      const premises_name = selectedAddress["premises_name"];
-      const sub_premises = selectedAddress["sub_premises"];
-      const thoroughfare_name = selectedAddress["thoroughfare_name"];
-      const thoroughfare_number = selectedAddress["thoroughfare_number"];
+      const county = selectedAddress['county'];
+      const district_id = selectedAddress['district_id'];
+      const locality = selectedAddress['locality'];
+      const nad_key = selectedAddress['nad_key'];
+      const post_town = selectedAddress['post_town'];
+      const postcode = selectedAddress['postcode'];
+      const premises_name = selectedAddress['premises_name'];
+      const sub_premises = selectedAddress['sub_premises'];
+      const thoroughfare_name = selectedAddress['thoroughfare_name'];
+      const thoroughfare_number = selectedAddress['thoroughfare_number'];
 
       const body = {
-        oneTouchPath: "updateMyAccount",
+        oneTouchPath: 'updateMyAccount',
         access_token,
         fName,
         lName,
@@ -177,7 +177,7 @@ export default function MyAccount({ props }) {
       console.log(body);
 
       const config = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -185,13 +185,13 @@ export default function MyAccount({ props }) {
 
       if (!response.ok) {
         setSpinner(false);
-        manageAppContext.setAlert({ color: "warning", msg: data.msg });
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         console.log(data);
         return;
       }
 
       setSpinner(false);
-      manageAppContext.setAlert({ color: "success", msg: data.msg });
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setPageData(data.data);
       setUpdateAccount(false);
       console.log(data);
@@ -208,7 +208,7 @@ export default function MyAccount({ props }) {
             <Card
               bg="Light"
               text="dark"
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               className="mb-2"
             >
               <Card.Header>
@@ -256,7 +256,7 @@ export default function MyAccount({ props }) {
             <Card
               bg="Light"
               text="dark"
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               className="mb-2"
             >
               <Card.Header>
@@ -284,19 +284,19 @@ export default function MyAccount({ props }) {
                     <tr>
                       <td>Company Address:</td>
                       <td>
-                        {pageData.thoroughfare_number === "null"
-                          ? ""
-                          : pageData.thoroughfare_number}{" "}
-                        {pageData.premises_name === "null"
-                          ? ""
-                          : pageData.premises_name}{" "}
-                        {pageData.sub_premises === "null"
-                          ? ""
-                          : pageData.sub_premises}{" "}
-                        {pageData.thoroughfare_name === "null"
-                          ? ""
-                          : pageData.thoroughfare_name}{" "}
-                        {pageData.county === "null" ? "" : pageData.county}{" "}
+                        {pageData.thoroughfare_number === 'null'
+                          ? ''
+                          : pageData.thoroughfare_number}{' '}
+                        {pageData.premises_name === 'null'
+                          ? ''
+                          : pageData.premises_name}{' '}
+                        {pageData.sub_premises === 'null'
+                          ? ''
+                          : pageData.sub_premises}{' '}
+                        {pageData.thoroughfare_name === 'null'
+                          ? ''
+                          : pageData.thoroughfare_name}{' '}
+                        {pageData.county === 'null' ? '' : pageData.county}{' '}
                         {pageData.postcode}
                       </td>
                     </tr>
@@ -421,13 +421,13 @@ export default function MyAccount({ props }) {
 
 const styles = {
   label: {
-    display: "grid",
-    justifyContent: "center",
-    fontSize: "20px",
+    display: 'grid',
+    justifyContent: 'center',
+    fontSize: '20px',
   },
   btn: {
-    textAlign: "center",
-    margin: "auto",
-    width: "100%",
+    textAlign: 'center',
+    margin: 'auto',
+    width: '100%',
   },
 };
