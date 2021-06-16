@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
-import { AppContext } from "../../App";
+import React, { useContext, useEffect } from 'react';
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import { AppContext } from '../../App';
 
-import { validateEmail } from "./validateEmail";
+import { validateEmail } from './validateEmail';
 
 export default function CreateNewAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -11,28 +11,41 @@ export default function CreateNewAccount({ props }) {
 
   useEffect(() => {
     const listener = (event) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         oneTouchSignUp();
       }
     };
-    document.addEventListener("keydown", listener);
+    document.addEventListener('keydown', listener);
     return () => {
-      document.removeEventListener("keydown", listener);
+      document.removeEventListener('keydown', listener);
     };
   });
 
   async function oneTouchSignUp() {
     setSpinner(true);
-    const fName = document.querySelector("#fName").value;
-    const lName = document.querySelector("#lName").value;
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
-    const signUpConfirmPassword = document.querySelector(
-      "#signUpConfirmPassword"
+    const fName = document.querySelector('#fName').value;
+    const lName = document.querySelector('#lName').value;
+    const companyName = document.querySelector('#companyName').value;
+    const companyPhoneNumber = document.querySelector(
+      '#companyPhoneNumber'
     ).value;
-    const URL = "/.netlify/functions/mongoDB";
-    if (!fName || !lName || !email || !password || !signUpConfirmPassword) {
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+    const signUpConfirmPassword = document.querySelector(
+      '#signUpConfirmPassword'
+    ).value;
+
+    const URL = '/.netlify/functions/mongoDB';
+    if (
+      !fName ||
+      !lName ||
+      !companyName ||
+      !companyPhoneNumber ||
+      !email ||
+      !password ||
+      !signUpConfirmPassword
+    ) {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
       manageAppContext.setAlert({ msg });
@@ -43,27 +56,29 @@ export default function CreateNewAccount({ props }) {
     if (password.length < 6) {
       setSpinner(false);
       const msg = `Passwords must be at least 6 characters long`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
     if (password !== signUpConfirmPassword) {
       setSpinner(false);
       const msg = `Provided passwords do not match`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
     if (!validateEmail(email)) {
       setSpinner(false);
       const msg = `Provided email not valid`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
 
     try {
       const body = {
-        oneTouchPath: "oneTouchSignUp",
+        oneTouchPath: 'oneTouchSignUp',
         fName,
         lName,
+        companyName,
+        companyPhoneNumber,
         email,
         password,
         signUpConfirmPassword,
@@ -71,7 +86,7 @@ export default function CreateNewAccount({ props }) {
       console.log(body);
 
       const config = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -85,8 +100,8 @@ export default function CreateNewAccount({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setAlert({ color: "success", msg: data.msg });
-      manageAppContext.setPage("login");
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setPage('login');
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -109,6 +124,20 @@ export default function CreateNewAccount({ props }) {
               </Col>
             </Row>
           </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Row>
+              <Col>
+                <Form.Label>Company Name</Form.Label>
+                <Form.Control id="companyName" placeholder="First name" />
+              </Col>
+              <Col>
+                <Form.Label>Company Phone Number</Form.Label>
+                <Form.Control id="companyPhoneNumber" placeholder="Last name" />
+              </Col>
+            </Row>
+          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
             <Form.Control id="email" type="email" placeholder="Enter email" />
@@ -121,6 +150,7 @@ export default function CreateNewAccount({ props }) {
               placeholder="Password"
             />
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
@@ -139,7 +169,7 @@ export default function CreateNewAccount({ props }) {
           </Button>
           <div className="divider"></div>
           <Button
-            onClick={() => manageAppContext.setPage("login")}
+            onClick={() => manageAppContext.setPage('login')}
             variant="primary"
             size="lg"
             className="btn-one-touch shadow-none"

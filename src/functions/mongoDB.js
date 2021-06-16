@@ -164,12 +164,16 @@ const oneTouchSignUp = async (db, data) => {
   const password = data.password;
   const signUpConfirmPassword = data.signUpConfirmPassword;
 
+  const query = {
+    'oneTouchSuperUser.email': email,
+  };
+
   try {
     let userValid = false;
     let passwordValid = password === signUpConfirmPassword;
     const user = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
-      .find({ email: email })
+      .find(query)
       .toArray();
 
     if (!passwordValid) {
@@ -192,10 +196,19 @@ const oneTouchSignUp = async (db, data) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    let userApproved = false;
+    if (ONE_TOUCH_ADMIN.includes(email)) userApproved = 'approved';
+
     delete data.oneTouchPath;
     delete data.signUpConfirmPassword;
     data.password = hashedPassword;
-    await db.collection(COLLECTION_ONE_TOUCH_SUPER_USER).insertMany([data]);
+    data.userApproved = userApproved;
+
+    const oneTouchSuperUser = { oneTouchSuperUser: data };
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .insertMany([oneTouchSuperUser]);
     const msg =
       `Account created successfully! Welcome to One Touch Portal ` + fName;
     console.log(msg);
@@ -354,14 +367,14 @@ const addCustomerToDB = async (db, data) => {
 
   try {
     const oneTouchUser = await authUser(access_token);
-    let findCustomer = {
+    let query = {
       'oneTouchSuperUser.id': oneTouchUser._id,
       'oneTouchCustomer.email': email,
     };
 
     let customer = await db
       .collection(COLLECTION_ONE_TOUCH_CUSTOMER)
-      .find(findCustomer)
+      .find(query)
       .toArray();
     console.log('DB customer:', customer);
 
