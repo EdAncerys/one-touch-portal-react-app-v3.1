@@ -643,9 +643,10 @@ const updateMyAccount = async (db, data) => {
 
     delete data.oneTouchPath;
     delete data.access_token;
+    // data.userApproved = "approved";
     const query = { _id: objectID };
     const update = {
-      $set: { oneTouchCustomer: data },
+      $set: { oneTouchSuperUser: data },
     };
     const options = { upsert: true };
 
