@@ -102,17 +102,34 @@ const oneTouchLogin = async (db, data) => {
   const email = data.email;
   const password = data.password;
 
+  const query = {
+    'oneTouchSuperUser.email': email,
+  };
+
   try {
     let passwordValid = false;
+    let userApproved = false;
     const user = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
-      .find({ email: email })
+      .find(query)
       .toArray();
     console.log('DB User:', user);
 
-    if (user.length)
-      passwordValid = await bcrypt.compare(password, user[0].password);
+    if (!!user.length) userApproved = user[0].oneTouchSuperUser.userApproved;
+    if (!!user.length)
+      passwordValid = await bcrypt.compare(
+        password,
+        user[0].oneTouchSuperUser.password
+      );
 
+    if (!userApproved) {
+      const msg = `Account not yet approved for: ` + email;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
     if (!user.length) {
       const msg = `User do not exist with email: ` + email;
       console.log(msg);
