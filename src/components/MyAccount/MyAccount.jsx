@@ -238,8 +238,8 @@ export default function MyAccount({ props }) {
                 <div className="mt-3 mb-3">
                   <Button
                     onClick={() => {
-                      // setSelectedAddress(false);
-                      // setUpdateAccount(true);
+                      setSelectedAddress(false);
+                      setUpdateAccount(true);
                     }}
                     variant="outline-success"
                     size="lg"

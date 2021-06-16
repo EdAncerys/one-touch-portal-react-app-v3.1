@@ -214,7 +214,7 @@ const oneTouchSignUp = async (db, data) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     let userApproved = false;
-    if (ONE_TOUCH_ADMIN.includes(email)) userApproved = 'approved';
+    if (ONE_TOUCH_ADMIN.includes(email)) userApproved = true;
 
     delete data.oneTouchPath;
     delete data.signUpConfirmPassword;
@@ -641,13 +641,7 @@ const updateMyAccount = async (db, data) => {
     const id = oneTouchUser._id;
     const objectID = new ObjectId(id);
 
-    delete data.oneTouchPath;
-    delete data.access_token;
-    data.userApproved = true;
     const query = { _id: objectID };
-    const update = {
-      $set: { oneTouchSuperUser: data },
-    };
     const options = { upsert: true };
 
     let superUser = await db
@@ -664,6 +658,14 @@ const updateMyAccount = async (db, data) => {
         body: JSON.stringify({ msg }),
       };
     }
+
+    delete data.oneTouchPath;
+    delete data.access_token;
+    data.userApproved = superUser[0].oneTouchSuperUser.userApproved;
+    data.password = superUser[0].oneTouchSuperUser.password;
+    const update = {
+      $set: { oneTouchSuperUser: data },
+    };
 
     await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
