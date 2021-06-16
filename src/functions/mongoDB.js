@@ -255,7 +255,7 @@ const myAccount = async (db, data) => {
     console.log('DB User:', user);
 
     if (!user.length) {
-      const msg = `Failed to find user for: ` + oneTouchUser.email;
+      const msg = `Failed to find user.`;
       console.log(msg);
       return {
         statusCode: 403,
@@ -263,12 +263,17 @@ const myAccount = async (db, data) => {
       };
     }
 
-    const msg = `User profile successfully loaded for: ` + oneTouchUser.email;
+    const oneTouchSuperUser = user[0].oneTouchSuperUser;
+    delete oneTouchSuperUser.password;
+    delete oneTouchSuperUser.userApproved;
+
+    const msg =
+      `User profile successfully loaded for: ` + oneTouchSuperUser.email;
     console.log(msg);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ user, msg }),
+      body: JSON.stringify({ oneTouchSuperUser, msg }),
     };
   } catch (err) {
     console.log(err);
@@ -295,7 +300,8 @@ const userManagement = async (db, data) => {
     console.log('DB customerList:', customerList);
 
     if (!customerList.length) {
-      const msg = `No customers found for: ` + oneTouchUser.email;
+      const msg =
+        `No customers found for: ` + oneTouchUser.oneTouchSuperUser.email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -303,7 +309,9 @@ const userManagement = async (db, data) => {
       };
     }
 
-    const msg = `User profiles successfully loaded for: ` + oneTouchUser.email;
+    const msg =
+      `User profiles successfully loaded for: ` +
+      oneTouchUser.oneTouchSuperUser.email;
     console.log(msg);
 
     return {
@@ -335,7 +343,8 @@ const liveConnections = async (db, data) => {
     console.log('DB liveConnections:', liveConnections);
 
     if (!liveConnections.length) {
-      const msg = `No contracts found for: ` + oneTouchUser.email;
+      const msg =
+        `No contracts found for: ` + oneTouchUser.oneTouchSuperUser.email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -363,7 +372,9 @@ const liveConnections = async (db, data) => {
     const contracts = await Promise.all(liveConnectionsPromises);
     console.log('eddited contract data');
     console.log(contracts);
-    const msg = `Contracts successfully loaded for: ` + oneTouchUser.email;
+    const msg =
+      `Contracts successfully loaded for: ` +
+      oneTouchUser.oneTouchSuperUser.email;
     console.log(msg);
 
     return {

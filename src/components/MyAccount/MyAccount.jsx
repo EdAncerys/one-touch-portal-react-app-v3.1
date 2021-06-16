@@ -88,7 +88,7 @@ export default function MyAccount({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setPageData(data.user[0]);
+      manageAppContext.setPageData(data.oneTouchSuperUser);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -217,7 +217,7 @@ export default function MyAccount({ props }) {
                     </tr>
                     <tr>
                       <td>Last Name:</td>
-                      <td>{pageData.fName}</td>
+                      <td>{pageData.lName}</td>
                     </tr>
                     <tr>
                       <td>Email:</td>
