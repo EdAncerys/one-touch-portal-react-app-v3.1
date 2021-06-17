@@ -1,6 +1,6 @@
 import React from 'react';
-import { Spinner } from 'react-bootstrap';
 
+import OneTouchIcon from '../img/oneTouch/One-Touch-Icon.png';
 import { colors } from '../config/colors';
 
 export default function SpinnerMsg({ spinner }) {
@@ -8,9 +8,9 @@ export default function SpinnerMsg({ spinner }) {
     <div style={styles.container}>
       <div style={styles.wrapper}>
         <div style={styles.spinner}>
-          <Spinner animation="border" role="status"></Spinner>
+          <img src={OneTouchIcon} style={styles.icon} alt={OneTouchIcon} />
         </div>
-        <span>Loading...</span>
+        <span style={styles.txt}>Loading...</span>
       </div>
     </div>
   );
@@ -22,8 +22,8 @@ const styles = {
     width: '100%',
     minHeight: '100%',
     zIndex: '999',
-    color: colors.danger,
-    // background: colors.bgGO,
+    color: colors.darkGrey,
+    background: colors.bgSpinner,
   },
   wrapper: {
     display: 'grid',
@@ -35,5 +35,12 @@ const styles = {
   spinner: {
     display: 'grid',
     justifyContent: 'center',
+  },
+  icon: {
+    animation: '2.75s linear infinite spinner-border',
+    width: '80px',
+  },
+  txt: {
+    fontSize: '36px',
   },
 };
