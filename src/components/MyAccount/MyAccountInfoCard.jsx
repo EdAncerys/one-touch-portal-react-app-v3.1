@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../App';
 import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
 export default function MyAccountInfoCard({
-  pageData,
-  name,
   setSelectedAddress,
   setUpdateAccount,
 }) {
+  const { manageAppContext } = useContext(AppContext);
+  const pageData = manageAppContext.pageData;
+  let name = '';
+  if (pageData.fName) name = pageData.fName + `'s`;
+
   return (
     <>
       <div className="features">

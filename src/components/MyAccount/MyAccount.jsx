@@ -13,8 +13,6 @@ export default function MyAccount({ props }) {
   const setSpinner = manageAppContext.setSpinner;
   const setPageData = manageAppContext.setPageData;
   const pageData = manageAppContext.pageData;
-  let name = '';
-  if (pageData.fName) name = pageData.fName + `'s`;
 
   useEffect(() => {
     if (!pageData) myAccount();
@@ -204,8 +202,6 @@ export default function MyAccount({ props }) {
     <>
       {pageData && !updateAccount && (
         <MyAccountInfoCard
-          pageData={pageData}
-          name={name}
           setSelectedAddress={setSelectedAddress}
           setUpdateAccount={setUpdateAccount}
         />

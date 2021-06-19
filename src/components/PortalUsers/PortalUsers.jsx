@@ -2,32 +2,31 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
 import PortalUserComponent from './PortalUserComponent';
-import PortalUserInfoCard from './PortalUserInfoCard';
+import MyAccountInfoCard from '../MyAccount/MyAccountInfoCard';
 
 export default function PortalUsers({ props }) {
   const { manageAppContext } = useContext(AppContext);
-  const [findContract, setFindContract] = useState(false);
-  const [filterContract, setFilterContract] = useState(false);
+  const [findUser, setFindUser] = useState(false);
+  const [filterUser, setFilterUser] = useState(false);
 
   const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
   const page = manageAppContext.page;
-  const setPage = manageAppContext.setPage;
 
-  console.log(findContract);
+  console.log(findUser);
 
   useEffect(() => {
-    liveConnections();
+    portalUsers();
   }, [page]); // eslint-disable-line
 
-  async function liveConnections() {
+  async function portalUsers() {
     setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/mongoDB';
 
     try {
       const body = {
-        oneTouchPath: 'liveConnections',
+        oneTouchPath: 'portalUsers',
         access_token,
       };
       console.log(body);
@@ -43,13 +42,12 @@ export default function PortalUsers({ props }) {
         setSpinner(false);
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         manageAppContext.setPageData([]);
-        setPage('connection-checker');
         console.log(data);
         return;
       }
 
       setSpinner(false);
-      manageAppContext.setPageData(data.contracts);
+      manageAppContext.setPageData(data.portalUsers);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -58,17 +56,17 @@ export default function PortalUsers({ props }) {
 
   return (
     <>
-      {pageData && !findContract && (
+      {pageData && !findUser && (
         <PortalUserComponent
-          setFindContract={setFindContract}
-          filterContract={filterContract}
-          setFilterContract={setFilterContract}
+          setFindUser={setFindUser}
+          filterUser={filterUser}
+          setFilterUser={setFilterUser}
         />
       )}
-      {findContract && (
-        <PortalUserInfoCard
-          findContract={findContract}
-          setFindContract={setFindContract}
+      {findUser && (
+        <MyAccountInfoCard
+          findUser={findUser}
+          setFindUser={setFindUser}
         />
       )}
     </>
