@@ -5,13 +5,20 @@ import { Card, Table, Button } from 'react-bootstrap';
 import { colors } from '../../config/colors';
 
 export default function UserAccountInfoCard({
-  id,
+  findUser,
+  setFindUser,
   setSelectedAddress,
   setUpdateAccount,
 }) {
   const { manageAppContext } = useContext(AppContext);
-  const pageData = manageAppContext.pageData[0].oneTouchSuperUser;
+  const portalUsers = manageAppContext.page === 'portal-users';
+  let pageData = manageAppContext.pageData[0].oneTouchSuperUser;
+  if (findUser)
+    pageData = manageAppContext.pageData.filter(
+      (user) => user._id === findUser
+    )[0].oneTouchSuperUser;
 
+  console.log(pageData);
   let name = '';
   if (pageData.fName) name = pageData.fName + `'s`;
 
@@ -118,7 +125,9 @@ export default function UserAccountInfoCard({
               <Table bordered hover size="sm">
                 <tbody>
                   <tr>
-                    <td style={styles.cardText}>Update Account Details</td>
+                    {!portalUsers && (
+                      <td style={styles.cardText}>Update Account Details</td>
+                    )}
                     <td style={styles.btn}>
                       <Button
                         onClick={() => {
@@ -132,6 +141,18 @@ export default function UserAccountInfoCard({
                         Update Account Details
                       </Button>
                     </td>
+                    {portalUsers && (
+                      <td style={styles.btn}>
+                        <Button
+                          onClick={() => setFindUser(false)}
+                          variant="outline-primary"
+                          size="sm"
+                          className="shadow-none"
+                        >
+                          Go Back
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 </tbody>
               </Table>

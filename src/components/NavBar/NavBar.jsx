@@ -25,34 +25,54 @@ export default function NavBar({ props }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link onClick={() => manageAppContext.setPage('docs')}>
+            <Nav.Link
+              onClick={() => {
+                setPageData(false);
+                manageAppContext.setPage('docs');
+              }}
+            >
               Docs
             </Nav.Link>
             <NavDropdown title="Customers">
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('user-management')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('user-management');
+                }}
               >
                 Address Book
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('live-connections')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('live-connections');
+                }}
               >
                 Manage Contracts
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('add-customer')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('add-customer');
+                }}
               >
                 Add Customer
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Broadband">
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('live-connections')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('live-connections');
+                }}
               >
                 Broadband Accounts
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('connection-checker')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('connection-checker');
+                }}
               >
                 Add Broadband
               </NavDropdown.Item>
@@ -92,23 +112,37 @@ export default function NavBar({ props }) {
                 </>
               )}
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('build-in-progress')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('build-in-progress');
+                }}
               >
                 Account Overview
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('build-in-progress')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('build-in-progress');
+                }}
               >
                 Raise Ticket
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
-                onClick={() => manageAppContext.setPage('build-in-progress')}
+                onClick={() => {
+                  setPageData(false);
+                  manageAppContext.setPage('build-in-progress');
+                }}
               >
                 Reseller Customers
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link onClick={() => manageAppContext.setPage('my-account')}>
+            <Nav.Link
+              onClick={() => {
+                setPageData(false);
+                manageAppContext.setPage('my-account');
+              }}
+            >
               My Account
             </Nav.Link>
             <Button

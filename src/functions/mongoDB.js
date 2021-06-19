@@ -675,9 +675,11 @@ const updateMyAccount = async (db, data) => {
     const msg = `Account details successfully updated!`;
     console.log(msg);
 
+    superUser[0].oneTouchSuperUser = data;
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ data, msg }),
+      body: JSON.stringify({ superUser, msg }),
     };
   } catch (err) {
     console.log(err);

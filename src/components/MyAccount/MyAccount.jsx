@@ -13,6 +13,8 @@ export default function MyAccount({ props }) {
   const setSpinner = manageAppContext.setSpinner;
   const setPageData = manageAppContext.setPageData;
   const pageData = manageAppContext.pageData;
+  let accountData = manageAppContext.pageData;
+  if (pageData) accountData = manageAppContext.pageData[0].oneTouchSuperUser;
 
   useEffect(() => {
     if (!pageData) myAccount();
@@ -23,29 +25,29 @@ export default function MyAccount({ props }) {
   }, [updateAccount]); // eslint-disable-line
 
   async function fillFromData() {
-    document.getElementById('fName').value = pageData.fName
-      ? pageData.fName
+    document.getElementById('fName').value = accountData.fName
+      ? accountData.fName
       : '';
-    document.getElementById('lName').value = pageData.lName
-      ? pageData.lName
+    document.getElementById('lName').value = accountData.lName
+      ? accountData.lName
       : '';
-    document.getElementById('email').value = pageData.email
-      ? pageData.email
+    document.getElementById('email').value = accountData.email
+      ? accountData.email
       : '';
-    document.getElementById('phoneNumber').value = pageData.phoneNumber
-      ? pageData.phoneNumber
+    document.getElementById('phoneNumber').value = accountData.phoneNumber
+      ? accountData.phoneNumber
       : '';
-    document.getElementById('companyName').value = pageData.companyName
-      ? pageData.companyName
+    document.getElementById('companyName').value = accountData.companyName
+      ? accountData.companyName
       : '';
-    document.getElementById('productType').value = pageData.productType
-      ? pageData.productType
+    document.getElementById('productType').value = accountData.productType
+      ? accountData.productType
       : '';
-    document.getElementById('companyEmail').value = pageData.companyEmail
-      ? pageData.companyEmail
+    document.getElementById('companyEmail').value = accountData.companyEmail
+      ? accountData.companyEmail
       : '';
     document.getElementById('companyPhoneNumber').value =
-      pageData.companyPhoneNumber ? pageData.companyPhoneNumber : '';
+      accountData.companyPhoneNumber ? accountData.companyPhoneNumber : '';
 
     // if (pageData.postcode)
     //   setSelectedAddress({
@@ -189,9 +191,9 @@ export default function MyAccount({ props }) {
 
       setSpinner(false);
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      setPageData(data.data);
-      setUpdateAccount(false);
       console.log(data);
+      setPageData(data.superUser);
+      setUpdateAccount(false);
     } catch (err) {
       console.log(err);
     }
