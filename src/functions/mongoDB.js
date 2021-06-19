@@ -71,6 +71,8 @@ export async function handler(event, context, callback) {
       return placeBroadbandOrder(db, body);
     case 'updateMyAccount':
       return updateMyAccount(db, body);
+    case 'updateUserAccount':
+      return updateUserAccount(db, body);
     case 'portalUsers':
       return portalUsers(db, body);
 
@@ -663,6 +665,58 @@ const updateMyAccount = async (db, data) => {
 
     delete data.oneTouchPath;
     delete data.access_token;
+    data.userApproved = superUser[0].oneTouchSuperUser.userApproved;
+    data.password = superUser[0].oneTouchSuperUser.password;
+    const update = {
+      $set: { oneTouchSuperUser: data },
+    };
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .updateOne(query, update, options);
+    const msg = `Account details successfully updated!`;
+    console.log(msg);
+
+    superUser[0].oneTouchSuperUser = data;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ superUser, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const updateUserAccount = async (db, data) => {
+  const id = data.userId;
+
+  try {
+    const objectID = new ObjectId(id);
+
+    const query = { _id: objectID };
+    const options = { upsert: true };
+
+    let superUser = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find(query)
+      .toArray();
+    console.log('DB superUser:', superUser);
+
+    if (!superUser.length) {
+      const msg = `Error. Could not update account details!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    delete data.oneTouchPath;
+    delete data.userId;
     data.userApproved = superUser[0].oneTouchSuperUser.userApproved;
     data.password = superUser[0].oneTouchSuperUser.password;
     const update = {

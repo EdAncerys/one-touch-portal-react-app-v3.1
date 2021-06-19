@@ -130,7 +130,7 @@ export default function PortalUsers({ props }) {
     }
 
     try {
-      const access_token = manageAppContext.accessToken.access_token;
+      const userId = findUser;
       const URL = '/.netlify/functions/mongoDB';
 
       const county = selectedAddress['county'];
@@ -145,8 +145,8 @@ export default function PortalUsers({ props }) {
       const thoroughfare_number = selectedAddress['thoroughfare_number'];
 
       const body = {
-        oneTouchPath: 'updateMyAccount',
-        access_token,
+        oneTouchPath: 'updateUserAccount',
+        userId,
         fName,
         lName,
         email,
@@ -183,10 +183,17 @@ export default function PortalUsers({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      // setPageData(data.data);
-      setUpdateAccount(false);
       console.log(data);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      const updateUser = pageData.map((user) => {
+        if (user._id === findUser) user = data.superUser[0];
+
+        return user;
+      });
+      console.log(updateUser);
+      setPageData(updateUser);
+      setFindUser(false);
+      setUpdateAccount(false);
     } catch (err) {
       console.log(err);
     }
