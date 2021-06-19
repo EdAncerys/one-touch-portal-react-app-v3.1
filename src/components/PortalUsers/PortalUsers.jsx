@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
 import PortalUserComponent from './PortalUserComponent';
-import MyAccountInfoCard from '../MyAccount/MyAccountInfoCard';
+import UserAccountInfoCard from '../MyAccount/UserAccountInfoCard';
 
 export default function PortalUsers({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -47,7 +47,7 @@ export default function PortalUsers({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setPageData(data.portalUsers);
+      manageAppContext.setPageData(data.superUser);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -64,10 +64,7 @@ export default function PortalUsers({ props }) {
         />
       )}
       {findUser && (
-        <MyAccountInfoCard
-          findUser={findUser}
-          setFindUser={setFindUser}
-        />
+        <UserAccountInfoCard findUser={findUser} setFindUser={setFindUser} />
       )}
     </>
   );

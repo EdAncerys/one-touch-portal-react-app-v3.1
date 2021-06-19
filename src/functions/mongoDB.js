@@ -71,6 +71,8 @@ export async function handler(event, context, callback) {
       return placeBroadbandOrder(db, body);
     case 'updateMyAccount':
       return updateMyAccount(db, body);
+    case 'portalUsers':
+      return portalUsers(db, body);
 
     default:
       return {
@@ -263,9 +265,9 @@ const myAccount = async (db, data) => {
       };
     }
 
-    const oneTouchSuperUser = user[0].oneTouchSuperUser;
-    delete oneTouchSuperUser.password;
-    delete oneTouchSuperUser.userApproved;
+    const oneTouchSuperUser = user;
+    delete oneTouchSuperUser[0].oneTouchSuperUser.password;
+    delete oneTouchSuperUser[0].oneTouchSuperUser.userApproved;
 
     const msg =
       `User profile successfully loaded for: ` + oneTouchSuperUser.email;
@@ -676,6 +678,51 @@ const updateMyAccount = async (db, data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const portalUsers = async (db, data) => {
+  const access_token = data.access_token;
+
+  try {
+    const oneTouchUser = await authUser(access_token);
+    const id = oneTouchUser._id;
+    const objectID = new ObjectId(id);
+
+    const query = { _id: { $ne: objectID } };
+    const options = { upsert: true };
+
+    let superUser = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find(query)
+      .toArray();
+    console.log('DB superUser:', superUser);
+
+    if (!superUser.length) {
+      const msg = `Error. Could not fetch user account details!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    superUser.map((user) => {
+      delete user.oneTouchSuperUser.password;
+      return user;
+    });
+    const msg = `Account details successfully loaded!`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ superUser, msg }),
     };
   } catch (err) {
     console.log(err);

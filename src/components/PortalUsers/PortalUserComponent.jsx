@@ -5,22 +5,19 @@ import UserCard from './UserCard';
 import UserOverviewCard from './UserOverviewCard';
 
 export default function PortalUserComponent({
-  setFindContract,
-  filterContract,
-  setFilterContract,
+  setFindUser,
+  filterUser,
+  setFilterUser,
 }) {
   return (
     <div className="features">
       <div className="flex-container-30">
-        <UserOverviewCard setFilterContract={setFilterContract} />
+        <UserOverviewCard setFilterUser={setFilterUser} />
         <NDGBanner width="flex-container-30" />
       </div>
 
       <div className="flex-container-70">
-        <UserCard
-          filterContract={filterContract}
-          setFindContract={setFindContract}
-        />
+        <UserCard filterUser={filterUser} setFindUser={setFindUser} />
       </div>
     </div>
   );

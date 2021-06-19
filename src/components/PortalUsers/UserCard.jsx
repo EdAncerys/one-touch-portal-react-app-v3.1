@@ -4,7 +4,7 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function CustomerCard({ setFindContract, filterContract }) {
+export default function CustomerCard({ setFindUser, filterContract }) {
   const { manageAppContext } = useContext(AppContext);
   const pageData = manageAppContext.pageData;
 
@@ -12,119 +12,58 @@ export default function CustomerCard({ setFindContract, filterContract }) {
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
         <Card.Header>
-          <div>Contract List</div>
+          <div>User List</div>
         </Card.Header>
         <Card.Body>
           <Table responsive bordered hover size="sm">
             <thead>
               <tr>
                 <th>#</th>
-                <th>Company Name</th>
-                <th>Address</th>
-                <th>Provider</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Company Details</th>
                 <th>More</th>
               </tr>
             </thead>
             <tbody>
-              {pageData.map((customer, index) => {
-                let broadbandData = '';
-                let data = customer.oneTouchBroadband;
-                if (data) broadbandData = customer.oneTouchBroadband;
-                let customerData = customer.oneTouchCustomer;
-                let notFound = customerData.length === 0;
+              {pageData.map((user, index) => {
+                const userApproved = user.oneTouchSuperUser.userApproved;
+                const userData = user.oneTouchSuperUser;
+                let bgColor = colors.bgPENDING;
 
-                let bgColor = '';
-                let contractStartDay = '';
-                if (!!customer.length)
-                  contractStartDay = broadbandData.contractStartDay;
-
-                let contractEndDay;
-                let contractVisibility = '';
-                let contractStatus = '';
-
-                // contract expiration day
-                const today = new Date();
-                if (contractStartDay)
-                  contractEndDay = new Date(broadbandData.contractEndDay);
-                const sixMonthsFromNow = new Date();
-                sixMonthsFromNow.setMonth(today.getMonth() + 6);
-
-                if (contractEndDay < today && contractStartDay) {
-                  bgColor = colors.bgSTOP;
-                  contractStatus = 'expired';
-                }
-                if (
-                  contractEndDay < sixMonthsFromNow &&
-                  contractEndDay > today
-                ) {
-                  bgColor = colors.bgSET;
-                  contractStatus = 'lessThenSixMonth';
-                }
-                if (contractEndDay > sixMonthsFromNow) {
+                if (userApproved) {
                   bgColor = colors.bgGO;
-                  contractStatus = 'moreThenSixMonth';
                 }
-                if (!contractStartDay) {
-                  bgColor = colors.bgPENDING;
-                  contractStatus = 'pending';
-                }
-
-                if (filterContract !== contractStatus && filterContract)
-                  contractVisibility = 'hidden';
 
                 return (
-                  <tr
-                    style={{ background: bgColor }}
-                    className={contractVisibility}
-                    key={customer._id.toString()}
-                  >
-                    <td key={customer._id.toString() + 'a'}>{index + 1}</td>
-                    <td key={customer._id.toString() + 'b'}>
-                      <div key={index + 1}>
-                        {customerData.companyName}
-                        {notFound && `Customer not found!`}
-                      </div>
+                  <tr style={{ background: bgColor }} key={user._id.toString()}>
+                    <td key={user._id.toString() + 'a'}>{index + 1}</td>
+                    <td key={user._id.toString() + 'b'}>
+                      <div key={index + 1}>{userData.fName}</div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customerData.companyName}
+                        {userData.lName}
                       </div>
                     </td>
-                    <td key={customer._id.toString() + 'c'}>
-                      <div key={index + 1}>
-                        <div>
-                          {customerData.thoroughfare_number === 'null'
-                            ? ''
-                            : customerData.thoroughfare_number}{' '}
-                          {customerData.premises_name === 'null'
-                            ? ''
-                            : customerData.premises_name}{' '}
-                          {customerData.sub_premises === 'null'
-                            ? ''
-                            : customerData.sub_premises}{' '}
-                          {customerData.thoroughfare_name === 'null'
-                            ? ''
-                            : customerData.thoroughfare_name}{' '}
-                          {customerData.county}
-                        </div>
-                        {notFound && `Customer not found!`}
-                      </div>
+                    <td key={user._id.toString() + 'c'}>
+                      <div key={index + 1}>{userData.companyPhoneNumber}</div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {customerData.postcode}
+                        {userData.email}
                       </div>
                     </td>
-                    <td key={customer._id.toString() + 'd'}>
-                      <div key={index + 1}>{broadbandData.provider}</div>
+                    <td key={user._id.toString() + 'd'}>
+                      <div key={index + 1}>{userData.companyName}</div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {broadbandData.technology}
+                        {userData.companyPhoneNumber}
                       </div>
                     </td>
-                    <td key={customer._id.toString() + 'e'} style={styles.btn}>
+                    <td key={user._id.toString() + 'e'} style={styles.btn}>
                       <Button
-                        onClick={() => setFindContract(customer._id)}
-                        id={customer._id}
+                        onClick={() => setFindUser(user._id)}
+                        id={user._id}
                         size="sm"
                         className="shadow-none"
                       >
-                        Contract Info
+                        User Info
                       </Button>
                     </td>
                   </tr>

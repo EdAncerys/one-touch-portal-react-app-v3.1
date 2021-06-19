@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 
-import MyAccountInfoCard from './MyAccountInfoCard';
+import UserAccountInfoCard from './UserAccountInfoCard';
 import MyAccountUpdateForm from './MyAccountUpdateForm';
 import { validateEmail } from '../AuthIndex/validateEmail';
 
@@ -61,7 +61,6 @@ export default function MyAccount({ props }) {
     //     thoroughfare_number: pageData.thoroughfare_number,
     //   });
   }
-
   async function myAccount() {
     setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
@@ -201,7 +200,7 @@ export default function MyAccount({ props }) {
   return (
     <>
       {pageData && !updateAccount && (
-        <MyAccountInfoCard
+        <UserAccountInfoCard
           setSelectedAddress={setSelectedAddress}
           setUpdateAccount={setUpdateAccount}
         />

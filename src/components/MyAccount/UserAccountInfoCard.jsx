@@ -4,12 +4,14 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function MyAccountInfoCard({
+export default function UserAccountInfoCard({
+  id,
   setSelectedAddress,
   setUpdateAccount,
 }) {
   const { manageAppContext } = useContext(AppContext);
-  const pageData = manageAppContext.pageData;
+  const pageData = manageAppContext.pageData[0].oneTouchSuperUser;
+
   let name = '';
   if (pageData.fName) name = pageData.fName + `'s`;
 
@@ -124,7 +126,7 @@ export default function MyAccountInfoCard({
                           setUpdateAccount(true);
                         }}
                         variant="outline-success"
-                        size="lg"
+                        size="sm"
                         className="shadow-none"
                       >
                         Update Account Details
