@@ -73,8 +73,10 @@ export async function handler(event, context, callback) {
       return updateMyAccount(db, body);
     case 'updateUserAccount':
       return updateUserAccount(db, body);
-    case 'updateUserStatus':
-      return updateUserStatus(db, body);
+    case 'updateAccountStatus':
+      return updateAccountStatus(db, body);
+    case 'deleteUserAccount':
+      return deleteUserAccount(db, body);
     case 'portalUsers':
       return portalUsers(db, body);
 
@@ -745,7 +747,7 @@ const updateUserAccount = async (db, data) => {
     };
   }
 };
-const updateUserStatus = async (db, data) => {
+const updateAccountStatus = async (db, data) => {
   const id = data.id;
   const userApproved = data.userApproved;
 
@@ -831,6 +833,46 @@ const portalUsers = async (db, data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ superUser, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const deleteUserAccount = async (db, data) => {
+  const id = data.id;
+
+  try {
+    const objectID = new ObjectId(id);
+
+    const query = { _id: objectID };
+    const options = { upsert: true };
+
+    let superUser = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find(query)
+      .toArray();
+    console.log('DB superUser:', superUser);
+
+    if (!superUser.length) {
+      const msg = `Error. Could not delete user account!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    await db.collection(COLLECTION_ONE_TOUCH_SUPER_USER).deleteOne(query);
+    const msg = `User account successfully deleted!`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ msg }),
     };
   } catch (err) {
     console.log(err);

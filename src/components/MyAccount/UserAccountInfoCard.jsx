@@ -9,7 +9,8 @@ export default function UserAccountInfoCard({
   setFindUser,
   setSelectedAddress,
   setUpdateAccount,
-  updateUserStatus,
+  updateAccountStatus,
+  deleteUserAccount,
 }) {
   const { manageAppContext } = useContext(AppContext);
   const portalUsers = manageAppContext.page === 'portal-users';
@@ -153,7 +154,17 @@ export default function UserAccountInfoCard({
                       <>
                         <td style={styles.btn}>
                           <Button
-                            onClick={() => updateUserStatus(true)}
+                            onClick={() => deleteUserAccount()}
+                            variant="danger"
+                            size="sm"
+                            className="shadow-none"
+                          >
+                            Delete Account
+                          </Button>
+                        </td>
+                        <td style={styles.btn}>
+                          <Button
+                            onClick={() => updateAccountStatus(true)}
                             variant="outline-success"
                             size="sm"
                             className="shadow-none"
@@ -163,7 +174,7 @@ export default function UserAccountInfoCard({
                         </td>
                         <td style={styles.btn}>
                           <Button
-                            onClick={() => updateUserStatus(false)}
+                            onClick={() => updateAccountStatus(false)}
                             variant="outline-danger"
                             size="sm"
                             className="shadow-none"

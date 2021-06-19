@@ -196,7 +196,7 @@ export default function PortalUsers({ props }) {
       console.log(err);
     }
   }
-  async function updateUserStatus(userApproved) {
+  async function deleteUserAccount() {
     setSpinner(true);
 
     try {
@@ -204,7 +204,46 @@ export default function PortalUsers({ props }) {
       const URL = '/.netlify/functions/mongoDB';
 
       const body = {
-        oneTouchPath: 'updateUserStatus',
+        oneTouchPath: 'deleteUserAccount',
+        id,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setSpinner(false);
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      setSpinner(false);
+      console.log(data);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      const updateUser = pageData.filter((user) => user._id !== findUser);
+      console.log(updateUser);
+      setFindUser(false);
+      setUpdateAccount(false);
+      setPageData(updateUser);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateAccountStatus(userApproved) {
+    setSpinner(true);
+
+    try {
+      const id = findUser;
+      const URL = '/.netlify/functions/mongoDB';
+
+      const body = {
+        oneTouchPath: 'updateAccountStatus',
         userApproved,
         id,
       };
@@ -254,7 +293,8 @@ export default function PortalUsers({ props }) {
           setFindUser={setFindUser}
           setSelectedAddress={setSelectedAddress}
           setUpdateAccount={setUpdateAccount}
-          updateUserStatus={updateUserStatus}
+          updateAccountStatus={updateAccountStatus}
+          deleteUserAccount={deleteUserAccount}
         />
       )}
       {pageData && updateAccount && (
