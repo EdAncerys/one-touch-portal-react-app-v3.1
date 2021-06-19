@@ -87,7 +87,7 @@ export default function NavBar({ props }) {
                     }}
                     className="admin-nav"
                   >
-                    Manage Users
+                    Portal Users
                   </NavDropdown.Item>
                 </>
               )}

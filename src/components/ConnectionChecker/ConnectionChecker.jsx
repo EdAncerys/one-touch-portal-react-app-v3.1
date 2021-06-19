@@ -5,8 +5,6 @@ import { colors } from '../../config/colors';
 
 import AddressPicker from '../AddCustomer/AddressPicker';
 import NDGBanner from '../NDGBanner';
-import EthernetConnection from '../../img/oneTouch/Ethernet-Connection.png';
-import BroadbandConnection from '../../img/oneTouch/Broadband-Connection.png';
 import BroadbandCard from './BroadbandCard';
 import BroadbandInfoCard from './BroadbandInfoCard';
 import UserManagement from '../UserManagement/UserManagement';

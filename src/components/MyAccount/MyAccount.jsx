@@ -3,6 +3,7 @@ import { Form, Col, Row, Card, Table, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 
 import AddressPicker from '../AddCustomer/AddressPicker';
+import MyAccountInfoCard from './MyAccountInfoCard';
 import { validateEmail } from '../AuthIndex/validateEmail';
 
 export default function MyAccount({ props }) {
@@ -203,109 +204,12 @@ export default function MyAccount({ props }) {
   return (
     <>
       {pageData && !updateAccount && (
-        <div className="features-align-left">
-          <div className="flex-container-50">
-            <Card
-              bg="Light"
-              text="dark"
-              style={{ width: '100%' }}
-              className="mb-2"
-            >
-              <Card.Header>
-                <div>{name} Account Information</div>
-              </Card.Header>
-              <Card.Body>
-                <Table responsive="sm">
-                  <tbody>
-                    <tr>
-                      <td>Name:</td>
-                      <td>{pageData.fName}</td>
-                    </tr>
-                    <tr>
-                      <td>Last Name:</td>
-                      <td>{pageData.lName}</td>
-                    </tr>
-                    <tr>
-                      <td>Email:</td>
-                      <td>{pageData.email}</td>
-                    </tr>
-                    <tr>
-                      <td>Phone Number:</td>
-                      <td>{pageData.phoneNumber}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <div className="mt-3 mb-3">
-                  <Button
-                    onClick={() => {
-                      setSelectedAddress(false);
-                      setUpdateAccount(true);
-                    }}
-                    variant="outline-success"
-                    size="lg"
-                    className="shadow-none"
-                  >
-                    Update My Account
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
-
-          <div className="flex-container-50">
-            <Card
-              bg="Light"
-              text="dark"
-              style={{ width: '100%' }}
-              className="mb-2"
-            >
-              <Card.Header>
-                <div>{name} Company Information</div>
-              </Card.Header>
-              <Card.Body>
-                <Table responsive="sm">
-                  <tbody>
-                    <tr>
-                      <td>Company Name:</td>
-                      <td>{pageData.companyName}</td>
-                    </tr>
-                    <tr>
-                      <td>Product Type:</td>
-                      <td>{pageData.productType}</td>
-                    </tr>
-                    <tr>
-                      <td>Company Email:</td>
-                      <td>{pageData.companyEmail}</td>
-                    </tr>
-                    <tr>
-                      <td>Company Phone Number:</td>
-                      <td>{pageData.companyPhoneNumber}</td>
-                    </tr>
-                    <tr>
-                      <td>Company Address:</td>
-                      <td>
-                        {pageData.thoroughfare_number === 'null'
-                          ? ''
-                          : pageData.thoroughfare_number}{' '}
-                        {pageData.premises_name === 'null'
-                          ? ''
-                          : pageData.premises_name}{' '}
-                        {pageData.sub_premises === 'null'
-                          ? ''
-                          : pageData.sub_premises}{' '}
-                        {pageData.thoroughfare_name === 'null'
-                          ? ''
-                          : pageData.thoroughfare_name}{' '}
-                        {pageData.county === 'null' ? '' : pageData.county}{' '}
-                        {pageData.postcode}
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          </div>
-        </div>
+        <MyAccountInfoCard
+          pageData={pageData}
+          name={name}
+          setSelectedAddress={setSelectedAddress}
+          setUpdateAccount={setUpdateAccount}
+        />
       )}
 
       {pageData && updateAccount && (
