@@ -9,6 +9,7 @@ export default function UserAccountInfoCard({
   setFindUser,
   setSelectedAddress,
   setUpdateAccount,
+  updateUserStatus,
 }) {
   const { manageAppContext } = useContext(AppContext);
   const portalUsers = manageAppContext.page === 'portal-users';
@@ -19,6 +20,7 @@ export default function UserAccountInfoCard({
     )[0].oneTouchSuperUser;
 
   console.log(pageData);
+  const userApproved = pageData.userApproved;
   let name = '';
   if (pageData.fName) name = pageData.fName + `'s`;
 
@@ -117,9 +119,15 @@ export default function UserAccountInfoCard({
 
       <div className="features-align-left">
         <div className="flex-container-50">
-          <Card style={styles.manageCard} className="mb-2">
+          <Card
+            style={{
+              ...styles.manageCard,
+              background: userApproved ? colors.bgGO : colors.bgPENDING,
+            }}
+            className="mb-2"
+          >
             <Card.Header>
-              <div>Manage Customer Account Details</div>
+              <div>Manage Customer Account</div>
             </Card.Header>
             <Card.Body>
               <Table bordered hover size="sm">
@@ -134,7 +142,7 @@ export default function UserAccountInfoCard({
                           setSelectedAddress(false);
                           setUpdateAccount(true);
                         }}
-                        variant="outline-success"
+                        variant="warning"
                         size="sm"
                         className="shadow-none"
                       >
@@ -142,16 +150,38 @@ export default function UserAccountInfoCard({
                       </Button>
                     </td>
                     {portalUsers && (
-                      <td style={styles.btn}>
-                        <Button
-                          onClick={() => setFindUser(false)}
-                          variant="outline-primary"
-                          size="sm"
-                          className="shadow-none"
-                        >
-                          Go Back
-                        </Button>
-                      </td>
+                      <>
+                        <td style={styles.btn}>
+                          <Button
+                            onClick={() => updateUserStatus(true)}
+                            variant="outline-success"
+                            size="sm"
+                            className="shadow-none"
+                          >
+                            Activate
+                          </Button>
+                        </td>
+                        <td style={styles.btn}>
+                          <Button
+                            onClick={() => updateUserStatus(false)}
+                            variant="outline-danger"
+                            size="sm"
+                            className="shadow-none"
+                          >
+                            Deactivate
+                          </Button>
+                        </td>
+                        <td style={styles.btn}>
+                          <Button
+                            onClick={() => setFindUser(false)}
+                            variant="outline-primary"
+                            size="sm"
+                            className="shadow-none"
+                          >
+                            Go Back
+                          </Button>
+                        </td>
+                      </>
                     )}
                   </tr>
                 </tbody>
@@ -166,7 +196,6 @@ export default function UserAccountInfoCard({
 
 const styles = {
   manageCard: {
-    background: colors.bgGO,
     color: colors.white,
   },
   cardText: {

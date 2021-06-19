@@ -73,6 +73,8 @@ export async function handler(event, context, callback) {
       return updateMyAccount(db, body);
     case 'updateUserAccount':
       return updateUserAccount(db, body);
+    case 'updateUserStatus':
+      return updateUserStatus(db, body);
     case 'portalUsers':
       return portalUsers(db, body);
 
@@ -692,7 +694,7 @@ const updateMyAccount = async (db, data) => {
   }
 };
 const updateUserAccount = async (db, data) => {
-  const id = data.userId;
+  const id = data.id;
 
   try {
     const objectID = new ObjectId(id);
@@ -730,6 +732,56 @@ const updateUserAccount = async (db, data) => {
     console.log(msg);
 
     superUser[0].oneTouchSuperUser = data;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ superUser, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const updateUserStatus = async (db, data) => {
+  const id = data.id;
+  const userApproved = data.userApproved;
+
+  try {
+    const objectID = new ObjectId(id);
+
+    const query = { _id: objectID };
+    const options = { upsert: true };
+
+    let superUser = await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .find(query)
+      .toArray();
+    console.log('DB superUser:', superUser);
+
+    if (!superUser.length) {
+      const msg = `Error. Could not update account details!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    superUser[0].oneTouchSuperUser.userApproved = userApproved;
+    const updateUser = superUser[0].oneTouchSuperUser;
+    const update = {
+      $set: { oneTouchSuperUser: updateUser },
+    };
+    console.log(superUser);
+
+    await db
+      .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
+      .updateOne(query, update, options);
+    const msg = `Account details successfully updated!`;
+    console.log(msg);
 
     return {
       statusCode: 200,

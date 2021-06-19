@@ -6,7 +6,7 @@ import AddressPicker from '../AddCustomer/AddressPicker';
 export default function MyAccountUpdateForm({
   selectedAddress,
   setSelectedAddress,
-  updateMyAccount,
+  updateUserAccount,
   setUpdateAccount,
 }) {
   return (
@@ -80,7 +80,7 @@ export default function MyAccountUpdateForm({
             <Row>
               <Col>
                 <Button
-                  onClick={() => updateMyAccount()}
+                  onClick={() => updateUserAccount()}
                   variant="outline-success"
                   size="lg"
                   className="shadow-none"

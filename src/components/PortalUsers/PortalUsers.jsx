@@ -91,7 +91,7 @@ export default function PortalUsers({ props }) {
     document.getElementById('companyPhoneNumber').value =
       pageData.companyPhoneNumber ? pageData.companyPhoneNumber : '';
   }
-  async function updateMyAccount() {
+  async function updateUserAccount() {
     setSpinner(true);
 
     const fName = document.getElementById('fName').value;
@@ -130,7 +130,7 @@ export default function PortalUsers({ props }) {
     }
 
     try {
-      const userId = findUser;
+      const id = findUser;
       const URL = '/.netlify/functions/mongoDB';
 
       const county = selectedAddress['county'];
@@ -146,7 +146,7 @@ export default function PortalUsers({ props }) {
 
       const body = {
         oneTouchPath: 'updateUserAccount',
-        userId,
+        id,
         fName,
         lName,
         email,
@@ -190,9 +190,49 @@ export default function PortalUsers({ props }) {
 
         return user;
       });
-      console.log(updateUser);
       setPageData(updateUser);
-      setFindUser(false);
+      setUpdateAccount(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateUserStatus(userApproved) {
+    setSpinner(true);
+
+    try {
+      const id = findUser;
+      const URL = '/.netlify/functions/mongoDB';
+
+      const body = {
+        oneTouchPath: 'updateUserStatus',
+        userApproved,
+        id,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setSpinner(false);
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      setSpinner(false);
+      console.log(data);
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      const updateUser = pageData.map((user) => {
+        if (user._id === findUser) user = data.superUser[0];
+
+        return user;
+      });
+      setPageData(updateUser);
       setUpdateAccount(false);
     } catch (err) {
       console.log(err);
@@ -214,13 +254,14 @@ export default function PortalUsers({ props }) {
           setFindUser={setFindUser}
           setSelectedAddress={setSelectedAddress}
           setUpdateAccount={setUpdateAccount}
+          updateUserStatus={updateUserStatus}
         />
       )}
       {pageData && updateAccount && (
         <MyAccountUpdateForm
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
-          updateMyAccount={updateMyAccount}
+          updateUserAccount={updateUserAccount}
           setUpdateAccount={setUpdateAccount}
         />
       )}
