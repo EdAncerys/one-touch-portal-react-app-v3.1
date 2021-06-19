@@ -3,7 +3,7 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function MyAccount({
+export default function MyAccountInfoCard({
   pageData,
   name,
   setSelectedAddress,
