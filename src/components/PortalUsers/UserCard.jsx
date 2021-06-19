@@ -4,7 +4,11 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function CustomerCard({ setFindUser, filterContract }) {
+export default function CustomerCard({
+  setFindUser,
+  filterUser,
+  setFilterUser,
+}) {
   const { manageAppContext } = useContext(AppContext);
   const pageData = manageAppContext.pageData;
 
@@ -29,14 +33,24 @@ export default function CustomerCard({ setFindUser, filterContract }) {
               {pageData.map((user, index) => {
                 const userApproved = user.oneTouchSuperUser.userApproved;
                 const userData = user.oneTouchSuperUser;
+
+                let userVisibility = '';
+                let userStatus = 'pending';
                 let bgColor = colors.bgPENDING;
 
                 if (userApproved) {
                   bgColor = colors.bgGO;
+                  userStatus = 'active-user';
                 }
+                if (filterUser !== userStatus && filterUser)
+                  userVisibility = 'hidden';
 
                 return (
-                  <tr style={{ background: bgColor }} key={user._id.toString()}>
+                  <tr
+                    style={{ background: bgColor }}
+                    className={userVisibility}
+                    key={user._id.toString()}
+                  >
                     <td key={user._id.toString() + 'a'}>{index + 1}</td>
                     <td key={user._id.toString() + 'b'}>
                       <div key={index + 1}>{userData.fName}</div>

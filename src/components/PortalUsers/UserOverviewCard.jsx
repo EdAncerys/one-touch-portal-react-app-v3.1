@@ -4,7 +4,7 @@ import { Card, Table } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function ContractOverviewCard({ setFilterContract }) {
+export default function ContractOverviewCard({ setFilterUser }) {
   const { manageAppContext } = useContext(AppContext);
 
   const pageData = manageAppContext.pageData;
@@ -35,15 +35,12 @@ export default function ContractOverviewCard({ setFilterContract }) {
         <Card.Body>
           <Table bordered hover size="sm">
             <tbody>
-              <tr
-                onClick={() => setFilterContract(false)}
-                className="cursor-on"
-              >
+              <tr onClick={() => setFilterUser(false)} className="cursor-on">
                 <td>Total Users</td>
                 <td>{totalUsers}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('active-users')}
+                onClick={() => setFilterUser('active-user')}
                 className="cursor-on"
                 style={{ background: colors.bgGO }}
               >
@@ -51,7 +48,7 @@ export default function ContractOverviewCard({ setFilterContract }) {
                 <td>{liveUsers}</td>
               </tr>
               <tr
-                onClick={() => setFilterContract('pending')}
+                onClick={() => setFilterUser('pending')}
                 className="cursor-on"
                 style={{ background: colors.bgPENDING }}
               >
