@@ -20,7 +20,7 @@ const colors = {
   red: '#D95E5A',
   danger: '#D2042D',
 
-  bgSpinner: 'rgb(243, 243, 243, 0.6)',
+  bgSpinner: 'rgb(243, 243, 243, 0.8)',
   bgSTOP: 'rgb(217, 83, 79, 0.4)',
   bgSET: 'rgb(235, 173, 78, 0.4)',
   bgGO: 'rgb(103, 144, 88, 0.4)',

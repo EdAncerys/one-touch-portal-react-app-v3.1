@@ -10,7 +10,7 @@ export default function SpinnerMsg({ spinner }) {
         <div style={styles.spinner}>
           <img src={OneTouchIcon} style={styles.icon} alt={OneTouchIcon} />
         </div>
-        <span style={styles.txt}>Loading...</span>
+        <span style={styles.txt}>loading...</span>
       </div>
     </div>
   );
@@ -18,19 +18,22 @@ export default function SpinnerMsg({ spinner }) {
 
 const styles = {
   container: {
-    position: 'absolute',
-    width: '100%',
-    minHeight: '100%',
+    position: 'sticky',
+    height: 0,
+    overflow: 'visible',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     zIndex: '999',
-    color: colors.darkGrey,
-    background: colors.bgSpinner,
+    top: '0px',
   },
   wrapper: {
     display: 'grid',
-    gridTemplateRows: '1fr auto',
+    gridTemplateRows: '1fr 100vh',
     gap: '10px',
+    paddingTop: '200px',
     justifyContent: 'center',
-    marginTop: '30vh',
+    color: colors.bgPENDING,
+    background: colors.bgSpinner,
   },
   spinner: {
     display: 'grid',
