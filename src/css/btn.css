@@ -28,3 +28,9 @@
 .btn-round {
   border-radius: 999px;
 }
+/* Media Queries */
+@media only screen and (max-width: 1000px) {
+  .mobile-full-width {
+    width: 100%;
+  }
+}

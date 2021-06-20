@@ -133,7 +133,7 @@ export default function UserAccountInfoCard({
             <Card.Body>
               <Table bordered hover size="sm">
                 <tbody>
-                  <tr>
+                  <tr className="row-collapse">
                     {!portalUsers && (
                       <td style={styles.cardText}>Update Account Details</td>
                     )}
@@ -145,7 +145,7 @@ export default function UserAccountInfoCard({
                         }}
                         variant="warning"
                         size="sm"
-                        className="shadow-none"
+                        className="shadow-none mobile-full-width"
                       >
                         Update Account Details
                       </Button>
@@ -157,7 +157,7 @@ export default function UserAccountInfoCard({
                             onClick={() => deleteUserAccount()}
                             variant="danger"
                             size="sm"
-                            className="shadow-none"
+                            className="shadow-none mobile-full-width"
                           >
                             Delete Account
                           </Button>
@@ -167,7 +167,7 @@ export default function UserAccountInfoCard({
                             onClick={() => updateAccountStatus(true)}
                             variant="outline-success"
                             size="sm"
-                            className="shadow-none"
+                            className="shadow-none mobile-full-width"
                           >
                             Activate
                           </Button>
@@ -177,7 +177,7 @@ export default function UserAccountInfoCard({
                             onClick={() => updateAccountStatus(false)}
                             variant="outline-danger"
                             size="sm"
-                            className="shadow-none"
+                            className="shadow-none mobile-full-width"
                           >
                             Deactivate
                           </Button>
@@ -187,7 +187,7 @@ export default function UserAccountInfoCard({
                             onClick={() => setFindUser(false)}
                             variant="outline-primary"
                             size="sm"
-                            className="shadow-none"
+                            className="shadow-none mobile-full-width"
                           >
                             Go Back
                           </Button>
@@ -214,6 +214,5 @@ const styles = {
   },
   btn: {
     textAlign: 'center',
-    margin: 'auto',
   },
 };
