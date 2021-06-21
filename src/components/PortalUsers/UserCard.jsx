@@ -4,11 +4,7 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function CustomerCard({
-  setFindUser,
-  filterUser,
-  setFilterUser,
-}) {
+export default function CustomerCard({ setFindUser, filterUser }) {
   const { manageAppContext } = useContext(AppContext);
   const pageData = manageAppContext.pageData;
 

@@ -95,7 +95,7 @@ export default function App({ props }) {
               {page === 'build-in-progress' && <BuildInProgress />}
               {page === 'docs' && <Docs />}
               {page === 'my-account' && <MyAccount />}
-              {page === 'rase-ticket' && <RaiseTicket />}
+              {page === 'raise-ticket' && <RaiseTicket />}
               {page === 'user-management' && <UserManagement />}
               {page === 'live-connections' && <LiveConnections />}
               {page === 'broadband-orders' && <BroadbandOrders />}

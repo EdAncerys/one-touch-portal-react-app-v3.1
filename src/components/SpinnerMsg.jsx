@@ -31,6 +31,7 @@ const styles = {
     gridTemplateRows: '1fr 100vh',
     gap: '10px',
     paddingTop: '200px',
+    marginBottom: '0px',
     justifyContent: 'center',
     color: colors.bgPENDING,
     background: colors.bgSpinner,

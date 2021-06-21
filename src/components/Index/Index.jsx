@@ -25,7 +25,7 @@ export default function Index({ props }) {
           alt={Cloud}
         />
         <img
-          onClick={() => manageAppContext.setPage('build-in-progress')}
+          onClick={() => manageAppContext.setPage('raise-ticket')}
           src={RaseTicket}
           width={width}
           className={className}

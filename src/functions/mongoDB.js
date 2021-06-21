@@ -88,8 +88,6 @@ export async function handler(event, context, callback) {
   }
 }
 
-// const superUserObjectId = new ObjectId(oneTouchUser._id);
-
 const authUser = async (access_token) => {
   const authToken = await jwt.verify(
     access_token,
@@ -806,7 +804,6 @@ const portalUsers = async (db, data) => {
     const objectID = new ObjectId(id);
 
     const query = { _id: { $ne: objectID } };
-    const options = { upsert: true };
 
     let superUser = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)
@@ -847,9 +844,7 @@ const deleteUserAccount = async (db, data) => {
 
   try {
     const objectID = new ObjectId(id);
-
     const query = { _id: objectID };
-    const options = { upsert: true };
 
     let superUser = await db
       .collection(COLLECTION_ONE_TOUCH_SUPER_USER)

@@ -12,10 +12,7 @@ export default function PortalUserComponent({
   return (
     <div className="features">
       <div className="flex-container-30">
-        <UserOverviewCard
-          filterUser={filterUser}
-          setFilterUser={setFilterUser}
-        />
+        <UserOverviewCard setFilterUser={setFilterUser} />
         <NDGBanner width="flex-container-30" />
       </div>
 

@@ -122,7 +122,7 @@ export default function NavBar({ props }) {
               <NavDropdown.Item
                 onClick={() => {
                   setPageData(false);
-                  manageAppContext.setPage('build-in-progress');
+                  manageAppContext.setPage('raise-ticket');
                 }}
               >
                 Raise Ticket

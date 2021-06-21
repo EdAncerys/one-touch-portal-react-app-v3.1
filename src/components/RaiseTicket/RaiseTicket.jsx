@@ -1,65 +1,98 @@
-import React, { useContext, useEffect } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
-import { AppContext } from "../../App";
+import React, { useContext, useState, useEffect } from 'react';
+import { AppContext } from '../../App';
 
-import NDGBanner from "../NDGBanner";
+import RaiseTicketComponent from './RaiseTicketComponent';
 
 export default function RaiseTicket({ props }) {
   const { manageAppContext } = useContext(AppContext);
+  const [findTicket, setFindTicket] = useState(false);
+  const [filterTicket, setFilterTicket] = useState(false);
 
   const setSpinner = manageAppContext.setSpinner;
+  const pageData = manageAppContext.pageData;
+  const setPageData = manageAppContext.setPageData;
+  const page = manageAppContext.page;
+
+  useEffect(() => {
+    console.log('hello');
+    freshDeskTickets();
+  }, [page]); // eslint-disable-line
 
   useEffect(() => {
     const listener = (event) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         raiseTicket();
       }
     };
-    document.addEventListener("keydown", listener);
+    document.addEventListener('keydown', listener);
     return () => {
-      document.removeEventListener("keydown", listener);
+      document.removeEventListener('keydown', listener);
     };
   });
 
+  async function freshDeskTickets() {
+    setSpinner(true);
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/freshDesk';
+
+    try {
+      const body = {
+        oneTouchPath: 'freshDeskTickets',
+        access_token,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setSpinner(false);
+        manageAppContext.setAlert({ color: 'warning', msg: data.msg });
+        setPageData([]);
+        console.log(data);
+        return;
+      }
+
+      setSpinner(false);
+      // setPageData(data.freshDeskTickets);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   async function raiseTicket() {
     setSpinner(true);
-    const fName = document.querySelector("#fName").value;
-    const lName = document.querySelector("#lName").value;
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
-    const signUpConfirmPassword = document.querySelector(
-      "#signUpConfirmPassword"
-    ).value;
-    const URL = "/.netlify/functions/mongoDB";
+    const access_token = manageAppContext.accessToken.access_token;
+    const priority = document.querySelector('#priority').value;
+    const subject = document.querySelector('#subject').value;
+    const description = document.querySelector('#description').value;
+    const URL = '/.netlify/functions/freshDesk';
 
-    if (
-      fName === "" ||
-      lName === "" ||
-      email === "" ||
-      password === "" ||
-      signUpConfirmPassword === ""
-    ) {
+    if (priority === '' || subject === '' || description === '') {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }
 
     try {
       const body = {
-        oneTouchPath: "raiseTicket",
-        fName,
-        lName,
-        email,
-        password,
-        signUpConfirmPassword,
+        oneTouchPath: 'raiseTicket',
+        access_token,
+        priority,
+        subject,
+        description,
       };
       console.log(body);
 
       const config = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -73,8 +106,8 @@ export default function RaiseTicket({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setAlert({ color: "success", msg: data.msg });
-      manageAppContext.setPage("login");
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setPageData(data);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -82,48 +115,14 @@ export default function RaiseTicket({ props }) {
   }
 
   return (
-    <div className="features">
-      <NDGBanner width="flex-container-40" />
-
-      <div className="flex-container-60">
-        <Form className="form-container">
-          <Form.Group className="mb-3">
-            <Row>
-              <Col>
-                <Form.Label>First Name</Form.Label>
-                <Form.Control id="fName" placeholder="First name" />
-              </Col>
-              <Col></Col>
-            </Row>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Subject</Form.Label>
-            <Form.Control
-              id="subject"
-              type="subject"
-              placeholder="Enter subject"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              id="description"
-              as="textarea"
-              placeholder="Enter description"
-              style={{ height: "150px" }}
-            />
-          </Form.Group>
-
-          <Button
-            onClick={() => manageAppContext.setPage("login")}
-            variant="primary"
-            size="lg"
-            className="btn-one-touch shadow-none"
-          >
-            Log In
-          </Button>
-        </Form>
-      </div>
-    </div>
+    <>
+      {pageData && !findTicket && (
+        <RaiseTicketComponent
+          setFindTicket={setFindTicket}
+          filterTicket={filterTicket}
+          setFilterTicket={setFilterTicket}
+        />
+      )}
+    </>
   );
 }

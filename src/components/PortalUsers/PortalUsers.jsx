@@ -14,7 +14,7 @@ export default function PortalUsers({ props }) {
   const [selectedAddress, setSelectedAddress] = useState(false);
 
   const setSpinner = manageAppContext.setSpinner;
-  let pageData = manageAppContext.pageData;
+  const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;
   const page = manageAppContext.page;
 
@@ -23,7 +23,6 @@ export default function PortalUsers({ props }) {
   }, [page]); // eslint-disable-line
 
   useEffect(() => {
-    console.log(findUser);
     if (updateAccount) fillFromData();
   }, [updateAccount]); // eslint-disable-line
 
@@ -49,47 +48,47 @@ export default function PortalUsers({ props }) {
       if (!response.ok) {
         setSpinner(false);
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-        manageAppContext.setPageData([]);
+        setPageData([]);
         console.log(data);
         return;
       }
 
       setSpinner(false);
-      manageAppContext.setPageData(data.superUser);
+      setPageData(data.superUser);
       console.log(data);
     } catch (err) {
       console.log(err);
     }
   }
   async function fillFromData() {
+    let userData = {};
     if (findUser)
-      pageData = manageAppContext.pageData.filter(
-        (user) => user._id === findUser
-      )[0].oneTouchSuperUser;
+      userData = pageData.filter((user) => user._id === findUser)[0]
+        .oneTouchSuperUser;
 
-    document.getElementById('fName').value = pageData.fName
-      ? pageData.fName
+    document.getElementById('fName').value = userData.fName
+      ? userData.fName
       : '';
-    document.getElementById('lName').value = pageData.lName
-      ? pageData.lName
+    document.getElementById('lName').value = userData.lName
+      ? userData.lName
       : '';
-    document.getElementById('email').value = pageData.email
-      ? pageData.email
+    document.getElementById('email').value = userData.email
+      ? userData.email
       : '';
-    document.getElementById('phoneNumber').value = pageData.phoneNumber
-      ? pageData.phoneNumber
+    document.getElementById('phoneNumber').value = userData.phoneNumber
+      ? userData.phoneNumber
       : '';
-    document.getElementById('companyName').value = pageData.companyName
-      ? pageData.companyName
+    document.getElementById('companyName').value = userData.companyName
+      ? userData.companyName
       : '';
-    document.getElementById('productType').value = pageData.productType
-      ? pageData.productType
+    document.getElementById('productType').value = userData.productType
+      ? userData.productType
       : '';
-    document.getElementById('companyEmail').value = pageData.companyEmail
-      ? pageData.companyEmail
+    document.getElementById('companyEmail').value = userData.companyEmail
+      ? userData.companyEmail
       : '';
     document.getElementById('companyPhoneNumber').value =
-      pageData.companyPhoneNumber ? pageData.companyPhoneNumber : '';
+      userData.companyPhoneNumber ? userData.companyPhoneNumber : '';
   }
   async function updateUserAccount() {
     setSpinner(true);
