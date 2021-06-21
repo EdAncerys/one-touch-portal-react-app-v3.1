@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 
+const jwt = require('jsonwebtoken');
+
 // freshDesk credentials
 const FD_API_KEY = process.env.FD_API_KEY;
 const FD_ENDPOINT = process.env.FD_ENDPOINT;
@@ -51,8 +53,10 @@ const freshDeskTickets = async (data) => {
   let PATH = `api/v2/tickets`;
   const URL = `https://${FD_ENDPOINT}.freshdesk.com/${PATH}`;
 
-  // const access_token = data.access_token;
-  // const oneTouchUser = await authUser(access_token);
+  const access_token = data.access_token;
+  console.log(`auth token `, access_token);
+  const oneTouchUser = await authUser(access_token);
+  const name = oneTouchUser.oneTouchSuperUser.fName;
 
   const headers = {
     Authorization: AUTHORIZATION_KEY,
@@ -67,7 +71,7 @@ const freshDeskTickets = async (data) => {
     const data = await response.json();
 
     if (!response.ok) {
-      const msg = `Failed to Fetch Fresh Desk Tickets`;
+      const msg = `Error. Failed to fetch tickets for: ` + name;
       console.log(msg);
       return {
         statusCode: 403,
@@ -75,7 +79,7 @@ const freshDeskTickets = async (data) => {
       };
     }
 
-    const msg = `Successfully loaded help desk tickets`;
+    const msg = `Successfully fetched help desk tickets for: ` + name;
     const freshDeskTickets = data;
     console.log(msg);
 

@@ -9,17 +9,25 @@ export default function TicketOverviewCard({ setFilterTicket }) {
 
   const pageData = manageAppContext.pageData;
   let totalTickets = pageData.length;
-  let closedTickets = 0;
   let openTickets = 0;
+  let pendingTickets = 0;
+  let resolvedTickets = 0;
+  let closedTickets = 0;
 
-  pageData.map((user) => {
-    const userApproved = user.oneTouchSuperUser.userApproved;
+  pageData.map((ticket) => {
+    const ticketStatus = ticket.status;
 
-    if (!userApproved) {
-      closedTickets += 1;
-    }
-    if (userApproved) {
+    if (ticketStatus === 2) {
       openTickets += 1;
+    }
+    if (ticketStatus === 3) {
+      pendingTickets += 1;
+    }
+    if (ticketStatus === 4) {
+      resolvedTickets += 1;
+    }
+    if (ticketStatus === 5) {
+      closedTickets += 1;
     }
 
     return pageData;
@@ -40,17 +48,33 @@ export default function TicketOverviewCard({ setFilterTicket }) {
                 <td>{totalTickets}</td>
               </tr>
               <tr
-                onClick={() => setFilterTicket('open-ticket')}
+                onClick={() => setFilterTicket('pending-tickets')}
+                className="cursor-on"
+                style={{ background: colors.bgSET }}
+              >
+                <td>Pending Tickets</td>
+                <td>{pendingTickets}</td>
+              </tr>
+              <tr
+                onClick={() => setFilterTicket('open-tickets')}
                 className="cursor-on"
                 style={{ background: colors.bgSTOP }}
               >
-                <td>Open Ticket</td>
+                <td>Open Tickets</td>
                 <td>{openTickets}</td>
               </tr>
               <tr
-                onClick={() => setFilterTicket('closed-ticket')}
+                onClick={() => setFilterTicket('resolved-tickets')}
                 className="cursor-on"
                 style={{ background: colors.bgGO }}
+              >
+                <td>Resolved Tickets</td>
+                <td>{openTickets}</td>
+              </tr>
+              <tr
+                onClick={() => setFilterTicket('closed-tickets')}
+                className="cursor-on"
+                style={{ background: colors.bgPENDING }}
               >
                 <td>Closed Tickets</td>
                 <td>{closedTickets}</td>

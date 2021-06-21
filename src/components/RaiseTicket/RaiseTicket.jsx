@@ -14,22 +14,8 @@ export default function RaiseTicket({ props }) {
   const page = manageAppContext.page;
 
   useEffect(() => {
-    console.log('hello');
     freshDeskTickets();
   }, [page]); // eslint-disable-line
-
-  useEffect(() => {
-    const listener = (event) => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        event.preventDefault();
-        raiseTicket();
-      }
-    };
-    document.addEventListener('keydown', listener);
-    return () => {
-      document.removeEventListener('keydown', listener);
-    };
-  });
 
   async function freshDeskTickets() {
     setSpinner(true);
@@ -59,7 +45,7 @@ export default function RaiseTicket({ props }) {
       }
 
       setSpinner(false);
-      // setPageData(data.freshDeskTickets);
+      setPageData(data.freshDeskTickets);
       console.log(data);
     } catch (err) {
       console.log(err);
