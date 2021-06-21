@@ -35,7 +35,11 @@ export default function MyAccountUpdateForm({
               </Col>
               <Col>
                 <Form.Label>Phone Number</Form.Label>
-                <Form.Control id="phoneNumber" placeholder="Phone number" />
+                <Form.Control
+                  id="phoneNumber"
+                  type="number"
+                  placeholder="Phone number"
+                />
               </Col>
             </Row>
           </Form.Group>
@@ -64,6 +68,7 @@ export default function MyAccountUpdateForm({
                 <Form.Label>Company Phone Number</Form.Label>
                 <Form.Control
                   id="companyPhoneNumber"
+                  type="number"
                   placeholder="Company phone number"
                 />
               </Col>

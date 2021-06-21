@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
-import { AppContext } from "../../App";
+import React, { useContext, useEffect } from 'react';
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import { AppContext } from '../../App';
 
-import { validateEmail } from "./validateEmail";
+import { validateEmail } from './validateEmail';
 
 export default function CreateNewAccount({ props }) {
   const { manageAppContext } = useContext(AppContext);
@@ -11,40 +11,44 @@ export default function CreateNewAccount({ props }) {
 
   useEffect(() => {
     const listener = (event) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         oneTouchSignUp();
       }
     };
-    document.addEventListener("keydown", listener);
+    document.addEventListener('keydown', listener);
     return () => {
-      document.removeEventListener("keydown", listener);
+      document.removeEventListener('keydown', listener);
     };
   });
 
   async function oneTouchSignUp() {
     setSpinner(true);
-    const fName = document.querySelector("#fName").value;
-    const lName = document.querySelector("#lName").value;
-    const companyName = document.querySelector("#companyName").value;
+    const fName = document.querySelector('#fName').value;
+    const lName = document.querySelector('#lName').value;
+    const companyName = document.querySelector('#companyName').value;
     const companyPhoneNumber = document.querySelector(
-      "#companyPhoneNumber"
+      '#companyPhoneNumber'
     ).value;
-    const email = document.querySelector("#email").value.replace(/ /g, "");
-    const password = document
-      .querySelector("#password")
-      .value.replace(/ /g, "");
+    const email = document
+      .querySelector('#email')
+      .value.replace(/ /g, '')
+      .toLowerCase();
     const confirmEmail = document
-      .querySelector("#confirmEmail")
-      .value.replace(/ /g, "");
+      .querySelector('#confirmEmail')
+      .value.replace(/ /g, '')
+      .toLowerCase();
+    const password = document
+      .querySelector('#password')
+      .value.replace(/ /g, '');
     const signUpConfirmPassword = document.querySelector(
-      "#signUpConfirmPassword"
+      '#signUpConfirmPassword'
     ).value;
 
     console.log(email, confirmEmail);
     console.log(companyPhoneNumber);
 
-    const URL = "/.netlify/functions/mongoDB";
+    const URL = '/.netlify/functions/mongoDB';
     if (
       !fName ||
       !lName ||
@@ -55,53 +59,46 @@ export default function CreateNewAccount({ props }) {
     ) {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }
     if (!companyPhoneNumber) {
       setSpinner(false);
       const msg = `Phone number provided not valid`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }
     if (email !== confirmEmail) {
       setSpinner(false);
       const msg = `Emails do not match`;
-      manageAppContext.setAlert({ color: "warning", msg });
-      console.log(msg);
-      return;
-    }
-    if (/[a-z]/.test(email) && /[A-Z]/.test(email)) {
-      setSpinner(false);
-      const msg = `Email address can't have capital letters`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }
     if (password.length < 6) {
       setSpinner(false);
       const msg = `Passwords must be at least 6 characters long`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
     if (password !== signUpConfirmPassword) {
       setSpinner(false);
       const msg = `Provided passwords do not match`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
     if (!validateEmail(email)) {
       setSpinner(false);
       const msg = `Provided email not valid`;
-      manageAppContext.setAlert({ color: "warning", msg });
+      manageAppContext.setAlert({ color: 'warning', msg });
       return;
     }
 
     try {
       const body = {
-        oneTouchPath: "oneTouchSignUp",
+        oneTouchPath: 'oneTouchSignUp',
         fName,
         lName,
         companyName,
@@ -113,7 +110,7 @@ export default function CreateNewAccount({ props }) {
       console.log(body);
 
       const config = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
       };
       const response = await fetch(URL, config);
@@ -127,8 +124,8 @@ export default function CreateNewAccount({ props }) {
       }
 
       setSpinner(false);
-      manageAppContext.setAlert({ color: "success", msg: data.msg });
-      manageAppContext.setPage("login");
+      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      manageAppContext.setPage('login');
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -209,7 +206,7 @@ export default function CreateNewAccount({ props }) {
           </Button>
           <div className="divider"></div>
           <Button
-            onClick={() => manageAppContext.setPage("login")}
+            onClick={() => manageAppContext.setPage('login')}
             variant="primary"
             size="lg"
             className="btn-one-touch shadow-none"

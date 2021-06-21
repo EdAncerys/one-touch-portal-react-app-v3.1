@@ -203,7 +203,9 @@ const oneTouchSignUp = async (db, data) => {
       .toArray();
 
     if (!passwordValid) {
-      const msg = `Password do not match or not valid for email: ` + email;
+      const msg =
+        `Email & password combination do not correspond to a registered user for: ` +
+        email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -274,7 +276,6 @@ const myAccount = async (db, data) => {
 
     const oneTouchSuperUser = user;
     delete oneTouchSuperUser[0].oneTouchSuperUser.password;
-    delete oneTouchSuperUser[0].oneTouchSuperUser.userApproved;
 
     const msg =
       `User profile successfully loaded for: ` +
