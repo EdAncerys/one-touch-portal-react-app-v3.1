@@ -53,7 +53,7 @@ export default function RaiseTicket({ props }) {
       if (!response.ok) {
         setSpinner(false);
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-        setPageData([]);
+        setPageData(false);
         console.log(data);
         return;
       }
