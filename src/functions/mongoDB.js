@@ -166,7 +166,8 @@ const oneTouchLogin = async (db, data) => {
     if (ONE_TOUCH_ADMIN.includes(email)) role = 'admin';
     if (email === 'lookatemail@gmail.com') role = 'dev';
 
-    const msg = `Welcome to One Touch Portal ` + email;
+    const msg =
+      `Welcome to One Touch Portal ` + user[0].oneTouchSuperUser.fName;
     console.log(msg);
 
     return {
@@ -200,7 +201,9 @@ const oneTouchSignUp = async (db, data) => {
       .toArray();
 
     if (!passwordValid) {
-      const msg = `Password do not match or not valid for email: ` + email;
+      const msg =
+        `Email & password combination do not correspond to a registered user for: ` +
+        email;
       console.log(msg);
       return {
         statusCode: 403,
@@ -271,10 +274,10 @@ const myAccount = async (db, data) => {
 
     const oneTouchSuperUser = user;
     delete oneTouchSuperUser[0].oneTouchSuperUser.password;
-    delete oneTouchSuperUser[0].oneTouchSuperUser.userApproved;
 
     const msg =
-      `User profile successfully loaded for: ` + oneTouchSuperUser.email;
+      `User profile successfully loaded for: ` +
+      oneTouchSuperUser[0].oneTouchSuperUser.fName;
     console.log(msg);
 
     return {

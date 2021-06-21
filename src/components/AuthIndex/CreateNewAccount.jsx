@@ -33,27 +33,39 @@ export default function CreateNewAccount({ props }) {
     const email = document
       .querySelector('#email')
       .value.replace(/ /g, '')
-      .toLocaleLowerCase();
+      .toLowerCase();
+    const confirmEmail = document
+      .querySelector('#confirmEmail')
+      .value.replace(/ /g, '')
+      .toLowerCase();
     const password = document
       .querySelector('#password')
       .value.replace(/ /g, '');
-    const confirmEmail = document.querySelector('#confirmEmail').value;
     const signUpConfirmPassword = document.querySelector(
       '#signUpConfirmPassword'
     ).value;
+
+    console.log(email, confirmEmail);
+    console.log(companyPhoneNumber);
 
     const URL = '/.netlify/functions/mongoDB';
     if (
       !fName ||
       !lName ||
       !companyName ||
-      !companyPhoneNumber ||
       !email ||
       !password ||
       !signUpConfirmPassword
     ) {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
+      manageAppContext.setAlert({ color: 'warning', msg });
+      console.log(msg);
+      return;
+    }
+    if (!companyPhoneNumber) {
+      setSpinner(false);
+      const msg = `Phone number provided not valid`;
       manageAppContext.setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
@@ -147,6 +159,7 @@ export default function CreateNewAccount({ props }) {
                 <Form.Label>Company Phone Number</Form.Label>
                 <Form.Control
                   id="companyPhoneNumber"
+                  type="number"
                   placeholder="Company phone number"
                 />
               </Col>

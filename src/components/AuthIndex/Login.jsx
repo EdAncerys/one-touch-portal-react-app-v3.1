@@ -24,7 +24,9 @@ export default function Login({ props }) {
 
   async function userLogin() {
     setSpinner(true);
-    const loginEmail = document.querySelector('#loginEmail').value;
+    const loginEmail = document
+      .querySelector('#loginEmail')
+      .value.toLowerCase();
     const loginPassword = document.querySelector('#loginPassword').value;
     const URL = '/.netlify/functions/mongoDB';
 

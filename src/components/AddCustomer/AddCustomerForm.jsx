@@ -96,7 +96,7 @@ export default function AddCustomerForm({ props }) {
       !validateEmail(companyEmail) ||
       !validateEmail(contactEmail)
     ) {
-      setSpinner(false)
+      setSpinner(false);
       const msg = `Provided email not valid`;
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
@@ -122,7 +122,7 @@ export default function AddCustomerForm({ props }) {
       setFormCompleted(true);
 
     if (!selectedAddress && !formCompleted) {
-      setSpinner(false)
+      setSpinner(false);
       const msg = `Please fill in all required fields`;
       manageAppContext.setAlert({ color: 'warning', msg });
       return;
@@ -182,13 +182,13 @@ export default function AddCustomerForm({ props }) {
       const data = await response.json();
 
       if (!response.ok) {
-        setSpinner(false)
+        setSpinner(false);
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
         console.log(data);
         return;
       }
 
-      setSpinner(false)
+      setSpinner(false);
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
       setClearFormData(true);
       console.log(data);
@@ -231,7 +231,11 @@ export default function AddCustomerForm({ props }) {
           </Col>
           <Col>
             <Form.Label>Phone Number</Form.Label>
-            <Form.Control id="phoneNumber" placeholder="Phone number" />
+            <Form.Control
+              id="phoneNumber"
+              type="number"
+              placeholder="Phone number"
+            />
           </Col>
         </Row>
       </Form.Group>
@@ -260,6 +264,7 @@ export default function AddCustomerForm({ props }) {
             <Form.Label>Company Phone Number</Form.Label>
             <Form.Control
               id="companyPhoneNumber"
+              type="number"
               placeholder="Company phone number"
             />
           </Col>
@@ -312,6 +317,7 @@ export default function AddCustomerForm({ props }) {
             <Form.Label>Contact Phone Number</Form.Label>
             <Form.Control
               id="contactPhoneNumber"
+              type="number"
               placeholder="Contact phone number"
             />
           </Col>
