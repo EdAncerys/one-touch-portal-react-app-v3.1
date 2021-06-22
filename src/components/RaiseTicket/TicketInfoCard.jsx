@@ -5,13 +5,22 @@ import { Card, Table, Button } from 'react-bootstrap';
 import NDGBanner from '../NDGBanner';
 import { colors } from '../../config/colors';
 
-export default function CustomerInfoCard({ ticket, setID, setTicket }) {
+export default function CustomerInfoCard({ ticket, id, setID, setTicket }) {
   const { manageAppContext } = useContext(AppContext);
 
   const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
+  const subject = ticket[0].subject;
+  const conversation = ticket[1];
+  const ticketStatus = ticket[0].status;
 
-  const status = ticket.status;
+  let bgColor = colors.bgPENDING;
+  if (ticketStatus === 2) bgColor = colors.bgSTOP;
+  if (ticketStatus === 3) bgColor = colors.bgSET;
+  if (ticketStatus === 4) bgColor = colors.bgGO;
+  if (ticketStatus === 5) bgColor = colors.bgPENDING;
+
+  console.log(conversation);
 
   // async function deleteCustomer() {
   //   setSpinner(true);
@@ -72,7 +81,7 @@ export default function CustomerInfoCard({ ticket, setID, setTicket }) {
 
       <div className="features">
         <div className="flex-container-30">
-          <Card style={styles.manageCard} className="mb-2">
+          <Card style={{ background: bgColor }} className="mb-2">
             <Card.Header>
               <div>Manage Ticket</div>
             </Card.Header>
@@ -80,14 +89,13 @@ export default function CustomerInfoCard({ ticket, setID, setTicket }) {
               <Table bordered hover size="sm">
                 <tbody>
                   <tr>
-                    <td style={styles.manageCard}>Delete Customer</td>
                     <td style={styles.btn}>
                       <Button
                         // onClick={() => deleteCustomer()}
                         variant="outline-danger"
                         size="sm"
                       >
-                        Delete Customer
+                        Delete Ticket
                       </Button>
                     </td>
                   </tr>
@@ -96,6 +104,34 @@ export default function CustomerInfoCard({ ticket, setID, setTicket }) {
             </Card.Body>
           </Card>
           <NDGBanner width="flex-container-30" />
+        </div>
+
+        <div className="flex-container-60">
+          <Card className="mb-2">
+            <Card.Header>
+              <div>{subject}</div>
+              <div>Ticket ID: {id}</div>
+            </Card.Header>
+            <Card.Body>
+              <Table bordered hover size="sm">
+                <tbody>
+                  {conversation.map((ticket, index) => {
+                    return (
+                      <tr
+                        style={{ background: bgColor }}
+                        key={ticket.id.toString()}
+                      >
+                        <td key={ticket.id.toString() + 'a'}>{index + 1}</td>
+                        <td key={ticket.id.toString() + 'b'}>
+                          <div key={index + 1}>{ticket.body_text}</div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
         </div>
       </div>
     </>
@@ -106,9 +142,6 @@ const styles = {
   bottomRow: {
     fontSize: '12px',
     color: colors.darkGrey,
-  },
-  manageCard: {
-    color: colors.white,
   },
   btnClose: {
     padding: '5px',

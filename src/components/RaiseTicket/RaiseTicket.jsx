@@ -10,7 +10,7 @@ export default function RaiseTicket({ props }) {
   const [ticket, setTicket] = useState(false);
   const [filterTicket, setFilterTicket] = useState(false);
 
-  console.log(id);
+  console.log(ticket);
 
   const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
@@ -154,7 +154,12 @@ export default function RaiseTicket({ props }) {
         />
       )}
       {ticket && (
-        <TicketInfoCard ticket={ticket} setID={setID} setTicket={setTicket} />
+        <TicketInfoCard
+          ticket={ticket}
+          id={id}
+          setID={setID}
+          setTicket={setTicket}
+        />
       )}
     </>
   );
