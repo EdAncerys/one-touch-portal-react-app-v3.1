@@ -67,7 +67,7 @@ export default function TicketCard({ filterTicket, setID }) {
                     <td key={ticket.id.toString() + 'b'}>
                       <div key={index + 1}>{ticket.subject}</div>
                       <div key={index + 2} style={styles.bottomRow}>
-                        {ticket.cc_emails}
+                        {ticket.updated_at}
                       </div>
                     </td>
                     <td key={ticket.id.toString() + 'c'}>
