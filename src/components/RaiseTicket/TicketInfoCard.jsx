@@ -5,7 +5,7 @@ import { Card, Table, Button } from 'react-bootstrap';
 import NDGBanner from '../NDGBanner';
 import { colors } from '../../config/colors';
 
-export default function CustomerInfoCard({ ticket, id, setID, setTicket }) {
+export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
   const { manageAppContext } = useContext(AppContext);
 
   const setSpinner = manageAppContext.setSpinner;
