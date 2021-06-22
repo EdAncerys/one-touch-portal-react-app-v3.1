@@ -11,12 +11,12 @@ export default function RaiseTicketComponent({
 }) {
   return (
     <div className="features">
-      <div className="flex-container-30">
+      <div className="flex-container-20">
         <TicketOverviewCard setFilterTicket={setFilterTicket} />
         <NDGBanner width="flex-container-30" />
       </div>
 
-      <div className="flex-container-60">
+      <div className="flex-container-70">
         <TicketCard filterTicket={filterTicket} setID={setID} />
       </div>
     </div>

@@ -106,7 +106,7 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
           <NDGBanner width="flex-container-30" />
         </div>
 
-        <div className="flex-container-60">
+        <div className="flex-container-70">
           <Card className="mb-2">
             <Card.Header>
               <div>{subject}</div>

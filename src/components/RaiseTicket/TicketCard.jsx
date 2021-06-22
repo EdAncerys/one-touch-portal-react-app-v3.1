@@ -18,7 +18,7 @@ export default function TicketCard({ filterTicket, setID }) {
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">
         <Card.Header>
-          <div>{pageData.email} Customer List</div>
+          <div>Raised Tickets</div>
         </Card.Header>
         <Card.Body>
           <Table responsive bordered hover size="sm">
@@ -34,7 +34,7 @@ export default function TicketCard({ filterTicket, setID }) {
               {pageData.map((ticket, index) => {
                 const ticketStatus = ticket.status;
 
-                let userVisibility = '';
+                let ticketVisibility = 'pending';
                 let userStatus = 'pending';
                 let bgColor = colors.bgPENDING;
 
@@ -55,12 +55,12 @@ export default function TicketCard({ filterTicket, setID }) {
                   userStatus = 'closed-tickets';
                 }
                 if (filterTicket !== userStatus && filterTicket)
-                  userVisibility = 'hidden';
+                  ticketVisibility = 'hidden';
 
                 return (
                   <tr
                     style={{ background: bgColor }}
-                    className={userVisibility}
+                    className={ticketVisibility}
                     key={ticket.id.toString()}
                   >
                     <td key={ticket.id.toString() + 'a'}>{index + 1}</td>
@@ -108,7 +108,6 @@ const styles = {
   },
   btnComponent: {
     textAlign: 'center',
-    margin: 'auto',
     padding: '10px',
   },
   btn: {
