@@ -24,6 +24,8 @@ export async function handler(event, context, callback) {
   switch (path) {
     case 'freshDeskTickets':
       return freshDeskTickets(body);
+    case 'findTicket':
+      return findTicket(body);
 
     default:
       return {
@@ -54,7 +56,6 @@ const freshDeskTickets = async (data) => {
   const URL = `https://${FD_ENDPOINT}.freshdesk.com/${PATH}`;
 
   const access_token = data.access_token;
-  console.log(`auth token `, access_token);
   const oneTouchUser = await authUser(access_token);
   const name = oneTouchUser.oneTouchSuperUser.fName;
 
@@ -86,6 +87,58 @@ const freshDeskTickets = async (data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ freshDeskTickets, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const findTicket = async (data) => {
+  const id = data.id;
+  const access_token = data.access_token;
+
+  const PATH = `api/v2/tickets/${id}`;
+  const CONVERSATION_PATH = `api/v2/tickets/${id}/conversations`;
+  const URL = `https://${FD_ENDPOINT}.freshdesk.com/${PATH}`;
+  const CONVERSATION_URL = `https://${FD_ENDPOINT}.freshdesk.com/${CONVERSATION_PATH}`;
+
+  const oneTouchUser = await authUser(access_token);
+  const name = oneTouchUser.oneTouchSuperUser.fName;
+
+  const headers = {
+    Authorization: AUTHORIZATION_KEY,
+    'Content-Type': 'application/json',
+  };
+  const config = {
+    headers,
+  };
+
+  try {
+    const response = await fetch(URL, config);
+    const conversation_response = await fetch(CONVERSATION_URL, config);
+    const ticket = await Promise.all([
+      response.json(),
+      conversation_response.json(),
+    ]);
+
+    if (!response.ok || !conversation_response.ok) {
+      const msg = `Error. Failed to fetch ticket for: ` + name;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const msg = `Successfully fetched help desk ticket for: ` + name;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ ticket, msg }),
     };
   } catch (err) {
     console.log(err);

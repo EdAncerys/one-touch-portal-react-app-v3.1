@@ -69,7 +69,7 @@ export default function TicketOverviewCard({ setFilterTicket }) {
                 style={{ background: colors.bgGO }}
               >
                 <td>Resolved Tickets</td>
-                <td>{openTickets}</td>
+                <td>{resolvedTickets}</td>
               </tr>
               <tr
                 onClick={() => setFilterTicket('closed-tickets')}

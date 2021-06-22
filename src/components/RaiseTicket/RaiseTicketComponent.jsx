@@ -5,7 +5,7 @@ import TicketCard from './TicketCard';
 import TicketOverviewCard from './TicketOverviewCard';
 
 export default function RaiseTicketComponent({
-  setFindTicket,
+  setID,
   filterTicket,
   setFilterTicket,
 }) {
@@ -17,7 +17,7 @@ export default function RaiseTicketComponent({
       </div>
 
       <div className="flex-container-70">
-        <TicketCard filterTicket={filterTicket} setFindTicket={setFindTicket} />
+        <TicketCard filterTicket={filterTicket} setID={setID} />
       </div>
     </div>
   );

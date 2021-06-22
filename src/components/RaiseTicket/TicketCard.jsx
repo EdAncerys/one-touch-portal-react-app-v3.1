@@ -4,14 +4,14 @@ import { Card, Table, Button } from 'react-bootstrap';
 
 import { colors } from '../../config/colors';
 
-export default function TicketCard({ filterTicket, setFindTicket }) {
+export default function TicketCard({ filterTicket, setID }) {
   const { manageAppContext } = useContext(AppContext);
 
   const pageData = manageAppContext.pageData;
 
-  async function filterCustomers(id) {
+  async function filterTickets(id) {
     const ticket = pageData.filter((data) => data.id === id)[0];
-    setFindTicket(ticket);
+    setID(ticket);
   }
 
   return (
@@ -81,7 +81,7 @@ export default function TicketCard({ filterTicket, setFindTicket }) {
                       style={styles.btnComponent}
                     >
                       <Button
-                        onClick={() => setFindTicket(ticket.id)}
+                        onClick={() => setID(ticket.id)}
                         id={ticket.id}
                         size="sm"
                         className="shadow-none"
