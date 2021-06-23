@@ -35,7 +35,7 @@ export default function CustomerCard({ setFindContract, filterContract }) {
 
                 let bgColor = '';
                 let contractStartDay = '';
-                if (!!customer.length)
+                if (broadbandData)
                   contractStartDay = broadbandData.contractStartDay;
 
                 let contractEndDay;
