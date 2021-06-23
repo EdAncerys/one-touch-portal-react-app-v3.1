@@ -9,11 +9,6 @@ export default function TicketCard({ filterTicket, setID }) {
 
   const pageData = manageAppContext.pageData;
 
-  async function filterTickets(id) {
-    const ticket = pageData.filter((data) => data.id === id)[0];
-    setID(ticket);
-  }
-
   return (
     <div style={styles.container}>
       <Card bg="Light" text="dark" style={{ width: '100%' }} className="mb-2">

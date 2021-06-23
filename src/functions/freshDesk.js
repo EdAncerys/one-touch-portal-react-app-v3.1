@@ -26,6 +26,8 @@ export async function handler(event, context, callback) {
       return freshDeskTickets(body);
     case 'findTicket':
       return findTicket(body);
+    case 'raiseTicket':
+      return raiseTicket(body);
 
     default:
       return {
@@ -139,6 +141,73 @@ const findTicket = async (data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ ticket, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const raiseTicket = async (data) => {
+  let PATH = `api/v2/tickets`;
+  const URL = `https://${FD_ENDPOINT}.freshdesk.com/${PATH}`;
+
+  const access_token = data.access_token;
+  const oneTouchUser = await authUser(access_token);
+  const name = oneTouchUser.oneTouchSuperUser.fName;
+
+  const reason = JSON.stringify(data.reason);
+  const priority = data.priority;
+  const subject = JSON.stringify(data.subject);
+  const description = JSON.stringify(data.description);
+  const tags = JSON.stringify(['oneTouch Portal']);
+  const email = JSON.stringify(oneTouchUser.oneTouchSuperUser.email);
+  const cc_emails = JSON.stringify([
+    oneTouchUser.oneTouchSuperUser.email,
+    'user@cc.com',
+  ]);
+
+  const ticket = `{ 
+                    "subject": ${subject},
+                    "description": ${description},
+                    "email": ${email},
+                    "priority": ${priority},
+                    "status": 2,
+                    "tags": ${tags},
+                    "cc_emails": ${cc_emails}
+                  }`;
+
+  const headers = {
+    Authorization: AUTHORIZATION_KEY,
+    'Content-Type': 'application/json',
+  };
+  const config = {
+    method: 'POST',
+    body: ticket,
+    headers,
+  };
+
+  try {
+    const response = await fetch(URL, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      const msg = `Error. Failed to raise tickets for: ` + name;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ data, msg }),
+      };
+    }
+
+    const msg = `Successfully raised ticket for: ` + name + ` ${subject}`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
     };
   } catch (err) {
     console.log(err);

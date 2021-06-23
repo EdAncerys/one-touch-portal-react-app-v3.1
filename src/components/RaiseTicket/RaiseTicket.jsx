@@ -47,7 +47,7 @@ export default function RaiseTicket({ props }) {
       if (!response.ok) {
         setSpinner(false);
         manageAppContext.setAlert({ color: 'warning', msg: data.msg });
-        setPageData(false);
+        setPageData([]);
         console.log(data);
         return;
       }
@@ -90,54 +90,6 @@ export default function RaiseTicket({ props }) {
       setSpinner(false);
       setTicket(data.ticket);
       manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async function raiseTicket() {
-    setSpinner(true);
-    const access_token = manageAppContext.accessToken.access_token;
-    const priority = document.querySelector('#priority').value;
-    const subject = document.querySelector('#subject').value;
-    const description = document.querySelector('#description').value;
-    const URL = '/.netlify/functions/freshDesk';
-
-    if (priority === '' || subject === '' || description === '') {
-      setSpinner(false);
-      const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ color: 'warning', msg });
-      console.log(msg);
-      return;
-    }
-
-    try {
-      const body = {
-        oneTouchPath: 'raiseTicket',
-        access_token,
-        priority,
-        subject,
-        description,
-      };
-      console.log(body);
-
-      const config = {
-        method: 'POST',
-        body: JSON.stringify(body),
-      };
-      const response = await fetch(URL, config);
-      const data = await response.json();
-
-      if (!response.ok) {
-        setSpinner(false);
-        manageAppContext.setAlert({ msg: data.msg });
-        console.log(data);
-        return;
-      }
-
-      setSpinner(false);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      manageAppContext.setPageData(data);
       console.log(data);
     } catch (err) {
       console.log(err);

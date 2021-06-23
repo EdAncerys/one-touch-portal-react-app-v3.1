@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { AppContext } from '../../App';
 import { Card, Table, Button } from 'react-bootstrap';
 
@@ -6,11 +6,8 @@ import NDGBanner from '../NDGBanner';
 import { colors } from '../../config/colors';
 
 export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
-  const { manageAppContext } = useContext(AppContext);
-
-  const setSpinner = manageAppContext.setSpinner;
-  const pageData = manageAppContext.pageData;
   const subject = ticket[0].subject;
+  const description = ticket[0].description_text;
   const conversation = ticket[1];
   const ticketStatus = ticket[0].status;
 
@@ -19,48 +16,6 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
   if (ticketStatus === 3) bgColor = colors.bgSET;
   if (ticketStatus === 4) bgColor = colors.bgGO;
   if (ticketStatus === 5) bgColor = colors.bgPENDING;
-
-  console.log(conversation);
-
-  // async function deleteCustomer() {
-  //   setSpinner(true);
-  //   const access_token = manageAppContext.accessToken.access_token;
-  //   const URL = '/.netlify/functions/mongoDB';
-
-  //   try {
-  //     const body = {
-  //       oneTouchPath: 'deleteCustomer',
-  //       access_token,
-  //       id: id,
-  //     };
-  //     console.log(body);
-
-  //     const config = {
-  //       method: 'POST',
-  //       body: JSON.stringify(body),
-  //     };
-  //     const response = await fetch(URL, config);
-  //     const ticketData = await response.json();
-
-  //     if (!response.ok) {
-  //       setSpinner(false);
-  //       manageAppContext.setAlert({ color: 'warning', msg: ticketData.msg });
-  //       console.log(ticketData);
-  //       return;
-  //     }
-
-  //     const updateData = pageData.filter(
-  //       (customer) => customer._id !== findCustomer
-  //     );
-
-  //     setSpinner(false);
-  //     setFindCustomer(false);
-  //     manageAppContext.setPageData(updateData);
-  //     manageAppContext.setAlert({ color: 'success', msg: ticketData.msg });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 
   return (
     <>
@@ -115,6 +70,16 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
             <Card.Body>
               <Table bordered hover size="sm">
                 <tbody>
+                  <tr style={{ background: bgColor }}>
+                    <td>
+                      <div>#</div>
+                    </td>
+                    <td>
+                      <div>{description}</div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody>
                   {conversation.map((ticket, index) => {
                     return (
                       <tr
@@ -148,6 +113,5 @@ const styles = {
   },
   btn: {
     textAlign: 'center',
-    margin: 'auto',
   },
 };
