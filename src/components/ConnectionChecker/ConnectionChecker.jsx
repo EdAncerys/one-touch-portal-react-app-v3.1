@@ -101,7 +101,7 @@ export default function Index({ props }) {
             <div style={styles.warper}>
               <div style={styles.cardContainer}>
                 <div style={styles.footerOne}>
-                  <div>Receive a quat 24/7</div>
+                  <div>Receive a quate 24/7</div>
                 </div>
                 <div style={styles.addressPicker}>
                   <AddressPicker
@@ -132,22 +132,20 @@ export default function Index({ props }) {
             <div style={styles.warper}>
               <div style={styles.cardContainer}>
                 <div style={{ ...styles.footerOne, ...styles.footerTwo }}>
-                  <div>Receive a quat 24/7</div>
+                  <div>Receive a quate 24/7</div>
                 </div>
-                <div
-                  style={{ ...styles.addressPicker, ...styles.buildInProgress }}
-                >
-                  Coming Soon
-                </div>
+                <div style={{ ...styles.buildInProgress }}>Coming Soon</div>
                 <div style={{ ...styles.footerOne, ...styles.footerTwo }}>
-                  <div>Broadband DSL/PSTN</div>
-                  <div>Quick installation on all lease lines</div>
+                  <div>Ethernet Connection</div>
+                  <div>
+                    Connect your clients up with the best ethernet speeds
+                  </div>
                 </div>
               </div>
               <div>
                 <Button
                   // onClick={() => setAddCustomer(true)}
-                  style={{ opacity: 0.5 }}
+                  style={{ opacity: 0.5, cursor: 'auto' }}
                   variant="outline-success"
                   size="m"
                   className="btn-one-touch shadow-none mt-3"
