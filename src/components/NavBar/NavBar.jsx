@@ -8,6 +8,7 @@ export default function NavBar({ props }) {
   const { manageAppContext } = useContext(AppContext);
 
   const admin = manageAppContext.accessToken.role;
+  const page = manageAppContext.page;
   const setPageData = manageAppContext.setPageData;
 
   return (
@@ -27,7 +28,7 @@ export default function NavBar({ props }) {
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
-                setPageData(false);
+                if (page !== 'docs') setPageData(false);
                 manageAppContext.setPage('docs');
               }}
             >
@@ -36,7 +37,7 @@ export default function NavBar({ props }) {
             <NavDropdown title="Customers">
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'user-management') setPageData(false);
                   manageAppContext.setPage('user-management');
                 }}
               >
@@ -44,7 +45,7 @@ export default function NavBar({ props }) {
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'live-connections') setPageData(false);
                   manageAppContext.setPage('live-connections');
                 }}
               >
@@ -52,7 +53,7 @@ export default function NavBar({ props }) {
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'add-customer') setPageData(false);
                   manageAppContext.setPage('add-customer');
                 }}
               >
@@ -70,7 +71,7 @@ export default function NavBar({ props }) {
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'connection-checker') setPageData(false);
                   manageAppContext.setPage('connection-checker');
                 }}
               >
@@ -84,7 +85,7 @@ export default function NavBar({ props }) {
                 <>
                   <NavDropdown.Item
                     onClick={() => {
-                      setPageData(false);
+                      if (page !== 'broadband-orders') setPageData(false);
                       manageAppContext.setPage('broadband-orders');
                     }}
                     className="admin-nav"
@@ -93,7 +94,7 @@ export default function NavBar({ props }) {
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     onClick={() => {
-                      setPageData(false);
+                      if (page !== 'user-address-book') setPageData(false);
                       manageAppContext.setPage('user-address-book');
                     }}
                     className="admin-nav"
@@ -102,7 +103,7 @@ export default function NavBar({ props }) {
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     onClick={() => {
-                      setPageData(false);
+                      if (page !== 'portal-users') setPageData(false);
                       manageAppContext.setPage('portal-users');
                     }}
                     className="admin-nav"
@@ -113,7 +114,7 @@ export default function NavBar({ props }) {
               )}
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'build-in-progress') setPageData(false);
                   manageAppContext.setPage('build-in-progress');
                 }}
               >
@@ -121,7 +122,7 @@ export default function NavBar({ props }) {
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'raise-ticket') setPageData(false);
                   manageAppContext.setPage('raise-ticket');
                 }}
               >
@@ -130,7 +131,7 @@ export default function NavBar({ props }) {
               <NavDropdown.Divider />
               <NavDropdown.Item
                 onClick={() => {
-                  setPageData(false);
+                  if (page !== 'build-in-progress') setPageData(false);
                   manageAppContext.setPage('build-in-progress');
                 }}
               >
@@ -139,7 +140,7 @@ export default function NavBar({ props }) {
             </NavDropdown>
             <Nav.Link
               onClick={() => {
-                setPageData(false);
+                if (page !== 'my-account') setPageData(false);
                 manageAppContext.setPage('my-account');
               }}
             >
