@@ -12,7 +12,9 @@ export default function RaiseTicketFormComponent({ props }) {
   console.log(reason);
 
   const setSpinner = manageAppContext.setSpinner;
+  const setAlert = manageAppContext.setAlert;
   const pageData = manageAppContext.pageData;
+  const setPageData = manageAppContext.setPageData;
 
   async function clearFromData() {
     document.getElementById('reason').value = 'defaultValue';
@@ -29,7 +31,7 @@ export default function RaiseTicketFormComponent({ props }) {
     if (!reason || !priority || !subject || !description) {
       setSpinner(false);
       const msg = `Please fill in all required fields!`;
-      manageAppContext.setAlert({ color: 'warning', msg });
+      setAlert({ color: 'warning', msg });
       console.log(msg);
       return;
     }
@@ -54,14 +56,17 @@ export default function RaiseTicketFormComponent({ props }) {
 
       if (!response.ok) {
         setSpinner(false);
-        manageAppContext.setAlert({ msg: data.msg });
+        setAlert({ msg: data.msg });
         console.log(data);
         return;
       }
 
+      const newTicket = data.data;
+
       setSpinner(false);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
-      manageAppContext.setPageData(pageData.push(data));
+      setAlert({ color: 'success', msg: data.msg });
+      setPageData([...pageData, newTicket]);
+      clearFromData();
       console.log(data);
     } catch (err) {
       console.log(err);
