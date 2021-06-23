@@ -10,8 +10,6 @@ export default function RaiseTicket({ props }) {
   const [ticket, setTicket] = useState(false);
   const [filterTicket, setFilterTicket] = useState(false);
 
-  console.log(ticket);
-
   const setSpinner = manageAppContext.setSpinner;
   const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;

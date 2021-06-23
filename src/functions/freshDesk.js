@@ -28,6 +28,8 @@ export async function handler(event, context, callback) {
       return findTicket(body);
     case 'raiseTicket':
       return raiseTicket(body);
+    case 'deleteTicket':
+      return deleteTicket(body);
 
     default:
       return {
@@ -208,6 +210,49 @@ const raiseTicket = async (data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ data, msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const deleteTicket = async (data) => {
+  const id = data.id;
+
+  let PATH = `api/v2/tickets/${id}`;
+  const URL = `https://${FD_ENDPOINT}.freshdesk.com/${PATH}`;
+
+  const headers = {
+    Authorization: AUTHORIZATION_KEY,
+    'Content-Type': 'application/json',
+  };
+  const config = {
+    method: 'DELETE',
+    headers,
+  };
+
+  try {
+    const response = await fetch(URL, config);
+
+    if (!response.ok) {
+      const msg = `Error. Not able to delete ticket with ID: ` + id;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ msg }),
+      };
+    }
+
+    const msg = `Successfully deleted ticket with ID: ` + id;
+    console.log(msg);
+    console.log(data);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ msg }),
     };
   } catch (err) {
     console.log(err);

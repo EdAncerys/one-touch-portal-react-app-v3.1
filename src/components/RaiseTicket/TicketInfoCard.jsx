@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '../../App';
 import { Card, Table, Button } from 'react-bootstrap';
 
@@ -6,6 +6,13 @@ import NDGBanner from '../NDGBanner';
 import { colors } from '../../config/colors';
 
 export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
+  const { manageAppContext } = useContext(AppContext);
+
+  const setSpinner = manageAppContext.setSpinner;
+  const setAlert = manageAppContext.setAlert;
+  const pageData = manageAppContext.pageData;
+  const setPageData = manageAppContext.setPageData;
+
   const subject = ticket[0].subject;
   const description = ticket[0].description_text;
   const conversation = ticket[1];
@@ -16,6 +23,46 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
   if (ticketStatus === 3) bgColor = colors.bgSET;
   if (ticketStatus === 4) bgColor = colors.bgGO;
   if (ticketStatus === 5) bgColor = colors.bgPENDING;
+
+  async function deleteTicket() {
+    setSpinner(true);
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/freshDesk';
+
+    try {
+      const body = {
+        oneTouchPath: 'deleteTicket',
+        access_token,
+        id,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setSpinner(false);
+        setAlert({ msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      const updateTicketData = pageData.filter((tickets) => tickets.id !== id);
+
+      setSpinner(false);
+      setAlert({ color: 'success', msg: data.msg });
+      setPageData(updateTicketData);
+      setTicket(false);
+      setID(false);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -46,7 +93,7 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
                   <tr>
                     <td style={styles.btn}>
                       <Button
-                        // onClick={() => deleteCustomer()}
+                        onClick={() => deleteTicket()}
                         variant="outline-danger"
                         size="sm"
                       >
@@ -112,6 +159,6 @@ const styles = {
     padding: '5px',
   },
   btn: {
-    textAlign: 'center',
+    textAlign: 'left',
   },
 };
