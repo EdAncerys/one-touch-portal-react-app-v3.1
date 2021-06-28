@@ -83,6 +83,7 @@ export default function RaiseTicketFormComponent({ props }) {
             <Row className="mb-3">
               <Col>
                 <select
+                  style={styles.dropDown}
                   className="form-select"
                   id="reason"
                   onChange={(e) => setReason(e.target.value)}
@@ -105,6 +106,7 @@ export default function RaiseTicketFormComponent({ props }) {
             <Row className="mb-3">
               <Col>
                 <select
+                  style={styles.dropDown}
                   className="form-select"
                   id="priority"
                   onChange={(e) => setPriority(e.target.value)}
@@ -178,5 +180,9 @@ const styles = {
     textAlign: 'center',
     margin: 'auto',
     padding: '10px',
+  },
+  dropDown: {
+    color: '#495057',
+    border: '1px solid #ced4da',
   },
 };

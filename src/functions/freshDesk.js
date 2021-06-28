@@ -178,7 +178,8 @@ const raiseTicket = async (data) => {
                     "priority": ${priority},
                     "status": 2,
                     "tags": ${tags},
-                    "cc_emails": ${cc_emails}
+                    "cc_emails": ${cc_emails},
+                    "custom_fields" : { "category" : "Primary" }
                   }`;
 
   const headers = {
