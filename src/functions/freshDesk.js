@@ -159,27 +159,27 @@ const raiseTicket = async (data) => {
   const access_token = data.access_token;
   const oneTouchUser = await authUser(access_token);
   const name = oneTouchUser.oneTouchSuperUser.fName;
+  const userID = oneTouchUser._id;
 
-  const reason = JSON.stringify(data.reason);
   const priority = data.priority;
   const subject = JSON.stringify(data.subject);
   const description = JSON.stringify(data.description);
-  const tags = JSON.stringify(['oneTouch Portal']);
+  const tags = JSON.stringify(['oneTouch Portal', `${userID}`]);
   const email = JSON.stringify(oneTouchUser.oneTouchSuperUser.email);
   const cc_emails = JSON.stringify([
     oneTouchUser.oneTouchSuperUser.email,
     'user@cc.com',
   ]);
+  const reason = JSON.stringify(data.reason);
 
-  const ticket = `{ 
+  const ticket = `{
                     "subject": ${subject},
                     "description": ${description},
                     "email": ${email},
                     "priority": ${priority},
                     "status": 2,
                     "tags": ${tags},
-                    "cc_emails": ${cc_emails},
-                    "custom_fields" : { "category" : "Primary" }
+                    "cc_emails": ${cc_emails}
                   }`;
 
   const headers = {
@@ -191,6 +191,7 @@ const raiseTicket = async (data) => {
     body: ticket,
     headers,
   };
+  console.log(config);
 
   try {
     const response = await fetch(URL, config);

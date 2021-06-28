@@ -9,8 +9,6 @@ export default function RaiseTicketFormComponent({ props }) {
   const [subject, setSubject] = useState(false);
   const [description, setDescription] = useState(false);
 
-  console.log(reason);
-
   const setSpinner = manageAppContext.setSpinner;
   const setAlert = manageAppContext.setAlert;
   const pageData = manageAppContext.pageData;
@@ -184,5 +182,6 @@ const styles = {
   dropDown: {
     color: '#495057',
     border: '1px solid #ced4da',
+    width: '100%',
   },
 };
