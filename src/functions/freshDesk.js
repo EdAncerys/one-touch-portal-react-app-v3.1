@@ -62,6 +62,7 @@ const freshDeskTickets = async (data) => {
   const access_token = data.access_token;
   const oneTouchUser = await authUser(access_token);
   const name = oneTouchUser.oneTouchSuperUser.fName;
+  const userID = oneTouchUser._id;
 
   const headers = {
     Authorization: AUTHORIZATION_KEY,
@@ -85,7 +86,11 @@ const freshDeskTickets = async (data) => {
     }
 
     const msg = `Successfully fetched help desk tickets for: ` + name;
-    const freshDeskTickets = data;
+    console.log(data);
+    // const freshDeskTickets = data;
+    const freshDeskTickets = data.filter((ticketData) =>
+      ticketData.tags.includes(userID)
+    );
     console.log(msg);
 
     return {
