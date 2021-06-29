@@ -109,6 +109,7 @@ export default function RaiseTicket({ props }) {
           id={id}
           setID={setID}
           setTicket={setTicket}
+          findTicket={findTicket}
         />
       )}
     </>

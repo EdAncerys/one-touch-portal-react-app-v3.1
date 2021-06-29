@@ -1,12 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from '../../App';
-import { Card, Table, Button } from 'react-bootstrap';
+import { Card, Table, Button, Form } from 'react-bootstrap';
 
 import NDGBanner from '../NDGBanner';
 import { colors } from '../../config/colors';
 
-export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
+export default function TicketInfoCard({
+  ticket,
+  id,
+  setID,
+  setTicket,
+  findTicket,
+}) {
   const { manageAppContext } = useContext(AppContext);
+  const [replyMsg, setReplyMsg] = useState(false);
 
   const setSpinner = manageAppContext.setSpinner;
   const setAlert = manageAppContext.setAlert;
@@ -58,6 +65,43 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
       setPageData(updateTicketData);
       setTicket(false);
       setID(false);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function ticketReply() {
+    setSpinner(true);
+    const access_token = manageAppContext.accessToken.access_token;
+    const URL = '/.netlify/functions/freshDesk';
+
+    try {
+      const body = {
+        oneTouchPath: 'ticketReply',
+        access_token,
+        replyMsg,
+        id,
+      };
+      console.log(body);
+
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(body),
+      };
+      const response = await fetch(URL, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setSpinner(false);
+        setAlert({ msg: data.msg });
+        console.log(data);
+        return;
+      }
+
+      setSpinner(false);
+      // setAlert({ color: 'success', msg: data.msg });
+      findTicket();
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -142,6 +186,26 @@ export default function TicketInfoCard({ ticket, id, setID, setTicket }) {
                   })}
                 </tbody>
               </Table>
+
+              <Form.Group className="mt-3">
+                <Form.Control
+                  onChange={(e) => setReplyMsg(e.target.value)}
+                  id="description"
+                  as="textarea"
+                  placeholder="Reply To The Ticket"
+                  style={{ height: '150px' }}
+                />
+              </Form.Group>
+
+              <div className="divider"></div>
+              <Button
+                onClick={() => ticketReply()}
+                variant="primary"
+                className="shadow-none"
+                style={{ width: '100%' }}
+              >
+                Replay
+              </Button>
             </Card.Body>
           </Card>
         </div>

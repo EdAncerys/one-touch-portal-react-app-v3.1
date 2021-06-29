@@ -30,6 +30,8 @@ export async function handler(event, context, callback) {
       return raiseTicket(body);
     case 'deleteTicket':
       return deleteTicket(body);
+    case 'ticketReply':
+      return ticketReply(body);
 
     default:
       return {
@@ -163,17 +165,15 @@ const raiseTicket = async (data) => {
   const access_token = data.access_token;
   const oneTouchUser = await authUser(access_token);
   const name = oneTouchUser.oneTouchSuperUser.fName;
+  const userEmail = oneTouchUser.oneTouchSuperUser.email;
   const userID = oneTouchUser._id;
 
   const priority = data.priority;
   const subject = JSON.stringify(data.subject);
   const description = JSON.stringify(data.description);
-  const tags = JSON.stringify(['oneTouch Portal', `${userID}`]);
-  const email = JSON.stringify(oneTouchUser.oneTouchSuperUser.email);
-  const cc_emails = JSON.stringify([
-    oneTouchUser.oneTouchSuperUser.email,
-    'user@cc.com',
-  ]);
+  const tags = JSON.stringify(['oneTouch Portal', `${userID}`, `${userEmail}`]);
+  const email = JSON.stringify(oneTouchUser.userEmail);
+  const cc_emails = JSON.stringify([userEmail, 'user@cc.com']);
   const reason = JSON.stringify(data.reason);
 
   const ticket = `{
@@ -259,6 +259,60 @@ const deleteTicket = async (data) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ msg }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ msg: err.message }),
+    };
+  }
+};
+const ticketReply = async (data) => {
+  const id = data.id;
+  const replyMsg = data.replyMsg;
+
+  const PATH = `api/v2/tickets/${id}/reply`;
+  const URL = `https://${FD_ENDPOINT}.freshdesk.com/${PATH}`;
+
+  const access_token = data.access_token;
+  const oneTouchUser = await authUser(access_token);
+  const email = oneTouchUser.oneTouchSuperUser.email;
+
+  const ticketReply = `{ "body" : ${JSON.stringify(replyMsg)},
+                          "cc_emails" : [${JSON.stringify(email)}]
+                        }`;
+
+  const headers = {
+    Authorization: AUTHORIZATION_KEY,
+    'Content-Type': 'application/json',
+  };
+  const config = {
+    method: 'POST',
+    body: ticketReply,
+    headers,
+  };
+  console.log(config);
+
+  try {
+    const response = await fetch(URL, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      const msg = `Error. Failed to reply to the tickets!`;
+      console.log(msg);
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ data, msg }),
+      };
+    }
+
+    const msg = `Successfully replied to ticket!`;
+    console.log(msg);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ data, msg }),
     };
   } catch (err) {
     console.log(err);

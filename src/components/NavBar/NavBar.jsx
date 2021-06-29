@@ -13,7 +13,7 @@ export default function NavBar({ props }) {
 
   return (
     <Navbar collapseOnSelect expand="lg" className="one-touch-nav">
-      <Container style={{ backgroundColor: '#BABABA' }}>
+      <Container>
         <Navbar.Brand>
           <img
             onClick={() => manageAppContext.setPage('index')}
