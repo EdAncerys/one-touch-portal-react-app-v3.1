@@ -4,7 +4,7 @@
 .one-touch-nav {
   color: #333;
   /* background-color: #848484; */
-  background-image: linear-gradient(to right, #8c8c8c, #cccccc);
+  background-image: linear-gradient(to right, #ececec, #fafafafa);
   width: 1000px;
 }
 .admin-nav {

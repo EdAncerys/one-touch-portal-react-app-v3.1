@@ -167,6 +167,7 @@ const raiseTicket = async (data) => {
   const name = oneTouchUser.oneTouchSuperUser.fName;
   const userEmail = oneTouchUser.oneTouchSuperUser.email;
   const userID = oneTouchUser._id;
+  const todaysDate = new Date();
 
   const priority = data.priority;
   const subject = JSON.stringify(data.subject);
@@ -174,6 +175,11 @@ const raiseTicket = async (data) => {
   const tags = JSON.stringify(['oneTouch Portal', `${userID}`, `${userEmail}`]);
   const email = JSON.stringify(userEmail);
   const cc_emails = JSON.stringify([userEmail, 'user@cc.com']);
+  const custom_fields = JSON.stringify([
+    {
+      cf_date: `${todaysDate.toISOString().split('T')[0]}`,
+    },
+  ]);
   const reason = JSON.stringify(data.reason);
 
   const ticket = `{
