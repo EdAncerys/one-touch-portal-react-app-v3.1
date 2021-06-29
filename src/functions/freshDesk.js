@@ -87,7 +87,6 @@ const freshDeskTickets = async (data) => {
 
     const msg = `Successfully fetched help desk tickets for: ` + name;
     console.log(data);
-    // const freshDeskTickets = data;
     const freshDeskTickets = data.filter((ticketData) =>
       ticketData.tags.includes(userID)
     );

@@ -12,8 +12,8 @@ export default function NavBar({ props }) {
   const setPageData = manageAppContext.setPageData;
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light" className="one-touch-nav">
-      <Container>
+    <Navbar collapseOnSelect expand="lg" className="one-touch-nav">
+      <Container style={{ backgroundColor: '#BABABA' }}>
         <Navbar.Brand>
           <img
             onClick={() => manageAppContext.setPage('index')}
@@ -24,7 +24,10 @@ export default function NavBar({ props }) {
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <Navbar.Collapse
+          id="responsive-navbar-nav"
+          style={{ justifyContent: 'space-between' }}
+        >
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
