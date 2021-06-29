@@ -19,6 +19,7 @@ export default function TicketInfoCard({
   const setAlert = manageAppContext.setAlert;
   const pageData = manageAppContext.pageData;
   const setPageData = manageAppContext.setPageData;
+  let conversationLength = 0;
 
   const subject = ticket[0].subject;
   const description = ticket[0].description_text;
@@ -173,6 +174,11 @@ export default function TicketInfoCard({
                 </tbody>
                 <tbody>
                   {conversation.map((ticket, index) => {
+                    conversationLength += 1;
+                    console.log(conversationLength);
+                    let textAlign = 'end';
+                    if (conversationLength % 2) textAlign = 'start';
+
                     return (
                       <tr
                         style={{ background: bgColor }}
@@ -180,7 +186,14 @@ export default function TicketInfoCard({
                       >
                         <td key={ticket.id.toString() + 'a'}>{index + 1}</td>
                         <td key={ticket.id.toString() + 'b'}>
-                          <div key={index + 1}>{ticket.body_text}</div>
+                          <div
+                            style={{
+                              textAlign: textAlign,
+                            }}
+                            key={index + 1}
+                          >
+                            {ticket.body_text}
+                          </div>
                         </td>
                       </tr>
                     );
