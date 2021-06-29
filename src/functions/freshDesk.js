@@ -172,7 +172,7 @@ const raiseTicket = async (data) => {
   const subject = JSON.stringify(data.subject);
   const description = JSON.stringify(data.description);
   const tags = JSON.stringify(['oneTouch Portal', `${userID}`, `${userEmail}`]);
-  const email = JSON.stringify(oneTouchUser.userEmail);
+  const email = JSON.stringify(userEmail);
   const cc_emails = JSON.stringify([userEmail, 'user@cc.com']);
   const reason = JSON.stringify(data.reason);
 

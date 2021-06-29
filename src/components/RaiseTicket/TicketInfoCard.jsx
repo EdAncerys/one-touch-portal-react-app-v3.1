@@ -100,8 +100,9 @@ export default function TicketInfoCard({
       }
 
       setSpinner(false);
-      // setAlert({ color: 'success', msg: data.msg });
-      findTicket();
+      setAlert({ color: 'success', msg: data.msg });
+      const replyResponse = true;
+      findTicket(replyResponse);
       console.log(data);
     } catch (err) {
       console.log(err);

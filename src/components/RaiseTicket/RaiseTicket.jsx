@@ -57,7 +57,7 @@ export default function RaiseTicket({ props }) {
       console.log(err);
     }
   }
-  async function findTicket() {
+  async function findTicket(replyResponse) {
     setSpinner(true);
     const access_token = manageAppContext.accessToken.access_token;
     const URL = '/.netlify/functions/freshDesk';
@@ -87,7 +87,8 @@ export default function RaiseTicket({ props }) {
 
       setSpinner(false);
       setTicket(data.ticket);
-      manageAppContext.setAlert({ color: 'success', msg: data.msg });
+      if (!replyResponse)
+        manageAppContext.setAlert({ color: 'success', msg: data.msg });
       console.log(data);
     } catch (err) {
       console.log(err);
