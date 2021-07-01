@@ -175,7 +175,6 @@ export default function TicketInfoCard({
                 <tbody>
                   {conversation.map((ticket, index) => {
                     conversationLength += 1;
-                    console.log(conversationLength);
                     let textAlign = 'end';
                     if (conversationLength % 2) textAlign = 'start';
 
@@ -189,6 +188,8 @@ export default function TicketInfoCard({
                           <div
                             style={{
                               textAlign: textAlign,
+                              fontSize: '14px',
+                              color: colors.darkGrey,
                             }}
                             key={index + 1}
                           >
