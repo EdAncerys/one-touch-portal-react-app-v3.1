@@ -249,8 +249,12 @@ export default function BroadbandInfoCard({
                 <Card.Header>
                   <div>Terms & Conditions</div>
                 </Card.Header>
-                <Card.Body style={styles.termsAndConditions}>
+                <Card.Body style={styles.container}>
                   <div>Terms & Conditions</div>
+                  <div style={styles.termsAndConditions}>The details on this order form are correct to my knowledge. I understand my company may be liable for extra costs should the information be incorrect.</div>
+                  <div style={styles.termsAndConditions}>I understand this order form is my acknowledgement of acceptance to proceed forward and any cancellations of these circuit I may occur charges.</div>
+                  <div style={styles.termsAndConditions}>Please note it may not be possible to arrange a site move, upgrade or renewal without incurring cancellation charges on the old service.</div>
+                  <div style={styles.termsAndConditions}>In accepting this, I am also agreeing to NDG Technology’s Master Service Agreement.</div>
                   <Button
                     onClick={() => placeBroadbandOrder()}
                     variant="outline-success"
@@ -279,8 +283,12 @@ const styles = {
     textAlign: 'center',
     color: colors.darkGrey,
   },
-  termsAndConditions: {
+  container: {
     textAlign: 'center',
+  },
+  termsAndConditions: {
+    fontSize: '12px',
+    textAlign: 'start',
   },
   btn: {
     padding: '5px',
