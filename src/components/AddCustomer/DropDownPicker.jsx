@@ -29,10 +29,10 @@ export default function DropDownPicker({
   };
 
   return (
-    <div>
+    <div style={{width: '100%'}}>
       <Row className="mt-3 mb-3">
         <Col>
-          <select className="form-select" onChange={(e) => handleDropDown(e)}>
+          <select className="form-select" style={{width: '100%'}} onChange={(e) => handleDropDown(e)}>
             <option defaultValue value="defaultValue">
               Please Choose Your Address
             </option>

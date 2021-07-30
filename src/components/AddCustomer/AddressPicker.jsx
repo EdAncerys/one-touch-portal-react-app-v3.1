@@ -147,4 +147,7 @@ const styles = {
     alignSelf: 'flex-end',
     textAlign: 'center',
   },
+  addressPicker: {
+    width: '100%',
+  }
 };
