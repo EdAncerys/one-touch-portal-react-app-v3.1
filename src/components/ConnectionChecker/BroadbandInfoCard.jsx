@@ -251,16 +251,16 @@ export default function BroadbandInfoCard({
                 </Card.Header>
                 <Card.Body style={styles.container}>
                   <div>Terms & Conditions</div>
-                  <div style={styles.termsAndConditions}>The details on this order form are correct to my knowledge. I understand my company may be liable for extra costs should the information be incorrect.</div>
-                  <div style={styles.termsAndConditions}>I understand this order form is my acknowledgement of acceptance to proceed forward and any cancellations of these circuit I may occur charges.</div>
-                  <div style={styles.termsAndConditions}>Please note it may not be possible to arrange a site move, upgrade or renewal without incurring cancellation charges on the old service.</div>
-                  <div style={styles.termsAndConditions}>In accepting this, I am also agreeing to NDG Technology’s Master Service Agreement.</div>
-                  <div style={styles.termsAndConditions}>The customer understands that the solution although comprehensive not a single product. All aspects of the solution are individual products, if one aspect of the solution is delayed or cancelled it will not affect the contractual obligations of elements already supplied.</div>
-                  <div style={styles.termsAndConditions}>It is the Customers responsibility to provide an adequate window of time for the solution to be implemented. If we are unable to install the solution due to denial of access the full solution will begin billing for the date of the attempted installation. Any subsequent successful/unsuccessful installation attempts are subject to a £300.00 installation charge. In the event that the installation is booked in over a period of a few days and 1 or more days are failed only the extra days needed will be chargeable.</div>
-                  <div style={styles.termsAndConditions}>It is Customer responsibility to provide a safe environment for our engineers to work in. Anything deemed as a health and safety hazard will be failed and the above clause will take effect. </div>
-                  <div style={styles.termsAndConditions}>It is the customers responsibility to provide access at a suitable time to all 3rd parties that might be needed to complete the project. If a 3rd party is denied access all charges will be passed on to the customer.</div>
-                  <div style={styles.termsAndConditions}>It is the customers responsibility to provide clear and correct information, where there is uncertainty, this should be highlighted via e-mail to your account manager or on the contract. Any 3rd party charges NDG incur due to incorrect information will be passed directly on to the customer. Where the information is deemed to be deliberately misleading all discounts and promotional offers will be void and the out of contract price for the solution chargeable for the remainder of the contract. </div>
-                  <div style={styles.termsAndConditions}>It is the customers responsibility to provide at least 90 days’ notice prior to the termination of the contract. If the customer wishes to terminate the contract early the customer is to be aware that the charges for doing so will be calculated at our premium rate of on the reminder of the contract. It is imperative to note that this cannot be reversed once initialised. Any works not outlined on the contract are to be assume.</div>
+                  <div style={styles.termsAndConditions}>• The details on this order form are correct to my knowledge. I understand my company may be liable for extra costs should the information be incorrect.</div>
+                  <div style={styles.termsAndConditions}>• I understand this order form is my acknowledgement of acceptance to proceed forward and any cancellations of these circuit I may occur charges.</div>
+                  <div style={styles.termsAndConditions}>• Please note it may not be possible to arrange a site move, upgrade or renewal without incurring cancellation charges on the old service.</div>
+                  <div style={styles.termsAndConditions}>• In accepting this, I am also agreeing to NDG Technology’s Master Service Agreement.</div>
+                  <div style={styles.termsAndConditions}>• The customer understands that the solution although comprehensive not a single product. All aspects of the solution are individual products, if one aspect of the solution is delayed or cancelled it will not affect the contractual obligations of elements already supplied.</div>
+                  <div style={styles.termsAndConditions}>• It is the Customers responsibility to provide an adequate window of time for the solution to be implemented. If we are unable to install the solution due to denial of access the full solution will begin billing for the date of the attempted installation. Any subsequent successful/unsuccessful installation attempts are subject to a £300.00 installation charge. In the event that the installation is booked in over a period of a few days and 1 or more days are failed only the extra days needed will be chargeable.</div>
+                  <div style={styles.termsAndConditions}>• It is Customer responsibility to provide a safe environment for our engineers to work in. Anything deemed as a health and safety hazard will be failed and the above clause will take effect. </div>
+                  <div style={styles.termsAndConditions}>• It is the customers responsibility to provide access at a suitable time to all 3rd parties that might be needed to complete the project. If a 3rd party is denied access all charges will be passed on to the customer.</div>
+                  <div style={styles.termsAndConditions}>• It is the customers responsibility to provide clear and correct information, where there is uncertainty, this should be highlighted via e-mail to your account manager or on the contract. Any 3rd party charges NDG incur due to incorrect information will be passed directly on to the customer. Where the information is deemed to be deliberately misleading all discounts and promotional offers will be void and the out of contract price for the solution chargeable for the remainder of the contract. </div>
+                  <div style={styles.termsAndConditions}>• It is the customers responsibility to provide at least 90 days’ notice prior to the termination of the contract. If the customer wishes to terminate the contract early the customer is to be aware that the charges for doing so will be calculated at our premium rate of on the reminder of the contract. It is imperative to note that this cannot be reversed once initialised. Any works not outlined on the contract are to be assume.</div>
                   <Button
                     onClick={() => placeBroadbandOrder()}
                     variant="outline-success"
@@ -291,10 +291,11 @@ const styles = {
   },
   container: {
     textAlign: 'center',
+    padding: '15px',
   },
   termsAndConditions: {
     fontSize: '12px',
-    textAlign: 'start',
+    textAlign: 'justify',
   },
   btn: {
     padding: '5px',
